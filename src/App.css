@@ -612,11 +612,11 @@ footer {
 .challenge-hero h1 {
   max-width: 850px;
   margin-bottom: 28px;
-  color: #253247;
+  color: #5d6a7f;
   font-size: clamp(2.25rem, 3.8vw, 3.4rem);
   line-height: 1.12;
   letter-spacing: -0.035em;
-  font-weight: 750;
+  font-weight: 650;
 }
 
 .service-intro {

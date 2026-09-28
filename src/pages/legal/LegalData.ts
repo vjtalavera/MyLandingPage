@@ -1,5 +1,5 @@
 export const legalData = {
-  titular: "RELLENAR_TITULAR",
+  titular: "JavaEvolve",
 
   email: "contacto@javaevolve.com",
   privacyEmail: "privacidad@javaevolve.com",

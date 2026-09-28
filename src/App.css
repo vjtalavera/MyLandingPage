@@ -232,6 +232,10 @@ pre {
   letter-spacing: -0.055em;
 }
 
+.legacy-grid h2 {
+  color: #ffffff;
+}
+
 .section-heading>p:last-child,
 .legacy-grid>div>p,
 .contact-copy>p {

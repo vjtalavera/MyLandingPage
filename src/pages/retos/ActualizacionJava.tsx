@@ -29,6 +29,10 @@ export default function ActualizacionJava() {
         'Jakarta EE',
         'WildFly',
       ]}
+      relatedService={{
+        label: 'Ver servicio de Desarrollo Java',
+        url: '/servicios/desarrollo-java/',
+      }}
       seoTitle="Actualización de versiones Java | JavaEvolve"
       seoDescription="Actualización de versiones Java para aplicaciones empresariales, análisis de compatibilidad, dependencias, frameworks y servidores."
       canonical="https://javaevolve.com/retos/actualizacion-java/"

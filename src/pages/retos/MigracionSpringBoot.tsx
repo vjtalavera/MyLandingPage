@@ -29,6 +29,10 @@ export default function MigracionSpringBoot() {
         'Maven',
         'Git',
       ]}
+      relatedService={{
+        label: 'Ver servicio de Spring Boot',
+        url: '/servicios/spring-boot/',
+      }}
       seoTitle="Migración a Spring Boot | JavaEvolve"
       seoDescription="Migración y evolución de aplicaciones Java hacia Spring Boot, desarrollo backend, APIs REST y modernización progresiva."
       canonical="https://javaevolve.com/retos/migracion-spring-boot/"

@@ -29,6 +29,10 @@ export default function JavaLegacy() {
         'WildFly',
         'Maven',
       ]}
+      relatedService={{
+        label: 'Ver servicio de Modernización Java',
+        url: '/servicios/modernizacion-java/',
+      }}
       seoTitle="Modernización de aplicaciones Java Legacy | JavaEvolve"
       seoDescription="Modernización de aplicaciones Java Legacy, reducción de deuda técnica, refactorización y evolución progresiva de sistemas empresariales."
       canonical="https://javaevolve.com/retos/migracion-java-legacy/"

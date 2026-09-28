@@ -12,6 +12,10 @@ type RetoPageProps = {
   seoTitle: string
   seoDescription: string
   canonical: string
+  relatedService?: {
+    label: string
+    url: string
+  }
 }
 
 export default function RetoPage({
@@ -25,6 +29,7 @@ export default function RetoPage({
   seoTitle,
   seoDescription,
   canonical,
+  relatedService,
 }: RetoPageProps) {
   useEffect(() => {
     document.title = seoTitle
@@ -135,6 +140,27 @@ export default function RetoPage({
           </div>
         </div>
       </section>
+
+      {relatedService && (
+        <section className="section">
+          <div className="container">
+            <p className="eyebrow">SERVICIO RELACIONADO</p>
+
+            <h2>¿Necesitas abordar este tipo de proyecto?</h2>
+
+            <p className="service-intro">
+              Conoce el servicio de JavaEvolve relacionado con este reto técnico.
+            </p>
+
+            <Link
+              className="btn btn-secondary"
+              to={relatedService.url}
+            >
+              {relatedService.label}
+            </Link>
+          </div>
+        </section>
+      )}
 
       <section className="section service-cta">
         <div className="container">

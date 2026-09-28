@@ -28,6 +28,10 @@ export default function MigracionJavaEeJakarta() {
         'JBoss',
         'Maven',
       ]}
+      relatedService={{
+        label: 'Ver servicio de Modernización Java',
+        url: '/servicios/modernizacion-java/',
+      }}
       seoTitle="Migración Java EE a Jakarta EE | JavaEvolve"
       seoDescription="Migración de aplicaciones Java EE a Jakarta EE, análisis de dependencias, compatibilidad, servidores y evolución de aplicaciones empresariales."
       canonical="https://javaevolve.com/retos/migracion-java-ee-jakarta-ee/"

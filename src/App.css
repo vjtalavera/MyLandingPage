@@ -608,14 +608,15 @@ footer {
     linear-gradient(135deg, #ffffff 0%, #edf4ff 100%);
 }
 
-.service-hero h1 {
-  max-width: 900px;
-  margin-bottom: 28px;
-  color: #172033;
-}
-
+.service-hero h1,
 .challenge-hero h1 {
-  color: #172033;
+  max-width: 850px;
+  margin-bottom: 28px;
+  color: #253247;
+  font-size: clamp(2.25rem, 3.8vw, 3.4rem);
+  line-height: 1.12;
+  letter-spacing: -0.035em;
+  font-weight: 750;
 }
 
 .service-intro {

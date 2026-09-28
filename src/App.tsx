@@ -37,6 +37,7 @@ function Home() {
           email: formData.get('email'),
           subject: formData.get('subject'),
           message: formData.get('message'),
+          website: formData.get('website'), // Honeypot field
         }),
       })
 
@@ -416,6 +417,15 @@ Legacy Modernization
             </div>
 
             <form className="contact-form" onSubmit={handleSubmit}>
+              <input
+                type="text"
+                name="website"
+                tabIndex={-1}
+                autoComplete="off"
+                className="honeypot"
+                aria-hidden="true"
+              />
+
               <label>
                 Nombre
                 <input name="name" type="text" required />

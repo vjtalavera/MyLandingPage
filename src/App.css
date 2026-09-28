@@ -55,7 +55,7 @@ textarea {
 }
 
 .logo {
-  font-size: 1.45rem;
+  font-size: 1.35rem;
   font-weight: 850;
   letter-spacing: -0.05em;
 }
@@ -105,9 +105,15 @@ nav a:hover,
 
 h1 {
   margin: 0;
-  font-size: clamp(2.8rem, 6vw, 5.2rem);
+  font-size: clamp(2.6rem, 4.5vw, 4rem);
   line-height: 0.97;
-  letter-spacing: -0.065em;
+  letter-spacing: -0.045em;
+  text-wrap: balance;
+}
+
+h2,
+h3 {
+  text-wrap: balance;
 }
 
 h1 span {
@@ -118,7 +124,7 @@ h1 span {
   max-width: 650px;
   margin: 30px 0 34px;
   color: #5d6a7f;
-  font-size: 1.16rem;
+  font-size: 1.1rem;
   line-height: 1.75;
 }
 
@@ -221,20 +227,20 @@ pre {
 .about-grid h2,
 .contact-copy h2 {
   margin: 0;
-  font-size: clamp(2.1rem, 4vw, 3.45rem);
+  font-size: clamp(1.9rem, 3vw, 2.5rem);
   line-height: 1.04;
   letter-spacing: -0.055em;
 }
 
-.section-heading > p:last-child,
-.legacy-grid > div > p,
-.contact-copy > p {
+.section-heading>p:last-child,
+.legacy-grid>div>p,
+.contact-copy>p {
   color: #657287;
   line-height: 1.75;
-  font-size: 1.03rem;
+  font-size: 1rem;
 }
 
-.section-heading > p:last-child {
+.section-heading>p:last-child {
   max-width: 680px;
   margin-top: 24px;
 }
@@ -278,7 +284,7 @@ pre {
 
 .card h3 {
   margin: 22px 0 12px;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
 }
 
 .card p {
@@ -323,7 +329,7 @@ pre {
   align-items: center;
 }
 
-.legacy-grid > div > p {
+.legacy-grid>div>p {
   color: #aeb9ca;
   margin: 26px 0 30px;
 }
@@ -406,7 +412,7 @@ pre {
 .about-grid p {
   color: #657287;
   line-height: 1.8;
-  font-size: 1.05rem;
+  font-size: 1rem;
 }
 
 .process {
@@ -433,7 +439,7 @@ pre {
   align-items: start;
 }
 
-.contact-copy > p {
+.contact-copy>p {
   max-width: 570px;
 }
 
@@ -576,11 +582,11 @@ footer {
   }
 
   h1 {
-    font-size: 2.7rem;
+    font-size: 2.45rem;
   }
 
   .hero-text {
-    font-size: 1.05rem;
+    font-size: 1rem;
   }
 
   .contact-form {
@@ -596,11 +602,9 @@ footer {
 .service-hero {
   padding: 110px 0 90px;
   background:
-    radial-gradient(
-      circle at 80% 20%,
+    radial-gradient(circle at 80% 20%,
       rgba(23, 105, 224, 0.13),
-      transparent 30%
-    ),
+      transparent 30%),
     linear-gradient(135deg, #ffffff 0%, #edf4ff 100%);
 }
 
@@ -613,7 +617,7 @@ footer {
   max-width: 760px;
   margin: 0 0 35px;
   color: #5d6a7f;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   line-height: 1.75;
 }
 
@@ -628,15 +632,15 @@ footer {
 .service-technologies h2,
 .service-cta h2 {
   margin: 0;
-  font-size: clamp(2rem, 4vw, 3.2rem);
+  font-size: clamp(1.9rem, 3vw, 2.5rem);
   line-height: 1.05;
   letter-spacing: -0.05em;
 }
 
-.service-content > div:first-child p:last-child,
+.service-content>div:first-child p:last-child,
 .service-cta p {
   color: #657287;
-  font-size: 1.05rem;
+  font-size: 1rem;
   line-height: 1.8;
 }
 
@@ -737,7 +741,7 @@ footer {
 
 .challenge-card h3 {
   margin: 12px 0;
-  font-size: 1.45rem;
+  font-size: 1.35rem;
 }
 
 .challenge-card p {

@@ -13,6 +13,10 @@ import JavaLegacy from './pages/retos/JavaLegacy'
 import MigracionSpringBoot from './pages/retos/MigracionSpringBoot'
 import ActualizacionJava from './pages/retos/ActualizacionJava'
 
+import AvisoLegal from './pages/legal/AvisoLegal'
+import Privacidad from './pages/legal/Privacidad'
+import Cookies from './pages/legal/Cookies'
+
 function Home() {
   const [sending, setSending] = useState(false)
   const [result, setResult] = useState('')
@@ -37,7 +41,7 @@ function Home() {
           email: formData.get('email'),
           subject: formData.get('subject'),
           message: formData.get('message'),
-          website: formData.get('website'), // Honeypot field
+          website: formData.get('website'),
         }),
       })
 
@@ -261,61 +265,60 @@ Legacy Modernization
                 <div>Reducción de deuda técnica</div>
               </div>
             </div>
-          </div>
-          <div className="challenge-grid">
 
-            <Link
-              className="challenge-card"
-              to="/retos/migracion-java-ee-jakarta-ee/"
-            >
-              <span>MIGRACIÓN</span>
-              <h3>Java EE → Jakarta EE</h3>
-              <p>
-                Evolución de aplicaciones Java EE hacia Jakarta EE,
-                analizando compatibilidad, dependencias y servidores.
-              </p>
-              <strong>Ver reto →</strong>
-            </Link>
+            <div className="challenge-grid">
+              <Link
+                className="challenge-card"
+                to="/retos/migracion-java-ee-jakarta-ee/"
+              >
+                <span>MIGRACIÓN</span>
+                <h3>Java EE → Jakarta EE</h3>
+                <p>
+                  Evolución de aplicaciones Java EE hacia Jakarta EE,
+                  analizando compatibilidad, dependencias y servidores.
+                </p>
+                <strong>Ver reto →</strong>
+              </Link>
 
-            <Link
-              className="challenge-card"
-              to="/retos/migracion-java-legacy/"
-            >
-              <span>MODERNIZACIÓN</span>
-              <h3>Java Legacy</h3>
-              <p>
-                Modernización progresiva de aplicaciones Java Legacy
-                y reducción de deuda técnica.
-              </p>
-              <strong>Ver reto →</strong>
-            </Link>
+              <Link
+                className="challenge-card"
+                to="/retos/migracion-java-legacy/"
+              >
+                <span>MODERNIZACIÓN</span>
+                <h3>Java Legacy</h3>
+                <p>
+                  Modernización progresiva de aplicaciones Java Legacy y
+                  reducción de deuda técnica.
+                </p>
+                <strong>Ver reto →</strong>
+              </Link>
 
-            <Link
-              className="challenge-card"
-              to="/retos/migracion-spring-boot/"
-            >
-              <span>EVOLUCIÓN</span>
-              <h3>Migración a Spring Boot</h3>
-              <p>
-                Evolución de aplicaciones Java hacia Spring Boot
-                y arquitecturas backend más actuales.
-              </p>
-              <strong>Ver reto →</strong>
-            </Link>
+              <Link
+                className="challenge-card"
+                to="/retos/migracion-spring-boot/"
+              >
+                <span>EVOLUCIÓN</span>
+                <h3>Migración a Spring Boot</h3>
+                <p>
+                  Evolución de aplicaciones Java hacia Spring Boot y
+                  arquitecturas backend más actuales.
+                </p>
+                <strong>Ver reto →</strong>
+              </Link>
 
-            <Link
-              className="challenge-card"
-              to="/retos/actualizacion-java/"
-            >
-              <span>ACTUALIZACIÓN</span>
-              <h3>Actualización de versiones Java</h3>
-              <p>
-                Análisis de compatibilidad y evolución hacia versiones
-                más actuales de Java.
-              </p>
-              <strong>Ver reto →</strong>
-            </Link>
-
+              <Link
+                className="challenge-card"
+                to="/retos/actualizacion-java/"
+              >
+                <span>ACTUALIZACIÓN</span>
+                <h3>Actualización de versiones Java</h3>
+                <p>
+                  Análisis de compatibilidad y evolución hacia versiones más
+                  actuales de Java.
+                </p>
+                <strong>Ver reto →</strong>
+              </Link>
+            </div>
           </div>
         </section>
 
@@ -460,6 +463,12 @@ Legacy Modernization
               </button>
 
               {result && <p className="form-result">{result}</p>}
+
+              <p className="form-privacy">
+                Al enviar este formulario, la información facilitada será
+                tratada para atender tu solicitud. Puedes consultar la{' '}
+                <Link to="/privacidad/">Política de Privacidad</Link>.
+              </p>
             </form>
           </div>
         </section>
@@ -477,6 +486,12 @@ Legacy Modernization
             <a href="#retos">Retos técnicos</a>
             <a href="#contacto">Contacto</a>
           </div>
+
+          <div className="footer-legal">
+            <Link to="/aviso-legal/">Aviso Legal</Link>
+            <Link to="/privacidad/">Privacidad</Link>
+            <Link to="/cookies/">Cookies</Link>
+          </div>
         </div>
       </footer>
     </div>
@@ -488,16 +503,21 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home />} />
+
         <Route
           path="/servicios/desarrollo-java/"
           element={<DesarrolloJava />}
         />
+
         <Route path="/servicios/spring-boot/" element={<SpringBoot />} />
+
         <Route path="/servicios/apis-rest/" element={<ApisRest />} />
+
         <Route
           path="/servicios/modernizacion-java/"
           element={<ModernizacionJava />}
         />
+
         <Route
           path="/retos/migracion-java-ee-jakarta-ee/"
           element={<MigracionJavaEeJakarta />}
@@ -517,6 +537,12 @@ function App() {
           path="/retos/actualizacion-java/"
           element={<ActualizacionJava />}
         />
+
+        <Route path="/aviso-legal/" element={<AvisoLegal />} />
+
+        <Route path="/privacidad/" element={<Privacidad />} />
+
+        <Route path="/cookies/" element={<Cookies />} />
       </Routes>
     </BrowserRouter>
   )

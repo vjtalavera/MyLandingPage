@@ -1,39 +1,43 @@
 interface Env {
-  BREVO_API_KEY: string;
-  BREVO_SENDER_EMAIL: string;
-  CONTACT_TO_EMAIL: string;
+  BREVO_API_KEY: string
+  BREVO_SENDER_EMAIL: string
+  CONTACT_TO_EMAIL: string
 }
 
 interface ContactRequest {
-  name: string;
-  email: string;
-  subject: string;
-  message: string;
-  website?: string;
+  name: string
+  email: string
+  subject: string
+  message: string
+  website?: string
 }
 
 export default {
-  async fetch(request: Request, env: Env): Promise<Response> {
-    const url = new URL(request.url);
+  async fetch(
+    request: Request,
+    env: Env,
+  ): Promise<Response> {
+    const url = new URL(request.url)
 
-    if (url.pathname === "/api/contact" && request.method === "POST") {
+    if (url.pathname === '/api/contact' && request.method === 'POST') {
       try {
-        const body = (await request.json()) as ContactRequest;
+        const body = (await request.json()) as ContactRequest
 
-        // Protección anti-spam: honeypot
+        // Honeypot anti-spam
         if (body.website) {
           return new Response(
             JSON.stringify({
               ok: false,
-              error: "Solicitud no válida",
+              success: false,
+              error: 'Solicitud no válida',
             }),
             {
               status: 400,
               headers: {
-                "Content-Type": "application/json",
+                'Content-Type': 'application/json',
               },
             },
-          );
+          )
         }
 
         // Validación básica
@@ -46,25 +50,26 @@ export default {
           return new Response(
             JSON.stringify({
               ok: false,
-              error: "Todos los campos son obligatorios",
+              success: false,
+              error: 'Todos los campos son obligatorios',
             }),
             {
               status: 400,
               headers: {
-                "Content-Type": "application/json",
+                'Content-Type': 'application/json',
               },
             },
-          );
+          )
         }
 
         const brevoResponse = await fetch(
-          "https://api.brevo.com/v3/smtp/email",
+          'https://api.brevo.com/v3/smtp/email',
           {
-            method: "POST",
+            method: 'POST',
             headers: {
-              accept: "application/json",
-              "api-key": env.BREVO_API_KEY,
-              "content-type": "application/json",
+              accept: 'application/json',
+              'api-key': env.BREVO_API_KEY,
+              'content-type': 'application/json',
             },
             body: JSON.stringify({
               sender: {
@@ -89,58 +94,62 @@ ${body.message}
               `.trim(),
             }),
           },
-        );
+        )
 
         if (!brevoResponse.ok) {
-          const errorText = await brevoResponse.text();
+          const errorText = await brevoResponse.text()
 
-          console.error("Brevo error:", errorText);
+          console.error('Brevo error:', errorText)
 
           return new Response(
             JSON.stringify({
               ok: false,
-              error: "No se ha podido enviar el mensaje",
+              success: false,
+              error: 'No se ha podido enviar el mensaje',
             }),
             {
               status: 500,
               headers: {
-                "Content-Type": "application/json",
+                'Content-Type': 'application/json',
               },
             },
-          );
+          )
         }
 
         return new Response(
           JSON.stringify({
             ok: true,
+            success: true,
+            message: 'Mensaje enviado correctamente',
           }),
           {
             status: 200,
             headers: {
-              "Content-Type": "application/json",
+              'Content-Type': 'application/json',
             },
           },
-        );
+        )
       } catch (error) {
-        console.error("Contact error:", error);
+        console.error('Contact error:', error)
 
         return new Response(
           JSON.stringify({
             ok: false,
-            error: "Solicitud no válida",
+            success: false,
+            error: 'Solicitud no válida',
           }),
           {
             status: 400,
             headers: {
-              "Content-Type": "application/json",
+              'Content-Type': 'application/json',
             },
           },
-        );
+        )
       }
     }
 
-    return new Response("Not Found", {
+    return new Response('Not Found', {
       status: 404,
-    });
+    })
   },
-};
+}

@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom'
 import { retos, services } from '../data/catalog'
-import { legalData } from '../pages/legal/LegalData'
 
 export default function SiteFooter() {
   // El HTML prerenderizado lleva el año del build y el navegador pinta el
@@ -45,9 +44,6 @@ export default function SiteFooter() {
             <h2 id="footer-contacto">Contacto</h2>
 
             <ul>
-              <li>
-                <a href={`mailto:${legalData.email}`}>{legalData.email}</a>
-              </li>
               <li>
                 <Link to="/#contacto">Formulario de contacto</Link>
               </li>

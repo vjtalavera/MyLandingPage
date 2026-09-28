@@ -9,6 +9,8 @@ interface ContactRequest {
   email: string
   subject: string
   message: string
+  /** Opcional: si el cliente lo deja, llega en el cuerpo del correo. */
+  phone?: string
   website?: string
 }
 
@@ -88,6 +90,7 @@ export default {
               textContent: `
 Nombre: ${body.name}
 Email: ${body.email}
+Teléfono: ${body.phone?.trim() || '—'}
 
 Mensaje:
 ${body.message}

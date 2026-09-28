@@ -8,85 +8,61 @@
       content="width=device-width, initial-scale=1.0"
     />
 
-    <title>
-      JavaEvolve | Desarrollo Java, Backend y Modernización
-    </title>
+    <link rel="icon" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <meta name="theme-color" content="#1769e0" />
+
+    <link
+      rel="preload"
+      href="/fonts/inter-variable-latin.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+
+    <!--
+      Todo lo que hay entre seo:start y seo:end lo reescribe el prerender con
+      los metadatos de cada ruta (scripts/prerender.ts + src/seo/routeMeta.ts).
+      Lo de aquí es lo que sirve `vite dev`: si se tocan los marcadores, el
+      build falla a propósito.
+    -->
+    <!--seo:start-->
+    <title>JavaEvolve | Desarrollo Java, Backend y Modernización</title>
 
     <meta
       name="description"
       content="JavaEvolve ofrece desarrollo backend Java, Spring Boot, APIs REST y modernización de aplicaciones Java empresariales."
     />
 
-    <meta
-      name="robots"
-      content="index, follow"
-    />
+    <meta name="robots" content="index, follow" />
 
-    <link
-      rel="canonical"
-      href="https://javaevolve.com/"
-    />
+    <link rel="canonical" href="https://javaevolve.com/" />
 
-    <meta
-      property="og:type"
-      content="website"
-    />
-
-    <meta
-      property="og:url"
-      content="https://javaevolve.com/"
-    />
-
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://javaevolve.com/" />
     <meta
       property="og:title"
       content="JavaEvolve | Desarrollo Java, Backend y Modernización"
     />
-
     <meta
       property="og:description"
       content="Desarrollo backend Java, Spring Boot, APIs REST y modernización de aplicaciones empresariales."
     />
+    <meta property="og:site_name" content="JavaEvolve" />
+    <meta property="og:locale" content="es_ES" />
+    <meta property="og:image" content="https://javaevolve.com/og.png" />
 
-    <meta
-      property="og:site_name"
-      content="JavaEvolve"
-    />
-
-    <meta
-      name="twitter:card"
-      content="summary"
-    />
-
+    <meta name="twitter:card" content="summary_large_image" />
     <meta
       name="twitter:title"
       content="JavaEvolve | Desarrollo Java, Backend y Modernización"
     />
-
     <meta
       name="twitter:description"
       content="Desarrollo backend Java, Spring Boot, APIs REST y modernización de aplicaciones empresariales."
     />
-
-    <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "ProfessionalService",
-        "name": "JavaEvolve",
-        "url": "https://javaevolve.com/",
-        "description": "Desarrollo backend Java, Spring Boot, APIs REST y modernización de aplicaciones empresariales.",
-        "areaServed": "ES",
-        "serviceType": [
-          "Desarrollo Java",
-          "Desarrollo Backend",
-          "Spring Boot",
-          "APIs REST",
-          "Modernización de aplicaciones Java"
-        ]
-      }
-    </script>
-
-    <link rel="icon" href="/favicon.svg" />
-
+    <meta name="twitter:image" content="https://javaevolve.com/og.png" />
+    <!--seo:end-->
   </head>
 
   <body>

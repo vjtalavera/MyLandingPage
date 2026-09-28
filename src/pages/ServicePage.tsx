@@ -1,89 +1,14 @@
-import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import Breadcrumbs from '../components/Breadcrumbs'
+import RelatedLinks from '../components/RelatedLinks'
+import type { CatalogEntry } from '../data/catalog'
 
-interface ServicePageProps {
-  eyebrow: string
-  title: string
-  intro: string
-  problemTitle: string
-  problemText: string
-  services: string[]
-  technologies: string[]
-  ctaText: string
-  seoTitle: string
-  seoDescription: string
-  canonical: string
-}
-
-function ServicePage({
-  eyebrow,
-  title,
-  intro,
-  problemTitle,
-  problemText,
-  services,
-  technologies,
-  ctaText,
-  seoTitle,
-  seoDescription,
-  canonical,
-}: ServicePageProps) {
-  useEffect(() => {
-    document.title = seoTitle
-
-    const description = document.querySelector(
-      'meta[name="description"]',
-    )
-
-    if (description) {
-      description.setAttribute('content', seoDescription)
-    }
-
-    let canonicalElement = document.querySelector(
-      'link[rel="canonical"]',
-    )
-
-    if (!canonicalElement) {
-      canonicalElement = document.createElement('link')
-      canonicalElement.setAttribute('rel', 'canonical')
-      document.head.appendChild(canonicalElement)
-    }
-
-    canonicalElement.setAttribute('href', canonical)
-
-    const structuredData = {
-      '@context': 'https://schema.org',
-      '@type': 'Service',
-      name: title,
-      description: seoDescription,
-      provider: {
-        '@type': 'ProfessionalService',
-        name: 'JavaEvolve',
-        url: 'https://javaevolve.com/',
-      },
-      url: canonical,
-      areaServed: 'ES',
-    }
-
-    let script = document.getElementById(
-      'service-structured-data',
-    )
-
-    if (!script) {
-      script = document.createElement('script')
-      script.id = 'service-structured-data'
-      script.setAttribute('type', 'application/ld+json')
-      document.head.appendChild(script)
-    }
-
-    script.textContent = JSON.stringify(structuredData)
-
-    return () => {
-      script?.remove()
-    }
-  }, [seoTitle, seoDescription, canonical, title])
-
+/**
+ * Plantilla de página de servicio. Todo el contenido viene del catálogo
+ * (`src/data/catalog.ts`) y los metadatos de `src/seo/routeMeta.ts`: aquí no
+ * se define texto de negocio ni se toca el <head>.
+ */
+export default function ServicePage({ entry }: { entry: CatalogEntry }) {
   return (
     <>
       <section className="service-hero">
@@ -91,19 +16,19 @@ function ServicePage({
           <Breadcrumbs
             items={[
               { label: 'Inicio', to: '/' },
-              { label: 'Servicios', to: '/#servicios' },
-              { label: title },
+              { label: 'Servicios', to: '/servicios/' },
+              { label: entry.navLabel },
             ]}
           />
 
-          <p className="eyebrow">{eyebrow}</p>
+          <p className="eyebrow">{entry.eyebrow}</p>
 
-          <h1>{title}</h1>
+          <h1>{entry.title}</h1>
 
-          <p className="service-intro">{intro}</p>
+          <p className="service-intro">{entry.intro}</p>
 
           <Link className="button primary" to="/#contacto">
-            {ctaText}
+            {entry.ctaText}
           </Link>
         </div>
       </section>
@@ -111,53 +36,55 @@ function ServicePage({
       <section className="section">
         <div className="container service-content">
           <div>
-            <p className="eyebrow">EL RETO</p>
+            <p className="eyebrow">El reto</p>
 
-            <h2>{problemTitle}</h2>
+            <h2>{entry.problemTitle}</h2>
 
-            <p>{problemText}</p>
-          </div>
-
-          <div className="service-list">
-            {services.map((service) => (
-              <div key={service}>{service}</div>
+            {entry.problemBody.map((paragraph) => (
+              <p key={paragraph}>{paragraph}</p>
             ))}
           </div>
+
+          <ul className="service-list">
+            {entry.bullets.map((bullet) => (
+              <li key={bullet}>{bullet}</li>
+            ))}
+          </ul>
         </div>
       </section>
 
       <section className="section service-technologies">
         <div className="container">
-          <p className="eyebrow">TECNOLOGÍAS</p>
+          <p className="eyebrow">Tecnologías</p>
 
           <h2>Tecnologías relacionadas</h2>
 
-          <div className="tech-list">
-            {technologies.map((technology) => (
-              <span key={technology}>{technology}</span>
+          <ul className="tech-list">
+            {entry.technologies.map((technology) => (
+              <li key={technology}>{technology}</li>
             ))}
-          </div>
+          </ul>
         </div>
       </section>
 
+      <RelatedLinks entry={entry} />
+
       <section className="service-cta section">
         <div className="container">
-          <p className="eyebrow">JAVAEVOLVE</p>
+          <p className="eyebrow">JavaEvolve</p>
 
           <h2>¿Quieres analizar tu caso?</h2>
 
           <p>
             Cada aplicación tiene un contexto diferente. Explícame brevemente
-            qué necesitas y podemos valorar el siguiente paso.
+            qué necesitas y te digo si puedo ayudarte y cómo.
           </p>
 
           <Link className="button primary" to="/#contacto">
-            Contactar
+            Escríbeme
           </Link>
         </div>
       </section>
     </>
   )
 }
-
-export default ServicePage

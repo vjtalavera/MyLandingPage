@@ -5,7 +5,12 @@
   "main": "./worker/index.ts",
 
   "assets": {
-    "not_found_handling": "single-page-application",
+    // El build prerenderiza un index.html por ruta, así que el fallback de SPA
+    // ya no hace falta: solo servía la home con status 200 ante cualquier URL
+    // inventada. Con "404-page" el asset worker sirve dist/client/404.html con
+    // un 404 real. scripts/prerender.ts genera ese fichero y falla el build si
+    // alguna ruta de AppRoutes.tsx se queda sin prerenderizar.
+    "not_found_handling": "404-page",
     "run_worker_first": [
       "/api/*"
     ]

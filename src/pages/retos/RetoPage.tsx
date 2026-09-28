@@ -1,92 +1,13 @@
-import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import Breadcrumbs from '../../components/Breadcrumbs'
+import RelatedLinks from '../../components/RelatedLinks'
+import type { CatalogEntry } from '../../data/catalog'
 
-type RetoPageProps = {
-  eyebrow: string
-  title: string
-  intro: string
-  problemTitle: string
-  problemText: string
-  areas: string[]
-  technologies: string[]
-  seoTitle: string
-  seoDescription: string
-  canonical: string
-  relatedService?: {
-    label: string
-    url: string
-  }
-}
-
-export default function RetoPage({
-  eyebrow,
-  title,
-  intro,
-  problemTitle,
-  problemText,
-  areas,
-  technologies,
-  seoTitle,
-  seoDescription,
-  canonical,
-  relatedService,
-}: RetoPageProps) {
-  useEffect(() => {
-    document.title = seoTitle
-
-    let description = document.querySelector(
-      'meta[name="description"]',
-    ) as HTMLMetaElement | null
-
-    if (!description) {
-      description = document.createElement('meta')
-      description.name = 'description'
-      document.head.appendChild(description)
-    }
-
-    description.content = seoDescription
-
-    let canonicalLink = document.querySelector(
-      'link[rel="canonical"]',
-    ) as HTMLLinkElement | null
-
-    if (!canonicalLink) {
-      canonicalLink = document.createElement('link')
-      canonicalLink.rel = 'canonical'
-      document.head.appendChild(canonicalLink)
-    }
-
-    canonicalLink.href = canonical
-
-    let structuredData = document.getElementById('challenge-structured-data')
-
-    if (!structuredData) {
-      structuredData = document.createElement('script')
-      structuredData.id = 'challenge-structured-data'
-      structuredData.setAttribute('type', 'application/ld+json')
-      document.head.appendChild(structuredData)
-    }
-
-    structuredData.textContent = JSON.stringify({
-      '@context': 'https://schema.org',
-      '@type': 'Service',
-      name: title,
-      description: seoDescription,
-      provider: {
-        '@type': 'ProfessionalService',
-        name: 'JavaEvolve',
-        url: 'https://javaevolve.com/',
-      },
-      url: canonical,
-      areaServed: 'ES',
-    })
-
-    return () => {
-      structuredData?.remove()
-    }
-  }, [canonical, seoDescription, seoTitle, title])
-
+/**
+ * Plantilla de página de reto técnico. Mismo contrato que `ServicePage`: el
+ * contenido sale del catálogo y los metadatos de `src/seo/routeMeta.ts`.
+ */
+export default function RetoPage({ entry }: { entry: CatalogEntry }) {
   return (
     <>
       <section className="service-hero challenge-hero">
@@ -94,19 +15,19 @@ export default function RetoPage({
           <Breadcrumbs
             items={[
               { label: 'Inicio', to: '/' },
-              { label: 'Retos', to: '/#retos' },
-              { label: title },
+              { label: 'Retos', to: '/retos/' },
+              { label: entry.navLabel },
             ]}
           />
 
-          <p className="eyebrow">{eyebrow}</p>
+          <p className="eyebrow">{entry.eyebrow}</p>
 
-          <h1>{title}</h1>
+          <h1>{entry.title}</h1>
 
-          <p className="service-intro">{intro}</p>
+          <p className="service-intro">{entry.intro}</p>
 
           <Link className="button primary" to="/#contacto">
-            Analizar mi caso
+            {entry.ctaText}
           </Link>
         </div>
       </section>
@@ -114,77 +35,61 @@ export default function RetoPage({
       <section className="section">
         <div className="container service-content">
           <div>
-            <p className="eyebrow">EL RETO</p>
-            <h2>{problemTitle}</h2>
+            <p className="eyebrow">El reto</p>
+
+            <h2>{entry.problemTitle}</h2>
           </div>
 
           <div>
-            <p>{problemText}</p>
+            {entry.problemBody.map((paragraph) => (
+              <p key={paragraph}>{paragraph}</p>
+            ))}
           </div>
         </div>
       </section>
 
       <section className="section">
         <div className="container">
-          <p className="eyebrow">QUÉ PODEMOS ANALIZAR</p>
+          <p className="eyebrow">Qué se analiza</p>
 
-          <div className="service-list">
-            {areas.map((area) => (
-              <div key={area}>{area}</div>
+          <ul className="service-list">
+            {entry.bullets.map((bullet) => (
+              <li key={bullet}>{bullet}</li>
             ))}
-          </div>
+          </ul>
         </div>
       </section>
 
       <section className="section service-technologies">
         <div className="container">
-          <p className="eyebrow">TECNOLOGÍAS RELACIONADAS</p>
+          <p className="eyebrow">Tecnologías relacionadas</p>
 
-          <h2>Experiencia sobre el ecosistema Java empresarial</h2>
+          <h2>Sobre el ecosistema Java empresarial</h2>
 
-          <div className="tech-grid">
-            {technologies.map((technology) => (
-              <span key={technology}>{technology}</span>
+          <ul className="tech-list">
+            {entry.technologies.map((technology) => (
+              <li key={technology}>{technology}</li>
             ))}
-          </div>
+          </ul>
         </div>
       </section>
 
-      {relatedService && (
-        <section className="section">
-          <div className="container">
-            <p className="eyebrow">SERVICIO RELACIONADO</p>
-
-            <h2>¿Necesitas abordar este tipo de proyecto?</h2>
-
-            <p className="service-intro">
-              Conoce el servicio de JavaEvolve relacionado con este reto técnico.
-            </p>
-
-            <Link
-              className="button secondary"
-              to={relatedService.url}
-            >
-              {relatedService.label}
-            </Link>
-          </div>
-        </section>
-      )}
+      <RelatedLinks entry={entry} />
 
       <section className="section service-cta">
         <div className="container">
-          <p className="eyebrow">¿TIENES ESTE RETO?</p>
+          <p className="eyebrow">¿Tienes este reto?</p>
 
           <h2>Analicemos tu aplicación</h2>
 
           <p>
             Cuéntame brevemente el estado actual de tu aplicación y qué
-            necesitas evolucionar. Podemos valorar el contexto técnico y las
-            posibles líneas de actuación.
+            necesitas evolucionar. Miramos el contexto técnico y las posibles
+            líneas de actuación.
           </p>
 
           <Link className="button primary" to="/#contacto">
-            Contactar con JavaEvolve
+            Escríbeme
           </Link>
         </div>
       </section>

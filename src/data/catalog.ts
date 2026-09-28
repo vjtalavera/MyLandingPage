@@ -1,0 +1,514 @@
+/**
+ * Catálogo de servicios y retos: fuente única de contenido y de rutas.
+ *
+ * Antes esta información vivía por triplicado (tarjetas de la home, props de
+ * cada página y sitemap.xml) y se desincronizaba. Añadir o cambiar una entrada
+ * aquí se propaga a la home, a las páginas índice, a los enlaces cruzados, a
+ * los metadatos de `src/seo/routeMeta.ts` y al sitemap.
+ */
+
+export const SITE_URL = 'https://javaevolve.com'
+
+export type EntryKind = 'servicio' | 'reto'
+
+/** Enlace interno con texto ancla propio para ese contexto. */
+export interface CrossLink {
+  slug: string
+  /** Si se omite, se usa el `navLabel` de la entrada destino. */
+  anchor?: string
+}
+
+export interface CatalogEntry {
+  slug: string
+  kind: EntryKind
+  /** Ruta absoluta, siempre con barra final. */
+  path: `/${string}/`
+  /** H1 de la página. Único en todo el sitio. */
+  title: string
+  /** Etiqueta corta para tarjetas, menús y migas de pan. */
+  navLabel: string
+  eyebrow: string
+  /** Texto de la tarjeta en la home y en la página índice. */
+  cardText: string
+  /** Párrafo bajo el H1. */
+  intro: string
+  problemTitle: string
+  problemBody: string[]
+  /** Servicios prestados (servicio) o áreas a analizar (reto). */
+  bullets: string[]
+  technologies: string[]
+  ctaText: string
+  seoTitle: string
+  seoDescription: string
+  related: CrossLink[]
+  featured?: boolean
+}
+
+export const services: CatalogEntry[] = [
+  {
+    slug: 'desarrollo-java',
+    kind: 'servicio',
+    path: '/servicios/desarrollo-java/',
+    title: 'Desarrollo Java para aplicaciones empresariales',
+    navLabel: 'Desarrollo Java',
+    eyebrow: 'Desarrollo Java',
+    cardText:
+      'Desarrollo backend con Java para aplicaciones empresariales y sistemas de negocio.',
+    intro:
+      'Desarrollo backend con Java para nuevas funcionalidades, aplicaciones empresariales y evolución de sistemas existentes.',
+    problemTitle: 'Desarrollo y evolución de aplicaciones Java',
+    problemBody: [
+      'Una aplicación empresarial puede necesitar nuevas funcionalidades, integraciones o mejoras sin necesidad de sustituir todo el sistema. El objetivo es construir soluciones mantenibles y adaptadas al contexto existente.',
+      'Eso implica trabajar dentro de las restricciones que ya hay: la versión de Java en uso, el servidor de aplicaciones, las dependencias que no se pueden tocar todavía y las pruebas que existen o que hay que construir primero.',
+    ],
+    bullets: [
+      'Desarrollo de funcionalidades backend',
+      'Evolución de aplicaciones Java existentes',
+      'Mantenimiento y refactorización',
+      'Integración con sistemas empresariales',
+      'Desarrollo de servicios backend',
+      'Análisis de necesidades técnicas',
+    ],
+    technologies: [
+      'Java',
+      'Spring',
+      'Spring Boot',
+      'Java EE',
+      'Jakarta EE',
+      'Hibernate',
+      'REST',
+      'SQL',
+      'Git',
+    ],
+    ctaText: 'Cuéntame tu proyecto',
+    seoTitle: 'Desarrollo Java | JavaEvolve',
+    seoDescription:
+      'Desarrollo backend Java para aplicaciones empresariales, nuevas funcionalidades, mantenimiento y evolución de sistemas existentes.',
+    related: [
+      {
+        slug: 'actualizacion-java',
+        anchor: 'Actualizar la versión de Java de una aplicación existente',
+      },
+      { slug: 'spring-boot' },
+      { slug: 'apis-rest' },
+    ],
+  },
+  {
+    slug: 'spring-boot',
+    kind: 'servicio',
+    path: '/servicios/spring-boot/',
+    title: 'Desarrollo backend con Spring Boot',
+    navLabel: 'Spring Boot',
+    eyebrow: 'Spring Boot',
+    cardText:
+      'Desarrollo de servicios y APIs con Spring Boot y Spring Framework.',
+    intro:
+      'Desarrollo de servicios backend y APIs con Spring Boot y Spring Framework para aplicaciones empresariales.',
+    problemTitle: 'Backend preparado para evolucionar',
+    problemBody: [
+      'Spring Boot permite construir servicios backend orientados a aplicaciones modernas. El desarrollo debe adaptarse a las necesidades reales del proyecto, su arquitectura y los sistemas con los que necesita integrarse.',
+      'No siempre hay que empezar de cero: en muchos casos lo razonable es levantar los servicios nuevos en Spring Boot y dejar que convivan con la aplicación existente mientras se decide qué se migra y en qué orden.',
+    ],
+    bullets: [
+      'Desarrollo de aplicaciones Spring Boot',
+      'APIs REST',
+      'Servicios backend',
+      'Integración con bases de datos',
+      'Evolución de aplicaciones existentes',
+      'Refactorización hacia arquitecturas modernas',
+    ],
+    technologies: [
+      'Java',
+      'Spring Boot',
+      'Spring Framework',
+      'Spring Data',
+      'Hibernate',
+      'REST',
+      'SQL',
+      'Git',
+    ],
+    ctaText: 'Consultar proyecto',
+    seoTitle: 'Desarrollo Spring Boot | JavaEvolve',
+    seoDescription:
+      'Desarrollo backend con Spring Boot y Spring Framework para servicios, APIs REST y aplicaciones empresariales.',
+    related: [
+      {
+        slug: 'migracion-spring-boot',
+        anchor: 'Cómo se migra una aplicación Java hacia Spring Boot',
+      },
+      { slug: 'apis-rest' },
+      { slug: 'desarrollo-java' },
+    ],
+  },
+  {
+    slug: 'apis-rest',
+    kind: 'servicio',
+    path: '/servicios/apis-rest/',
+    title: 'Desarrollo de APIs REST con Java',
+    navLabel: 'APIs REST',
+    eyebrow: 'APIs REST',
+    cardText:
+      'Diseño y desarrollo de APIs REST para integrar aplicaciones y servicios.',
+    intro:
+      'Diseño y desarrollo de APIs REST para integrar aplicaciones, servicios y sistemas empresariales.',
+    problemTitle: 'Conectar sistemas de forma mantenible',
+    problemBody: [
+      'Las APIs son una pieza fundamental para integrar aplicaciones empresariales. Una API debe responder a las necesidades funcionales del proyecto y facilitar su evolución y mantenimiento.',
+      'La parte difícil no suele ser exponer el primer endpoint, sino poder cambiarlo después sin romper a quien ya lo consume: versionado, contratos explícitos y una capa de persistencia que no se filtre hacia fuera.',
+    ],
+    bullets: [
+      'Diseño de APIs REST',
+      'Desarrollo de endpoints',
+      'Integración entre aplicaciones',
+      'Evolución de APIs existentes',
+      'Servicios backend con Java',
+      'Integración con sistemas empresariales',
+    ],
+    technologies: [
+      'Java',
+      'Spring Boot',
+      'Spring MVC',
+      'REST',
+      'JSON',
+      'Hibernate',
+      'SQL',
+    ],
+    ctaText: 'Hablar sobre una API',
+    seoTitle: 'Desarrollo de APIs REST con Java | JavaEvolve',
+    seoDescription:
+      'Diseño y desarrollo de APIs REST con Java para integrar aplicaciones, servicios y sistemas empresariales.',
+    related: [
+      { slug: 'migracion-spring-boot' },
+      { slug: 'spring-boot' },
+      { slug: 'modernizacion-java' },
+    ],
+  },
+  {
+    slug: 'modernizacion-java',
+    kind: 'servicio',
+    path: '/servicios/modernizacion-java/',
+    // Deliberadamente distinto del H1 del reto /retos/migracion-java-legacy/:
+    // este es el servicio que se contrata, aquel explica el problema.
+    title: 'Servicio de modernización de aplicaciones Java',
+    navLabel: 'Modernización Java',
+    eyebrow: 'Modernización Java',
+    cardText:
+      'Análisis, refactorización y migración progresiva de aplicaciones Java existentes.',
+    intro:
+      'Análisis, plan por fases y ejecución de la modernización de una aplicación Java existente, con el sistema en producción durante todo el proceso.',
+    problemTitle: 'Modernizar sin empezar necesariamente desde cero',
+    problemBody: [
+      'Las aplicaciones empresariales pueden acumular años de evolución tecnológica. La modernización permite analizar el sistema existente y definir una estrategia progresiva adaptada a sus necesidades.',
+      'El trabajo empieza siempre por un análisis con alcance cerrado: inventario de dependencias, incompatibilidades detectadas y riesgos ordenados por impacto. A partir de ahí, un plan por fases en el que cada fase deja la aplicación funcionando y desplegada.',
+    ],
+    bullets: [
+      'Análisis de aplicaciones Java Legacy',
+      'Migración Java EE → Jakarta EE',
+      'Actualización de versiones Java',
+      'Modernización de aplicaciones JBoss / WildFly',
+      'Migración hacia Spring Boot',
+      'Refactorización de código',
+      'Reducción de deuda técnica',
+      'Evolución de arquitecturas monolíticas',
+    ],
+    technologies: [
+      'Java',
+      'Java EE',
+      'Jakarta EE',
+      'Spring Boot',
+      'JBoss',
+      'WildFly',
+      'Hibernate',
+      'REST',
+    ],
+    ctaText: 'Analizar mi caso',
+    seoTitle: 'Modernización de aplicaciones Java | JavaEvolve',
+    seoDescription:
+      'Servicio de modernización progresiva de aplicaciones Java: análisis, plan por fases y ejecución. Java EE a Jakarta EE, subida de versión y migración a Spring Boot.',
+    related: [
+      {
+        slug: 'migracion-java-legacy',
+        anchor: 'Qué implica modernizar una aplicación Java legacy',
+      },
+      { slug: 'migracion-java-ee-jakarta-ee' },
+      { slug: 'actualizacion-java' },
+      { slug: 'spring-boot' },
+    ],
+    featured: true,
+  },
+]
+
+export const retos: CatalogEntry[] = [
+  {
+    slug: 'migracion-java-ee-jakarta-ee',
+    kind: 'reto',
+    path: '/retos/migracion-java-ee-jakarta-ee/',
+    title: 'Migración de Java EE a Jakarta EE',
+    navLabel: 'Java EE → Jakarta EE',
+    eyebrow: 'Migración Java EE',
+    cardText:
+      'Evolución de aplicaciones Java EE hacia Jakarta EE, analizando compatibilidad, dependencias y servidores.',
+    intro:
+      'Evolución de aplicaciones Java EE hacia Jakarta EE, abordando compatibilidad, dependencias y cambios necesarios para mantener la aplicación preparada para nuevas versiones del ecosistema.',
+    problemTitle: 'Una migración empresarial requiere algo más que cambiar paquetes',
+    problemBody: [
+      'Las aplicaciones Java EE existentes pueden acumular dependencias, APIs antiguas, servidores de aplicaciones y componentes que condicionan su evolución. Analizar estos elementos antes de migrar permite identificar impactos técnicos y definir una estrategia adecuada para cada aplicación.',
+      'El cambio de espacio de nombres de javax.* a jakarta.* es mecánico en el código propio. Lo que marca el ritmo real de la migración son las dependencias de terceros: hasta que todas publican una versión compatible, el plan depende de ellas y no del equipo.',
+    ],
+    bullets: [
+      'Análisis de aplicaciones Java EE existentes',
+      'Identificación de APIs y dependencias afectadas',
+      'Migración de javax.* a jakarta.*',
+      'Compatibilidad con versiones modernas del servidor',
+      'Revisión de configuraciones y librerías',
+      'Adaptación de componentes empresariales',
+      'Validación de integraciones existentes',
+    ],
+    technologies: [
+      'Java EE',
+      'Jakarta EE',
+      'JPA',
+      'JAX-RS',
+      'JAX-WS',
+      'Hibernate',
+      'WildFly',
+      'JBoss',
+      'Maven',
+    ],
+    ctaText: 'Analizar mi caso',
+    seoTitle: 'Migración Java EE a Jakarta EE | JavaEvolve',
+    seoDescription:
+      'Migración de aplicaciones Java EE a Jakarta EE, análisis de dependencias, compatibilidad, servidores y evolución de aplicaciones empresariales.',
+    related: [
+      {
+        slug: 'modernizacion-java',
+        anchor: 'Servicio de modernización de aplicaciones Java',
+      },
+      { slug: 'actualizacion-java' },
+    ],
+  },
+  {
+    slug: 'migracion-java-legacy',
+    kind: 'reto',
+    path: '/retos/migracion-java-legacy/',
+    title: 'Qué implica modernizar una aplicación Java legacy',
+    navLabel: 'Java Legacy',
+    eyebrow: 'Java Legacy',
+    cardText:
+      'Qué se analiza antes de modernizar: inventario, deuda técnica, riesgos y por dónde empezar.',
+    intro:
+      'Qué se mira antes de tocar una aplicación Java con años encima: inventario, incompatibilidades, riesgos y en qué orden conviene abordarlos.',
+    problemTitle: 'El código legacy puede convertirse en un freno para evolucionar',
+    problemBody: [
+      'Aplicaciones Java con años de evolución pueden combinar versiones antiguas, frameworks, servidores, configuraciones y componentes difíciles de mantener. La modernización debe adaptarse al contexto real de la aplicación y puede abordarse de forma progresiva.',
+      'La señal de alarma no suele ser la antigüedad del código, sino el miedo a desplegarlo. Cuando cada cambio exige un fin de semana y media plantilla pendiente, el problema ya no es la versión de Java: es que no hay pruebas suficientes para saber qué se rompe.',
+    ],
+    bullets: [
+      'Análisis técnico de aplicaciones Legacy',
+      'Identificación de deuda técnica',
+      'Actualización progresiva de componentes',
+      'Refactorización de código Java',
+      'Evolución de arquitecturas existentes',
+      'Modernización de aplicaciones JBoss y WildFly',
+      'Reducción del riesgo técnico',
+      'Preparación para nuevas versiones de Java',
+    ],
+    technologies: [
+      'Java',
+      'Java EE',
+      'Jakarta EE',
+      'Spring',
+      'Spring Boot',
+      'Hibernate',
+      'JBoss',
+      'WildFly',
+      'Maven',
+    ],
+    ctaText: 'Analizar mi caso',
+    seoTitle: 'Modernizar una aplicación Java legacy: qué implica | JavaEvolve',
+    seoDescription:
+      'Qué se analiza antes de modernizar una aplicación Java legacy: inventario de dependencias, incompatibilidades, riesgos y por dónde empezar.',
+    related: [
+      {
+        slug: 'modernizacion-java',
+        anchor: 'Servicio de modernización de aplicaciones Java',
+      },
+      { slug: 'actualizacion-java' },
+      { slug: 'migracion-spring-boot' },
+    ],
+  },
+  {
+    slug: 'migracion-spring-boot',
+    kind: 'reto',
+    path: '/retos/migracion-spring-boot/',
+    title: 'Migración y evolución hacia Spring Boot',
+    navLabel: 'Migración a Spring Boot',
+    eyebrow: 'Spring Boot',
+    cardText:
+      'Evolución de aplicaciones Java hacia Spring Boot y arquitecturas backend más actuales.',
+    intro:
+      'Evolución de aplicaciones Java existentes hacia Spring Boot para facilitar el desarrollo de servicios, APIs y nuevas funcionalidades backend.',
+    problemTitle: 'No todas las aplicaciones necesitan una migración completa',
+    problemBody: [
+      'La evolución hacia Spring Boot puede abordarse de distintas formas dependiendo de la arquitectura existente, las dependencias, el servidor de aplicaciones y las necesidades del proyecto. Antes de decidir una estrategia conviene analizar el punto de partida.',
+      'En bastantes casos la opción razonable no es migrar el monolito entero, sino levantar los servicios nuevos en Spring Boot y desplazar funcionalidad poco a poco, manteniendo las dos partes en producción mientras dure la transición.',
+    ],
+    bullets: [
+      'Análisis de aplicaciones Java existentes',
+      'Evaluación de viabilidad de la migración',
+      'Migración progresiva de funcionalidades',
+      'Desarrollo de nuevos servicios con Spring Boot',
+      'Evolución de APIs existentes',
+      'Refactorización de componentes backend',
+      'Integración con bases de datos',
+      'Separación progresiva de funcionalidades',
+    ],
+    technologies: [
+      'Java',
+      'Spring',
+      'Spring Boot',
+      'Spring MVC',
+      'Spring Data',
+      'Hibernate',
+      'REST',
+      'Maven',
+      'Git',
+    ],
+    ctaText: 'Analizar mi caso',
+    seoTitle: 'Migración a Spring Boot | JavaEvolve',
+    seoDescription:
+      'Migración y evolución de aplicaciones Java hacia Spring Boot, desarrollo backend, APIs REST y modernización progresiva.',
+    related: [
+      { slug: 'spring-boot', anchor: 'Servicio de desarrollo con Spring Boot' },
+      { slug: 'apis-rest' },
+      { slug: 'modernizacion-java' },
+    ],
+  },
+  {
+    slug: 'actualizacion-java',
+    kind: 'reto',
+    path: '/retos/actualizacion-java/',
+    title: 'Actualización de versiones Java',
+    navLabel: 'Actualización de versiones Java',
+    eyebrow: 'Versiones Java',
+    cardText:
+      'Análisis de compatibilidad y evolución hacia versiones más actuales de Java.',
+    intro:
+      'Evolución de aplicaciones Java hacia versiones más actuales, analizando compatibilidad, dependencias, frameworks y servidores antes de realizar el cambio.',
+    problemTitle: 'Actualizar Java puede afectar a toda la cadena tecnológica',
+    problemBody: [
+      'El cambio de versión de Java no siempre consiste simplemente en cambiar el JDK. Dependencias, frameworks, APIs, servidores de aplicaciones y configuraciones pueden introducir incompatibilidades que deben identificarse antes de abordar la actualización.',
+      'El salto de Java 8 a una versión con soporte arrastra el sistema de módulos, la retirada de APIs que antes venían en el JDK y, con frecuencia, el propio servidor de aplicaciones. Por eso el inventario va primero y la estimación después.',
+    ],
+    bullets: [
+      'Análisis de la versión Java actual',
+      'Identificación de incompatibilidades',
+      'Revisión de dependencias Maven',
+      'Actualización de frameworks',
+      'Adaptación de código afectado',
+      'Compatibilidad con servidores de aplicaciones',
+      'Validación de aplicaciones existentes',
+      'Planificación de actualizaciones progresivas',
+    ],
+    technologies: [
+      'Java',
+      'JDK',
+      'Maven',
+      'Spring',
+      'Spring Boot',
+      'Hibernate',
+      'Java EE',
+      'Jakarta EE',
+      'WildFly',
+    ],
+    ctaText: 'Analizar mi caso',
+    seoTitle: 'Actualización de versiones Java | JavaEvolve',
+    seoDescription:
+      'Actualización de versiones Java para aplicaciones empresariales, análisis de compatibilidad, dependencias, frameworks y servidores.',
+    related: [
+      {
+        slug: 'modernizacion-java',
+        anchor: 'Servicio de modernización de aplicaciones Java',
+      },
+      { slug: 'migracion-java-ee-jakarta-ee' },
+      { slug: 'desarrollo-java' },
+    ],
+  },
+]
+
+export const catalog: CatalogEntry[] = [...services, ...retos]
+
+const index = new Map(catalog.map((entry) => [entry.slug, entry]))
+
+export function bySlug(slug: string): CatalogEntry {
+  const entry = index.get(slug)
+
+  if (!entry) {
+    throw new Error(`Entrada inexistente en el catálogo: ${slug}`)
+  }
+
+  return entry
+}
+
+export function canonicalOf(entry: CatalogEntry): string {
+  return `${SITE_URL}${entry.path}`
+}
+
+/** Resuelve los enlaces cruzados, descartando los que apunten a nada. */
+export function relatedOf(
+  entry: CatalogEntry,
+): { entry: CatalogEntry; anchor: string }[] {
+  return entry.related.flatMap((link) => {
+    const target = index.get(link.slug)
+
+    return target ? [{ entry: target, anchor: link.anchor ?? target.navLabel }] : []
+  })
+}
+
+/** Todas las URL públicas del sitio, en el orden en que van al sitemap. */
+export const allPaths: string[] = [
+  '/',
+  '/servicios/',
+  ...services.map((entry) => entry.path),
+  '/retos/',
+  ...retos.map((entry) => entry.path),
+  '/aviso-legal/',
+  '/privacidad/',
+  '/cookies/',
+]
+
+/**
+ * Invariantes del catálogo, para llamar solo en desarrollo desde `main.tsx`.
+ *
+ * Un H1 repetido en dos URLs hace que compitan entre sí en los buscadores, y
+ * ya pasó una vez con "Modernización de aplicaciones Java Legacy". Este módulo
+ * también lo importa Node durante el prerender, así que la comprobación no
+ * puede depender de `import.meta.env` ni ejecutarse al importar.
+ */
+export function assertCatalogIntegrity(): void {
+  const duplicatedTitles = catalog
+    .map((entry) => entry.title.trim().toLowerCase())
+    .filter((title, position, all) => all.indexOf(title) !== position)
+
+  const duplicatedPaths = catalog
+    .map((entry) => entry.path)
+    .filter((path, position, all) => all.indexOf(path) !== position)
+
+  const brokenLinks = catalog.flatMap((entry) =>
+    entry.related
+      .filter((link) => !index.has(link.slug))
+      .map((link) => `${entry.slug} → ${link.slug}`),
+  )
+
+  if (duplicatedTitles.length > 0) {
+    console.error('[catalog] H1 duplicados:', duplicatedTitles)
+  }
+
+  if (duplicatedPaths.length > 0) {
+    console.error('[catalog] rutas duplicadas:', duplicatedPaths)
+  }
+
+  if (brokenLinks.length > 0) {
+    console.error('[catalog] enlaces cruzados rotos:', brokenLinks)
+  }
+}

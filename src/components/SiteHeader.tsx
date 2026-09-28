@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 
+// Servicios y Retos son páginas reales, no anclas de la home: así el menú
+// lleva a un nivel de navegación propio y no siempre a la misma página.
 const navLinks = [
-  { to: '/#servicios', label: 'Servicios' },
-  { to: '/#retos', label: 'Retos' },
+  { to: '/servicios/', label: 'Servicios' },
+  { to: '/retos/', label: 'Retos' },
   { to: '/#tecnologias', label: 'Tecnologías' },
   { to: '/#contacto', label: 'Contacto' },
 ]

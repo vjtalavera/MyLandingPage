@@ -1,14 +1,8 @@
 import { useState } from 'react'
 import type { FormEvent } from 'react'
-import { BrowserRouter, Link, Route, Routes } from 'react-router-dom'
 import './App.css'
 
-import ApisRest from './pages/ApisRest'
-import DesarrolloJava from './pages/DesarrolloJava'
-import ModernizacionJava from './pages/ModernizacionJava'
-import SpringBoot from './pages/SpringBoot'
-
-function Home() {
+function App() {
   const [sending, setSending] = useState(false)
   const [result, setResult] = useState('')
 
@@ -54,9 +48,9 @@ function Home() {
     <div className="site">
       <header className="header">
         <div className="container header-inner">
-          <Link className="logo" to="/">
+          <a className="logo" href="#inicio">
             Java<span>Evolve</span>
-          </Link>
+          </a>
 
           <nav>
             <a href="#servicios">Servicios</a>
@@ -174,12 +168,10 @@ Legacy Modernization
                 <span className="service-tag">01</span>
                 <h3>Desarrollo Java</h3>
                 <p>
-                  Desarrollo backend con Java para aplicaciones empresariales
-                  y sistemas de negocio.
+                  Desarrollo backend con Java para aplicaciones
+                  empresariales y sistemas de negocio.
                 </p>
-                <Link to="/servicios/desarrollo-java/">
-                  Ver servicio →
-                </Link>
+                <a href="#contacto">Consultar →</a>
               </article>
 
               <article className="card service-card">
@@ -189,9 +181,7 @@ Legacy Modernization
                   Desarrollo de servicios y APIs con Spring Boot y Spring
                   Framework.
                 </p>
-                <Link to="/servicios/spring-boot/">
-                  Ver servicio →
-                </Link>
+                <a href="#contacto">Consultar →</a>
               </article>
 
               <article className="card service-card">
@@ -201,9 +191,7 @@ Legacy Modernization
                   Diseño y desarrollo de APIs REST para integrar aplicaciones
                   y servicios.
                 </p>
-                <Link to="/servicios/apis-rest/">
-                  Ver servicio →
-                </Link>
+                <a href="#contacto">Consultar →</a>
               </article>
 
               <article className="card service-card featured">
@@ -213,9 +201,7 @@ Legacy Modernization
                   Análisis, refactorización y migración progresiva de
                   aplicaciones Java existentes.
                 </p>
-                <Link to="/servicios/modernizacion-java/">
-                  Ver servicio →
-                </Link>
+                <a href="#contacto">Consultar →</a>
               </article>
             </div>
           </div>
@@ -236,12 +222,9 @@ Legacy Modernization
                   una estrategia adaptada al proyecto.
                 </p>
 
-                <Link
-                  className="button primary"
-                  to="/servicios/modernizacion-java/"
-                >
+                <a className="button primary" href="#contacto">
                   Analizar mi caso
-                </Link>
+                </a>
               </div>
 
               <div className="topics">
@@ -410,26 +393,6 @@ Legacy Modernization
         </div>
       </footer>
     </div>
-  )
-}
-
-function App() {
-  return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route
-          path="/servicios/desarrollo-java/"
-          element={<DesarrolloJava />}
-        />
-        <Route path="/servicios/spring-boot/" element={<SpringBoot />} />
-        <Route path="/servicios/apis-rest/" element={<ApisRest />} />
-        <Route
-          path="/servicios/modernizacion-java/"
-          element={<ModernizacionJava />}
-        />
-      </Routes>
-    </BrowserRouter>
   )
 }
 

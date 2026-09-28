@@ -8,6 +8,11 @@ import DesarrolloJava from './pages/DesarrolloJava'
 import ModernizacionJava from './pages/ModernizacionJava'
 import SpringBoot from './pages/SpringBoot'
 
+import MigracionJavaEeJakarta from './pages/retos/MigracionJavaEeJakarta'
+import JavaLegacy from './pages/retos/JavaLegacy'
+import MigracionSpringBoot from './pages/retos/MigracionSpringBoot'
+import ActualizacionJava from './pages/retos/ActualizacionJava'
+
 function Home() {
   const [sending, setSending] = useState(false)
   const [result, setResult] = useState('')
@@ -256,6 +261,61 @@ Legacy Modernization
               </div>
             </div>
           </div>
+          <div className="challenge-grid">
+
+            <Link
+              className="challenge-card"
+              to="/retos/migracion-java-ee-jakarta-ee/"
+            >
+              <span>MIGRACIÓN</span>
+              <h3>Java EE → Jakarta EE</h3>
+              <p>
+                Evolución de aplicaciones Java EE hacia Jakarta EE,
+                analizando compatibilidad, dependencias y servidores.
+              </p>
+              <strong>Ver reto →</strong>
+            </Link>
+
+            <Link
+              className="challenge-card"
+              to="/retos/migracion-java-legacy/"
+            >
+              <span>MODERNIZACIÓN</span>
+              <h3>Java Legacy</h3>
+              <p>
+                Modernización progresiva de aplicaciones Java Legacy
+                y reducción de deuda técnica.
+              </p>
+              <strong>Ver reto →</strong>
+            </Link>
+
+            <Link
+              className="challenge-card"
+              to="/retos/migracion-spring-boot/"
+            >
+              <span>EVOLUCIÓN</span>
+              <h3>Migración a Spring Boot</h3>
+              <p>
+                Evolución de aplicaciones Java hacia Spring Boot
+                y arquitecturas backend más actuales.
+              </p>
+              <strong>Ver reto →</strong>
+            </Link>
+
+            <Link
+              className="challenge-card"
+              to="/retos/actualizacion-java/"
+            >
+              <span>ACTUALIZACIÓN</span>
+              <h3>Actualización de versiones Java</h3>
+              <p>
+                Análisis de compatibilidad y evolución hacia versiones
+                más actuales de Java.
+              </p>
+              <strong>Ver reto →</strong>
+            </Link>
+
+          </div>
         </section>
 
         <section id="tecnologias" className="section technologies">
@@ -427,6 +487,25 @@ function App() {
         <Route
           path="/servicios/modernizacion-java/"
           element={<ModernizacionJava />}
+        />
+        <Route
+          path="/retos/migracion-java-ee-jakarta-ee/"
+          element={<MigracionJavaEeJakarta />}
+        />
+
+        <Route
+          path="/retos/migracion-java-legacy/"
+          element={<JavaLegacy />}
+        />
+
+        <Route
+          path="/retos/migracion-spring-boot/"
+          element={<MigracionSpringBoot />}
+        />
+
+        <Route
+          path="/retos/actualizacion-java/"
+          element={<ActualizacionJava />}
         />
       </Routes>
     </BrowserRouter>

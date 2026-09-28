@@ -3,7 +3,7 @@ import { legalData } from './LegalData'
 
 export default function Privacidad() {
     return (
-        <main>
+        <>
             <section className="legal-page">
                 <div className="container legal-content">
                     <p className="eyebrow">PROTECCIÓN DE DATOS</p>
@@ -99,6 +99,6 @@ export default function Privacidad() {
                     </div>
                 </div>
             </section>
-        </main>
+        </>
     )
 }

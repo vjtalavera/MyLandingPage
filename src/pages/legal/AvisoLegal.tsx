@@ -3,7 +3,7 @@ import { legalData } from './LegalData'
 
 export default function AvisoLegal() {
     return (
-        <main>
+        <>
             <section className="legal-page">
                 <div className="container legal-content">
                     <p className="eyebrow">INFORMACIÓN LEGAL</p>
@@ -67,6 +67,6 @@ export default function AvisoLegal() {
                     </div>
                 </div>
             </section>
-        </main>
+        </>
     )
 }

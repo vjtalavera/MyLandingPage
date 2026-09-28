@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
+import Breadcrumbs from '../components/Breadcrumbs'
 
 interface ServicePageProps {
   eyebrow: string
@@ -84,9 +85,17 @@ function ServicePage({
   }, [seoTitle, seoDescription, canonical, title])
 
   return (
-    <main>
+    <>
       <section className="service-hero">
         <div className="container">
+          <Breadcrumbs
+            items={[
+              { label: 'Inicio', to: '/' },
+              { label: 'Servicios', to: '/#servicios' },
+              { label: title },
+            ]}
+          />
+
           <p className="eyebrow">{eyebrow}</p>
 
           <h1>{title}</h1>
@@ -147,7 +156,7 @@ function ServicePage({
           </Link>
         </div>
       </section>
-    </main>
+    </>
   )
 }
 

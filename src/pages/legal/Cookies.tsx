@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 
 export default function Cookies() {
     return (
-        <main>
+        <>
             <section className="legal-page">
                 <div className="container legal-content">
                     <p className="eyebrow">COOKIES</p>
@@ -51,6 +51,6 @@ export default function Cookies() {
                     </div>
                 </div>
             </section>
-        </main>
+        </>
     )
 }

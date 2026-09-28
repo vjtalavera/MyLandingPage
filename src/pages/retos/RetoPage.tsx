@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
+import Breadcrumbs from '../../components/Breadcrumbs'
 
 type RetoPageProps = {
   eyebrow: string
@@ -90,13 +91,21 @@ export default function RetoPage({
     <>
       <section className="service-hero challenge-hero">
         <div className="container">
+          <Breadcrumbs
+            items={[
+              { label: 'Inicio', to: '/' },
+              { label: 'Retos', to: '/#retos' },
+              { label: title },
+            ]}
+          />
+
           <p className="eyebrow">{eyebrow}</p>
 
           <h1>{title}</h1>
 
           <p className="service-intro">{intro}</p>
 
-          <Link className="btn btn-primary" to="/#contacto">
+          <Link className="button primary" to="/#contacto">
             Analizar mi caso
           </Link>
         </div>
@@ -153,7 +162,7 @@ export default function RetoPage({
             </p>
 
             <Link
-              className="btn btn-secondary"
+              className="button secondary"
               to={relatedService.url}
             >
               {relatedService.label}
@@ -174,7 +183,7 @@ export default function RetoPage({
             posibles líneas de actuación.
           </p>
 
-          <Link className="btn btn-primary" to="/#contacto">
+          <Link className="button primary" to="/#contacto">
             Contactar con JavaEvolve
           </Link>
         </div>

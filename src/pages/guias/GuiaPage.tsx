@@ -22,13 +22,17 @@ export default function GuiaPage({ guide }: { guide: GuideEntry }) {
             ]}
           />
 
-          <p className="eyebrow">{guide.eyebrow}</p>
+          <div className="hero-split">
+            <div>
+              <p className="eyebrow">{guide.eyebrow}</p>
 
-          <h1>{guide.title}</h1>
+              <h1>{guide.title}</h1>
 
-          <p className="service-intro">{guide.intro}</p>
+              <p className="service-intro">{guide.intro}</p>
+            </div>
 
-          <PageToc blocks={guide.sections} />
+            <PageToc blocks={guide.sections} />
+          </div>
         </div>
       </section>
 

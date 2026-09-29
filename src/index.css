@@ -87,7 +87,7 @@
   --container-max: 1200px;
   --container-gutter: 48px;
   --header-height: 72px;
-  --section-space: 96px;
+  --section-space: 64px;
 
   /* Estado */
   --ok: #15803d;
@@ -100,10 +100,10 @@
   --step--1: 0.875rem;
   --step-0: 1rem;
   --step-1: 1.0625rem;
-  --step-2: clamp(1.125rem, 1.05rem + 0.35vw, 1.3125rem);
-  --step-3: clamp(1.375rem, 1.25rem + 0.6vw, 1.75rem);
-  --step-4: clamp(1.75rem, 1.5rem + 1.1vw, 2.375rem);
-  --step-5: clamp(2.125rem, 1.7rem + 1.9vw, 3.125rem);
+  --step-2: clamp(1.125rem, 1.05rem + 0.35vw, 1.25rem);
+  --step-3: clamp(1.375rem, 1.25rem + 0.6vw, 1.5rem);
+  --step-4: clamp(1.75rem, 1.5rem + 1.1vw, 2rem);
+  --step-5: clamp(2.125rem, 1.7rem + 1.9vw, 2.5rem);
 
   /* Espaciado, base 4px */
   --space-1: 4px;
@@ -121,7 +121,7 @@
   --measure-narrow: 58ch;
   --lh-tight: 1.1;
   --lh-heading: 1.2;
-  --lh-body: 1.65;
+  --lh-body: 1.6;
 
   /* Anillo de foco */
   --focus-ring: 0 0 0 3px color-mix(in srgb, var(--brand) 32%, transparent);
@@ -183,10 +183,25 @@
   }
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 1050px) {
   :root {
     --container-gutter: 28px;
-    --section-space: 72px;
+    --section-space: 56px;
+  }
+}
+
+/*
+ * Primera regla del proyecto para pantallas grandes. Por encima de 1333px toda
+ * la escala tipográfica está en su tope, así que sin esto un monitor ancho solo
+ * añadía margen muerto a los lados.
+ *
+ * La longitud de línea del texto NO cambia: la sigue mandando --measure. Lo que
+ * se ensancha son las rejillas de tarjetas, las tablas y los heros a dos
+ * columnas.
+ */
+@media (min-width: 1440px) {
+  :root {
+    --container-max: 1320px;
   }
 }
 

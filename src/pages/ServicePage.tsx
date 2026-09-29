@@ -25,17 +25,21 @@ export default function ServicePage({ entry }: { entry: CatalogEntry }) {
             ]}
           />
 
-          <p className="eyebrow">{entry.eyebrow}</p>
+          <div className="hero-split">
+            <div>
+              <p className="eyebrow">{entry.eyebrow}</p>
 
-          <h1>{entry.title}</h1>
+              <h1>{entry.title}</h1>
 
-          <p className="service-intro">{entry.intro}</p>
+              <p className="service-intro">{entry.intro}</p>
 
-          <Link className="button primary" to="/#contacto">
-            {entry.ctaText}
-          </Link>
+              <Link className="button primary" to="/#contacto">
+                {entry.ctaText}
+              </Link>
+            </div>
 
-          {entry.sections ? <PageToc blocks={entry.sections} /> : null}
+            {entry.sections ? <PageToc blocks={entry.sections} /> : null}
+          </div>
         </div>
       </section>
 

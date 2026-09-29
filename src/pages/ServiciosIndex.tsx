@@ -15,23 +15,27 @@ export default function ServiciosIndex() {
         <div className="container">
           <Breadcrumbs items={[{ label: 'Inicio', to: '/' }, { label: 'Servicios' }]} />
 
-          <p className="eyebrow">Servicios</p>
+          <div className="hero-split">
+            <div>
+              <p className="eyebrow">Servicios</p>
 
-          <h1>Desarrollo y evolución de aplicaciones Java</h1>
+              <h1>Desarrollo y evolución de aplicaciones Java</h1>
 
-          <p className="index-intro">
-            Cuatro formas de trabajar sobre un backend Java: construir lo que
-            falta, llevarlo a Spring Boot, exponerlo como API o modernizar lo
-            que ya hay sin parar la aplicación.
-          </p>
+              <p className="index-intro">
+                Cuatro formas de trabajar sobre un backend Java: construir lo
+                que falta, llevarlo a Spring Boot, exponerlo como API o
+                modernizar lo que ya hay sin parar la aplicación.
+              </p>
 
-          <p className="index-intro">
-            Si no tienes claro cuál encaja con tu caso, el punto de partida
-            siempre es el mismo: mirar el código y las dependencias antes de
-            proponer nada.
-          </p>
+              <p className="index-intro">
+                Si no tienes claro cuál encaja con tu caso, el punto de partida
+                siempre es el mismo: mirar el código y las dependencias antes
+                de proponer nada.
+              </p>
+            </div>
 
-          {content.sections ? <PageToc blocks={content.sections} /> : null}
+            {content.sections ? <PageToc blocks={content.sections} /> : null}
+          </div>
         </div>
       </section>
 

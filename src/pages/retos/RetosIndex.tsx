@@ -15,23 +15,27 @@ export default function RetosIndex() {
         <div className="container">
           <Breadcrumbs items={[{ label: 'Inicio', to: '/' }, { label: 'Retos' }]} />
 
-          <p className="eyebrow">Retos técnicos</p>
+          <div className="hero-split">
+            <div>
+              <p className="eyebrow">Retos técnicos</p>
 
-          <h1>Los problemas que suelen bloquear un backend Java</h1>
+              <h1>Los problemas que suelen bloquear un backend Java</h1>
 
-          <p className="index-intro">
-            Cuatro situaciones que se repiten en aplicaciones empresariales con
-            años encima. Cada una explica qué se analiza antes de tocar nada y
-            qué suele salir mal cuando no se hace.
-          </p>
+              <p className="index-intro">
+                Cuatro situaciones que se repiten en aplicaciones empresariales
+                con años encima. Cada una explica qué se analiza antes de tocar
+                nada y qué suele salir mal cuando no se hace.
+              </p>
 
-          <p className="index-intro">
-            Son páginas para entender el problema. Si ya lo tienes claro y lo
-            que buscas es quién lo ejecute, están los{' '}
-            <Link to="/servicios/">servicios</Link>.
-          </p>
+              <p className="index-intro">
+                Son páginas para entender el problema. Si ya lo tienes claro y
+                lo que buscas es quién lo ejecute, están los{' '}
+                <Link to="/servicios/">servicios</Link>.
+              </p>
+            </div>
 
-          {content.sections ? <PageToc blocks={content.sections} /> : null}
+            {content.sections ? <PageToc blocks={content.sections} /> : null}
+          </div>
         </div>
       </section>
 

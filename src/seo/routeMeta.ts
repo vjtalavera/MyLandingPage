@@ -7,8 +7,10 @@
  * tocar el DOM, importar React ni usar `import.meta.env`.
  */
 
-import { catalog, retos, services, SITE_URL } from '../data/catalog.ts'
+import { allPaths, catalog, retos, services, SITE_URL } from '../data/catalog.ts'
+import { guides } from '../data/guides.ts'
 import type { CatalogEntry } from '../data/catalog.ts'
+import type { GuideEntry } from '../data/guides.ts'
 
 export { SITE_URL }
 export const SITE_NAME = 'JavaEvolve'
@@ -43,6 +45,10 @@ export interface RouteMeta {
   robots?: string
   ogType?: string
   jsonLd?: Record<string, unknown>[]
+  /** YYYY-MM-DD. Alimenta el <lastmod> del sitemap. Solo si es cierta. */
+  updated?: string
+  /** Ruta de una imagen propia para compartir, si algún día se dibuja. */
+  ogImage?: string
 }
 
 /** '/servicios/spring-boot' → '/servicios/spring-boot/' ; '' → '/' */
@@ -66,9 +72,45 @@ function serviceSchema(entry: CatalogEntry): Record<string, unknown> {
   }
 }
 
+/**
+ * Las páginas de retos explican un problema; no son algo que se contrate. El
+ * catálogo ya documenta esa distinción, y marcarlas como `Service` era
+ * inexacto.
+ *
+ * `author` apunta a la organización, no a una persona: schema.org lo admite y
+ * encaja con que el titular no aparezca.
+ */
+type ArticleLike = Pick<
+  CatalogEntry,
+  'title' | 'navLabel' | 'seoDescription' | 'path' | 'published' | 'updated'
+>
+
+function techArticleSchema(
+  entry: ArticleLike,
+  about?: Record<string, unknown>,
+): Record<string, unknown> {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'TechArticle',
+    headline: entry.title,
+    description: entry.seoDescription,
+    author: { '@id': ORGANIZATION_ID },
+    publisher: { '@id': ORGANIZATION_ID },
+    isPartOf: { '@id': WEBSITE_ID },
+    inLanguage: 'es-ES',
+    url: `${SITE_URL}${entry.path}`,
+    mainEntityOfPage: `${SITE_URL}${entry.path}`,
+    datePublished: entry.published,
+    dateModified: entry.updated,
+    // Ata el artículo a lo que sí se puede contratar sin crear un segundo
+    // nodo principal que compita con él.
+    ...(about ? { about } : {}),
+  }
+}
+
 /** ItemList de una página índice. El orden es el que ve quien la lee. */
 function itemListSchema(
-  entries: CatalogEntry[],
+  entries: { title: string; path: string }[],
   name: string,
   path: string,
 ): Record<string, unknown> {
@@ -105,6 +147,12 @@ const organizationSchema: Record<string, unknown> = {
   areaServed: 'ES',
   availableLanguage: 'es',
   knowsLanguage: 'es',
+  logo: {
+    '@type': 'ImageObject',
+    url: `${SITE_URL}/apple-touch-icon.png`,
+    width: 180,
+    height: 180,
+  },
   serviceType: [
     'Desarrollo Java',
     'Desarrollo Backend',
@@ -133,6 +181,7 @@ const staticRoutes: Record<string, RouteMeta> = {
     description:
       'JavaEvolve ofrece desarrollo backend Java, Spring Boot, APIs REST y modernización de aplicaciones Java empresariales.',
     path: '/',
+    updated: '2026-09-29',
     jsonLd: [organizationSchema, webSiteSchema],
   },
   '/servicios/': {
@@ -140,6 +189,7 @@ const staticRoutes: Record<string, RouteMeta> = {
     description:
       'Servicios de desarrollo backend Java: Spring Boot, APIs REST, evolución de aplicaciones existentes y modernización de sistemas legacy.',
     path: '/servicios/',
+    updated: '2026-09-29',
     jsonLd: [
       itemListSchema(services, 'Servicios de desarrollo Java', '/servicios/'),
     ],
@@ -149,9 +199,18 @@ const staticRoutes: Record<string, RouteMeta> = {
     description:
       'Migración de Java EE a Jakarta EE, actualización de versiones de Java, evolución hacia Spring Boot y modernización de aplicaciones legacy.',
     path: '/retos/',
+    updated: '2026-09-29',
     jsonLd: [
       itemListSchema(retos, 'Retos técnicos en aplicaciones Java', '/retos/'),
     ],
+  },
+  '/guias/': {
+    title: 'Guías técnicas de migración Java | JavaEvolve',
+    description:
+      'Guías con los comandos, los errores literales y las comprobaciones que hacen falta para migrar una aplicación Java sin sorpresas.',
+    path: '/guias/',
+    updated: '2026-09-29',
+    jsonLd: [itemListSchema(guides, 'Guías técnicas', '/guias/')],
   },
   '/aviso-legal/': {
     title: 'Aviso legal | JavaEvolve',
@@ -181,7 +240,30 @@ const catalogRoutes: Record<string, RouteMeta> = Object.fromEntries(
       title: entry.seoTitle,
       description: entry.seoDescription,
       path: entry.path,
-      jsonLd: [serviceSchema(entry)],
+      updated: entry.updated,
+      jsonLd: [
+        entry.kind === 'reto'
+          ? techArticleSchema(entry, {
+              '@type': 'Service',
+              name: entry.navLabel,
+              provider: { '@id': ORGANIZATION_ID },
+            })
+          : serviceSchema(entry),
+      ],
+    } satisfies RouteMeta,
+  ]),
+)
+
+const guideRoutes: Record<string, RouteMeta> = Object.fromEntries(
+  guides.map((guide: GuideEntry) => [
+    guide.path,
+    {
+      title: guide.seoTitle,
+      description: guide.seoDescription,
+      path: guide.path,
+      updated: guide.updated,
+      ogType: 'article',
+      jsonLd: [techArticleSchema(guide)],
     } satisfies RouteMeta,
   ]),
 )
@@ -189,6 +271,7 @@ const catalogRoutes: Record<string, RouteMeta> = Object.fromEntries(
 export const ROUTE_META: Record<string, RouteMeta> = {
   ...staticRoutes,
   ...catalogRoutes,
+  ...guideRoutes,
 }
 
 export const NOT_FOUND_META: RouteMeta = {
@@ -198,17 +281,15 @@ export const NOT_FOUND_META: RouteMeta = {
   robots: 'noindex, follow',
 }
 
-/** Rutas que se prerenderizan, en el orden en que las recorre el build. */
-export const PRERENDER_ROUTES: string[] = [
-  '/',
-  '/servicios/',
-  ...catalog.filter((entry) => entry.kind === 'servicio').map((entry) => entry.path),
-  '/retos/',
-  ...catalog.filter((entry) => entry.kind === 'reto').map((entry) => entry.path),
-  '/aviso-legal/',
-  '/privacidad/',
-  '/cookies/',
-]
+/**
+ * Rutas que se prerenderizan, en el orden en que las recorre el build.
+ *
+ * Es exactamente `allPaths`: el catálogo es el único sitio donde se declara
+ * una URL pública. Cuando eran dos listas separadas había que acordarse de
+ * tocar las dos, y olvidar una hacía que `assertCatalogIntegrity` marcase
+ * como roto un enlace interno que era perfectamente válido.
+ */
+export const PRERENDER_ROUTES: string[] = allPaths
 
 export function getRouteMeta(pathname: string): RouteMeta {
   return ROUTE_META[normalizePath(pathname)] ?? NOT_FOUND_META
@@ -223,7 +304,8 @@ export interface HeadTag {
 /** Descriptores de las etiquetas del <head>, compartidos por build y cliente. */
 export function buildHeadTags(meta: RouteMeta, currentPath = meta.path): HeadTag[] {
   const canonical = `${SITE_URL}${normalizePath(currentPath)}`
-  const image = `${SITE_URL}/og.png`
+  // og.png mide 1200x630, que es lo que declaran las etiquetas de abajo.
+  const image = `${SITE_URL}${meta.ogImage ?? '/og.png'}`
 
   const tags: HeadTag[] = [
     { tag: 'meta', attrs: { name: 'description', content: meta.description } },
@@ -236,10 +318,15 @@ export function buildHeadTags(meta: RouteMeta, currentPath = meta.path): HeadTag
     { tag: 'meta', attrs: { property: 'og:site_name', content: SITE_NAME } },
     { tag: 'meta', attrs: { property: 'og:locale', content: 'es_ES' } },
     { tag: 'meta', attrs: { property: 'og:image', content: image } },
+    { tag: 'meta', attrs: { property: 'og:image:type', content: 'image/png' } },
+    { tag: 'meta', attrs: { property: 'og:image:width', content: '1200' } },
+    { tag: 'meta', attrs: { property: 'og:image:height', content: '630' } },
+    { tag: 'meta', attrs: { property: 'og:image:alt', content: meta.title } },
     { tag: 'meta', attrs: { name: 'twitter:card', content: 'summary_large_image' } },
     { tag: 'meta', attrs: { name: 'twitter:title', content: meta.title } },
     { tag: 'meta', attrs: { name: 'twitter:description', content: meta.description } },
     { tag: 'meta', attrs: { name: 'twitter:image', content: image } },
+    { tag: 'meta', attrs: { name: 'twitter:image:alt', content: meta.title } },
   ]
 
   for (const data of meta.jsonLd ?? []) {

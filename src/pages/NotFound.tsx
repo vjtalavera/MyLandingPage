@@ -19,8 +19,12 @@ export default function NotFound() {
             Volver al inicio
           </Link>
 
-          <Link className="text-link" to="/#servicios">
+          <Link className="text-link" to="/servicios/">
             Ver servicios →
+          </Link>
+
+          <Link className="text-link" to="/retos/">
+            Ver retos técnicos →
           </Link>
         </div>
       </div>

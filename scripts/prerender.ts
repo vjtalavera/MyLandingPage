@@ -1,10 +1,12 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import { pathToFileURL } from 'node:url'
-import { assertCatalogIntegrity } from '../src/data/catalog.ts'
+import { assertCatalogIntegrity, retos, services } from '../src/data/catalog.ts'
+import { guides } from '../src/data/guides.ts'
 import {
   NOT_FOUND_META,
   PRERENDER_ROUTES,
+  SITE_NAME,
   SITE_URL,
   buildHeadHtml,
   getRouteMeta,
@@ -90,6 +92,7 @@ export async function writePrerenderedPages(root: string): Promise<void> {
   )
 
   writeSitemap(clientDir)
+  writeLlmsTxt(clientDir)
 
   console.log(
     `✓ prerender: ${PRERENDER_ROUTES.length} páginas + 404.html escritas en dist/client`,
@@ -131,6 +134,50 @@ function assertEveryRouteIsPrerendered(root: string): void {
 }
 
 /**
+ * llms.txt: índice del sitio en Markdown para los motores de respuesta.
+ *
+ * Sale de las mismas fuentes que el sitemap, para que no puedan divergir. Es
+ * un índice y no una copia: repetir aquí las palabras de cada página no
+ * aporta nada que no esté ya en el HTML, que es lo que se rastrea.
+ *
+ * Aviso honesto: ningún proveedor ha confirmado que consuma este fichero. Se
+ * genera porque cuesta treinta líneas y no puede hacer daño.
+ */
+function writeLlmsTxt(clientDir: string): void {
+  const line = (entry: { title: string; path: string; seoDescription: string }) =>
+    `- [${entry.title}](${SITE_URL}${entry.path}): ${entry.seoDescription}`
+
+  const body = [
+    `# ${SITE_NAME}`,
+    '',
+    '> Desarrollo backend Java y Spring Boot, APIs REST y modernización de',
+    '> aplicaciones Java empresariales que ya están en producción.',
+    '',
+    '## Servicios',
+    '',
+    ...services.map(line),
+    '',
+    '## Retos técnicos',
+    '',
+    ...retos.map(line),
+    '',
+    '## Guías',
+    '',
+    ...guides.map(line),
+    '',
+    '## Opcional',
+    '',
+    `- [Contacto](${SITE_URL}/#contacto)`,
+    `- [Aviso legal](${SITE_URL}/aviso-legal/)`,
+    '',
+  ].join('\n')
+
+  fs.writeFileSync(path.join(clientDir, 'llms.txt'), body, 'utf-8')
+
+  console.log(`✓ llms.txt: ${services.length + retos.length + guides.length} páginas`)
+}
+
+/**
  * El sitemap se genera de las mismas rutas que se prerenderizan, para que no
  * puedan desincronizarse. Se excluyen las que van con noindex (las legales).
  */
@@ -140,12 +187,19 @@ function writeSitemap(clientDir: string): void {
   )
 
   const body = urls
-    .map((route) => `  <url>\n    <loc>${SITE_URL}${route}</loc>\n  </url>`)
+    .map((route) => {
+      const { updated } = getRouteMeta(route)
+      const lastmod = updated ? `\n    <lastmod>${updated}</lastmod>` : ''
+
+      return `  <url>\n    <loc>${SITE_URL}${route}</loc>${lastmod}\n  </url>`
+    })
     .join('\n')
 
   const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${body}\n</urlset>\n`
 
   fs.writeFileSync(path.join(clientDir, 'sitemap.xml'), xml, 'utf-8')
 
-  console.log(`✓ sitemap: ${urls.length} URL`)
+  const dated = urls.filter((route) => getRouteMeta(route).updated).length
+
+  console.log(`✓ sitemap: ${urls.length} URL (${dated} con lastmod)`)
 }

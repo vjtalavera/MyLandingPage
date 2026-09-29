@@ -1,8 +1,14 @@
 import { Link } from 'react-router-dom'
 import Breadcrumbs from '../components/Breadcrumbs'
+import ContentSections from '../components/ContentSections'
+import Faq from '../components/Faq'
+import PageToc from '../components/PageToc'
 import { services } from '../data/catalog'
+import { indexContent } from '../data/content/indices'
 
 export default function ServiciosIndex() {
+  const content = indexContent['/servicios/']
+
   return (
     <>
       <section className="service-hero">
@@ -24,11 +30,15 @@ export default function ServiciosIndex() {
             siempre es el mismo: mirar el código y las dependencias antes de
             proponer nada.
           </p>
+
+          {content.sections ? <PageToc blocks={content.sections} /> : null}
         </div>
       </section>
 
       <section className="section">
         <div className="container">
+          <h2>Los cuatro servicios</h2>
+
           <div className="cards four">
             {services.map((entry, position) => (
               <article
@@ -39,7 +49,7 @@ export default function ServiciosIndex() {
                   {String(position + 1).padStart(2, '0')}
                 </span>
 
-                <h2>{entry.navLabel}</h2>
+                <h3>{entry.navLabel}</h3>
 
                 <p>{entry.cardText}</p>
 
@@ -57,6 +67,12 @@ export default function ServiciosIndex() {
           </div>
         </div>
       </section>
+
+      {content.sections ? <ContentSections blocks={content.sections} /> : null}
+
+      {content.faq ? (
+        <Faq items={content.faq} id="faq-servicios" title={content.faqTitle} />
+      ) : null}
     </>
   )
 }

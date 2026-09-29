@@ -28,7 +28,9 @@ export interface QuestionAndAnswer {
 export interface TableRow {
   /** Lo que identifica la fila: la versión, el servidor, el framework. */
   header: string
-  cells: string[]
+  /** Admiten enlaces internos: en las tablas de las páginas índice, la última
+   *  columna lleva al detalle. */
+  cells: RichText[]
 }
 
 /** Un error concreto, su causa y qué se hace con él. */

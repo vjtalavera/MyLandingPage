@@ -16,6 +16,11 @@ import JavaLegacy from './pages/retos/JavaLegacy'
 import MigracionSpringBoot from './pages/retos/MigracionSpringBoot'
 import ActualizacionJava from './pages/retos/ActualizacionJava'
 
+import GuiasIndex from './pages/guias/GuiasIndex'
+import ErroresJava8A17 from './pages/guias/ErroresJava8A17'
+import InventarioDependencias from './pages/guias/InventarioDependencias'
+import JavaxAJakartaOpenrewrite from './pages/guias/JavaxAJakartaOpenrewrite'
+
 import AvisoLegal from './pages/legal/AvisoLegal'
 import Privacidad from './pages/legal/Privacidad'
 import Cookies from './pages/legal/Cookies'
@@ -69,6 +74,23 @@ export default function AppRoutes() {
         <Route
           path="/retos/actualizacion-java/"
           element={<ActualizacionJava />}
+        />
+
+        <Route path="/guias/" element={<GuiasIndex />} />
+
+        <Route
+          path="/guias/errores-al-pasar-de-java-8-a-java-17/"
+          element={<ErroresJava8A17 />}
+        />
+
+        <Route
+          path="/guias/inventario-de-dependencias-antes-de-migrar/"
+          element={<InventarioDependencias />}
+        />
+
+        <Route
+          path="/guias/javax-a-jakarta-con-openrewrite/"
+          element={<JavaxAJakartaOpenrewrite />}
         />
 
         <Route path="/aviso-legal/" element={<AvisoLegal />} />

@@ -8,6 +8,8 @@
  */
 
 import { contentBySlug } from './content/index.ts'
+import { indexContent } from './content/indices.ts'
+import { guides } from './guides.ts'
 import { internalLinksOf, plainTextOf } from './contentTypes.ts'
 import type {
   ContentBlock,
@@ -50,6 +52,15 @@ export interface CatalogEntry {
   seoDescription: string
   related: CrossLink[]
   featured?: boolean
+
+  /*
+   * Fechas en formato YYYY-MM-DD. Se mantienen A MANO y a propósito: alimentan
+   * el `dateModified` del JSON-LD y el `<lastmod>` del sitemap, y una fecha
+   * que cambia sola en cada despliegue es una fecha que los buscadores
+   * aprenden a ignorar para el sitemap entero.
+   */
+  published: string
+  updated: string
 
   /*
    * Cuerpo largo de la página. Vive en `src/data/content/<slug>.ts` y lo
@@ -116,6 +127,8 @@ const serviceEntries: CatalogEntry[] = [
     relatedTitle: 'Si antes de construir hay que desbloquear algo',
     ctaTitle: '¿Qué necesitáis construir?',
     ctaBody: 'Cuéntame qué hay montado y qué falta. Si el encargo no encaja con lo que hago, te lo digo en la primera llamada.',
+    published: '2026-09-28',
+    updated: '2026-09-29',
     related: [
       {
         slug: 'actualizacion-java',
@@ -168,6 +181,8 @@ const serviceEntries: CatalogEntry[] = [
     relatedTitle: 'Si lo que hay que mover es lo que ya existe',
     ctaTitle: '¿Servicio nuevo o evolución de lo que hay?',
     ctaBody: 'Dime qué sistemas tiene que tocar y con qué convive. Con eso se puede plantear si conviene convivencia o migración.',
+    published: '2026-09-28',
+    updated: '2026-09-29',
     related: [
       {
         slug: 'migracion-spring-boot',
@@ -219,6 +234,8 @@ const serviceEntries: CatalogEntry[] = [
     relatedTitle: 'Con qué suele ir acompañado este trabajo',
     ctaTitle: '¿API nueva o una que ya tiene consumidores?',
     ctaBody: 'Cuéntame quién la consume hoy y qué necesitáis cambiar. El margen de maniobra lo marcan los consumidores, así que es lo primero que se mira.',
+    published: '2026-09-28',
+    updated: '2026-09-29',
     related: [
       { slug: 'migracion-spring-boot' },
       { slug: 'spring-boot' },
@@ -272,6 +289,8 @@ const serviceEntries: CatalogEntry[] = [
     relatedTitle: 'Los retos concretos que hay detrás',
     ctaTitle: '¿Empezamos por el análisis?',
     ctaBody: 'Media hora de llamada para ver qué hay: versión de Java, framework, servidor y qué os está bloqueando. Al colgar sabréis si puedo ayudaros, y si la respuesta es no, os lo diré.',
+    published: '2026-09-28',
+    updated: '2026-09-29',
     related: [
       {
         slug: 'migracion-java-legacy',
@@ -331,6 +350,8 @@ const retoEntries: CatalogEntry[] = [
     relatedTitle: 'Lo que suele venir con esta migración',
     ctaTitle: '¿Tenéis una aplicación Java EE que hay que mover?',
     ctaBody: 'Cuéntame qué servidor usáis y qué dependencias os preocupan. El inventario de compatibilidad es lo primero que se hace, y es lo que dice si esto son semanas o meses.',
+    published: '2026-09-28',
+    updated: '2026-09-29',
     related: [
       {
         slug: 'modernizacion-java',
@@ -385,6 +406,8 @@ const retoEntries: CatalogEntry[] = [
     relatedTitle: 'Cómo se pasa del diagnóstico a la ejecución',
     ctaTitle: '¿Tenéis una aplicación que nadie quiere tocar?',
     ctaBody: 'Cuéntame qué hace, cuántos años tiene y qué es lo que más duele hoy. El análisis inicial sirve para responder con datos en vez de con suposiciones.',
+    published: '2026-09-28',
+    updated: '2026-09-29',
     related: [
       {
         slug: 'modernizacion-java',
@@ -440,6 +463,8 @@ const retoEntries: CatalogEntry[] = [
     relatedTitle: 'Los dos pasos que acompañan a esta migración',
     ctaTitle: '¿En qué versión de Spring estáis?',
     ctaBody: 'Dime la versión actual, la de Java y qué dependencias no se pueden tocar. Con eso se ve si el camino es un salto directo o dos fases.',
+    published: '2026-09-28',
+    updated: '2026-09-29',
     related: [
       { slug: 'spring-boot', anchor: 'Servicio de desarrollo con Spring Boot' },
       { slug: 'apis-rest' },
@@ -492,6 +517,8 @@ const retoEntries: CatalogEntry[] = [
     relatedTitle: 'Antes y después de subir la versión',
     ctaTitle: '¿En qué versión de Java está tu aplicación?',
     ctaBody: 'Cuéntame la versión actual, el servidor de aplicaciones y qué os está bloqueando. Con eso se puede decir si el salto es de semanas o de meses.',
+    published: '2026-09-28',
+    updated: '2026-09-29',
     related: [
       {
         slug: 'modernizacion-java',
@@ -552,6 +579,8 @@ export const allPaths: string[] = [
   ...services.map((entry) => entry.path),
   '/retos/',
   ...retos.map((entry) => entry.path),
+  '/guias/',
+  ...guides.map((guide) => guide.path),
   '/aviso-legal/',
   '/privacidad/',
   '/cookies/',
@@ -645,7 +674,10 @@ export function assertCatalogIntegrity(strict = false): void {
   const problems: string[] = []
   const warnings: string[] = []
 
-  const duplicatedTitles = duplicatesOf(catalog.map((entry) => entry.title))
+  const duplicatedTitles = duplicatesOf([
+    ...catalog.map((entry) => entry.title),
+    ...guides.map((guide) => guide.title),
+  ])
 
   if (duplicatedTitles.length > 0) {
     problems.push(`H1 duplicados: ${duplicatedTitles.join(', ')}`)
@@ -722,6 +754,104 @@ export function assertCatalogIntegrity(strict = false): void {
 
     if (blocks.length > 0 && words < MIN_WORDS) {
       warnings.push(`${entry.slug}: ${words} palabras, por debajo de ${MIN_WORDS}`)
+    }
+  }
+
+  for (const [path, content] of Object.entries(indexContent)) {
+    const blocks = content.sections ?? []
+
+    const duplicatedAnchors = blocks
+      .map((block) => block.id)
+      .filter((id, position, all) => all.indexOf(id) !== position)
+
+    if (duplicatedAnchors.length > 0) {
+      problems.push(
+        `${path}: anclas repetidas en la página: ${duplicatedAnchors.join(', ')}`,
+      )
+    }
+
+    // Las tarjetas de estas páginas pintan el navLabel como encabezado, así
+    // que cuentan: un bloque nuevo no puede llamarse igual que un servicio.
+    const cardHeadings = (path === '/servicios/' ? services : retos).map(
+      (entry) => entry.navLabel,
+    )
+
+    const duplicatedHeadings = duplicatesOf([
+      ...blocks.map((block) => block.heading),
+      ...cardHeadings,
+      ...(content.faqTitle ? [content.faqTitle] : []),
+    ])
+
+    if (duplicatedHeadings.length > 0) {
+      problems.push(
+        `${path}: encabezados repetidos: ${duplicatedHeadings.join(', ')}`,
+      )
+    }
+
+    const rich = [
+      ...blocks.flatMap(richTextsOf),
+      ...content.faq.flatMap((item) => [item.question, item.answer]),
+    ]
+
+    const broken = [
+      ...new Set(
+        rich.flatMap(internalLinksOf).filter((to) => !allPaths.includes(to)),
+      ),
+    ]
+
+    if (broken.length > 0) {
+      problems.push(
+        `${path}: enlaces internos a rutas inexistentes: ${broken.join(', ')}`,
+      )
+    }
+  }
+
+  for (const guide of guides) {
+    const duplicatedAnchors = guide.sections
+      .map((block) => block.id)
+      .filter((id, position, all) => all.indexOf(id) !== position)
+
+    if (duplicatedAnchors.length > 0) {
+      problems.push(
+        `${guide.slug}: anclas repetidas en la página: ${duplicatedAnchors.join(', ')}`,
+      )
+    }
+
+    const duplicatedHeadings = duplicatesOf(
+      guide.sections.map((block) => block.heading),
+    )
+
+    if (duplicatedHeadings.length > 0) {
+      problems.push(
+        `${guide.slug}: H2 repetidos en la página: ${duplicatedHeadings.join(', ')}`,
+      )
+    }
+
+    const rich = [
+      ...guide.sections.flatMap(richTextsOf),
+      ...guide.faq.flatMap((item) => [item.question, item.answer]),
+    ]
+
+    const broken = [
+      ...new Set(
+        rich.flatMap(internalLinksOf).filter((to) => !allPaths.includes(to)),
+      ),
+    ]
+
+    if (broken.length > 0) {
+      problems.push(
+        `${guide.slug}: enlaces internos a rutas inexistentes: ${broken.join(', ')}`,
+      )
+    }
+  }
+
+  const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/
+
+  for (const entry of catalog) {
+    if (!ISO_DATE.test(entry.published) || !ISO_DATE.test(entry.updated)) {
+      problems.push(`${entry.slug}: fechas fuera del formato YYYY-MM-DD`)
+    } else if (entry.updated < entry.published) {
+      problems.push(`${entry.slug}: updated es anterior a published`)
     }
   }
 

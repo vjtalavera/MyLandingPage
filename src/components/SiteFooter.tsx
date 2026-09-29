@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import { retos, services } from '../data/catalog'
+import { guides } from '../data/guides'
 
 export default function SiteFooter() {
   // El HTML prerenderizado lleva el año del build y el navegador pinta el
@@ -35,6 +36,18 @@ export default function SiteFooter() {
               {retos.map((entry) => (
                 <li key={entry.slug}>
                   <Link to={entry.path}>{entry.navLabel}</Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
+
+          <nav aria-labelledby="footer-guias">
+            <h2 id="footer-guias">Guías</h2>
+
+            <ul>
+              {guides.map((guide) => (
+                <li key={guide.slug}>
+                  <Link to={guide.path}>{guide.navLabel}</Link>
                 </li>
               ))}
             </ul>

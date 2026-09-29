@@ -32,6 +32,13 @@ export default function Privacidad() {
                         del mensaje.
                     </p>
 
+                    <p>
+                        El formulario incluye además un campo de teléfono de carácter
+                        opcional, que se trata únicamente para responder por esa vía
+                        si la persona interesada lo prefiere. Dejarlo en blanco no
+                        impide el envío del mensaje.
+                    </p>
+
                     <h2>3. Finalidad</h2>
 
                     <p>

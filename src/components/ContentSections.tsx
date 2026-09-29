@@ -73,7 +73,9 @@ function BlockBody({ block }: { block: ContentBlock }) {
                     <th scope="row">{row.header}</th>
 
                     {row.cells.map((cell, position) => (
-                      <td key={position}>{cell}</td>
+                      <td key={position}>
+                        <Inline value={cell} />
+                      </td>
                     ))}
                   </tr>
                 ))}

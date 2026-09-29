@@ -1,8 +1,14 @@
 import { Link } from 'react-router-dom'
 import Breadcrumbs from '../../components/Breadcrumbs'
+import ContentSections from '../../components/ContentSections'
+import Faq from '../../components/Faq'
+import PageToc from '../../components/PageToc'
 import { retos } from '../../data/catalog'
+import { indexContent } from '../../data/content/indices'
 
 export default function RetosIndex() {
+  const content = indexContent['/retos/']
+
   return (
     <>
       <section className="service-hero challenge-hero">
@@ -24,17 +30,21 @@ export default function RetosIndex() {
             que buscas es quién lo ejecute, están los{' '}
             <Link to="/servicios/">servicios</Link>.
           </p>
+
+          {content.sections ? <PageToc blocks={content.sections} /> : null}
         </div>
       </section>
 
       <section className="section">
         <div className="container">
+          <h2>Los cuatro retos</h2>
+
           <div className="challenge-grid">
             {retos.map((entry) => (
               <Link className="challenge-card" to={entry.path} key={entry.slug}>
                 <span>{entry.eyebrow}</span>
 
-                <h2>{entry.navLabel}</h2>
+                <h3>{entry.navLabel}</h3>
 
                 <p>{entry.cardText}</p>
 
@@ -52,6 +62,12 @@ export default function RetosIndex() {
           </div>
         </div>
       </section>
+
+      {content.sections ? <ContentSections blocks={content.sections} /> : null}
+
+      {content.faq ? (
+        <Faq items={content.faq} id="faq-retos" title={content.faqTitle} />
+      ) : null}
     </>
   )
 }

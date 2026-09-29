@@ -1,5 +1,9 @@
 import { Link } from 'react-router-dom'
 import Breadcrumbs from '../components/Breadcrumbs'
+import ContentSections from '../components/ContentSections'
+import Faq from '../components/Faq'
+import PageToc from '../components/PageToc'
+import { Paragraphs } from '../components/Prose'
 import RelatedLinks from '../components/RelatedLinks'
 import type { CatalogEntry } from '../data/catalog'
 
@@ -30,6 +34,8 @@ export default function ServicePage({ entry }: { entry: CatalogEntry }) {
           <Link className="button primary" to="/#contacto">
             {entry.ctaText}
           </Link>
+
+          {entry.sections ? <PageToc blocks={entry.sections} /> : null}
         </div>
       </section>
 
@@ -40,16 +46,18 @@ export default function ServicePage({ entry }: { entry: CatalogEntry }) {
 
             <h2>{entry.problemTitle}</h2>
 
-            {entry.problemBody.map((paragraph) => (
-              <p key={paragraph}>{paragraph}</p>
-            ))}
+            <Paragraphs value={entry.problemBody} />
           </div>
 
-          <ul className="service-list">
-            {entry.bullets.map((bullet) => (
-              <li key={bullet}>{bullet}</li>
-            ))}
-          </ul>
+          <div>
+            <h2>{entry.bulletsTitle ?? 'Qué incluye el servicio'}</h2>
+
+            <ul className="service-list">
+              {entry.bullets.map((bullet) => (
+                <li key={bullet}>{bullet}</li>
+              ))}
+            </ul>
+          </div>
         </div>
       </section>
 
@@ -57,7 +65,7 @@ export default function ServicePage({ entry }: { entry: CatalogEntry }) {
         <div className="container">
           <p className="eyebrow">Tecnologías</p>
 
-          <h2>Tecnologías relacionadas</h2>
+          <h2>{entry.technologiesTitle ?? 'Tecnologías relacionadas'}</h2>
 
           <ul className="tech-list">
             {entry.technologies.map((technology) => (
@@ -67,17 +75,27 @@ export default function ServicePage({ entry }: { entry: CatalogEntry }) {
         </div>
       </section>
 
-      <RelatedLinks entry={entry} />
+      {entry.sections ? <ContentSections blocks={entry.sections} /> : null}
+
+      {entry.faq ? (
+        <Faq
+          items={entry.faq}
+          id={`faq-${entry.slug}`}
+          title={entry.faqTitle ?? 'Preguntas frecuentes sobre este servicio'}
+        />
+      ) : null}
+
+      <RelatedLinks entry={entry} title={entry.relatedTitle} />
 
       <section className="service-cta section">
         <div className="container">
           <p className="eyebrow">JavaEvolve</p>
 
-          <h2>¿Quieres analizar tu caso?</h2>
+          <h2>{entry.ctaTitle ?? '¿Quieres analizar tu caso?'}</h2>
 
           <p>
-            Cada aplicación tiene un contexto diferente. Explícame brevemente
-            qué necesitas y te digo si puedo ayudarte y cómo.
+            {entry.ctaBody ??
+              'Cada aplicación tiene un contexto diferente. Explícame brevemente qué necesitas y te digo si puedo ayudarte y cómo.'}
           </p>
 
           <Link className="button primary" to="/#contacto">

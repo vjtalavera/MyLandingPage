@@ -7,7 +7,7 @@
  * tocar el DOM, importar React ni usar `import.meta.env`.
  */
 
-import { catalog, SITE_URL } from '../data/catalog.ts'
+import { catalog, retos, services, SITE_URL } from '../data/catalog.ts'
 import type { CatalogEntry } from '../data/catalog.ts'
 
 export { SITE_URL }
@@ -15,6 +15,25 @@ export const SITE_NAME = 'JavaEvolve'
 
 /** Marca las etiquetas del <head> gestionadas por este módulo. */
 export const MANAGED_ATTR = 'data-seo'
+
+/*
+ * Nodos con @id, para que el resto del grafo los referencie en vez de
+ * repetirlos. Dos descripciones sueltas de la misma marca compiten entre sí
+ * como entidades distintas.
+ */
+export const ORGANIZATION_ID = `${SITE_URL}/#organization`
+export const WEBSITE_ID = `${SITE_URL}/#website`
+
+/**
+ * Perfiles públicos de la MARCA, para `sameAs`.
+ *
+ * Nunca perfiles personales ni GitHub: el titular no aparece. Mientras esté
+ * vacío no se emite el campo, porque un `sameAs: []` es peor que no declarar
+ * nada.
+ */
+const SAME_AS: string[] = [
+  // 'https://www.linkedin.com/company/javaevolve/',
+]
 
 export interface RouteMeta {
   title: string
@@ -39,19 +58,45 @@ function serviceSchema(entry: CatalogEntry): Record<string, unknown> {
     '@type': 'Service',
     name: entry.title,
     description: entry.seoDescription,
-    provider: {
-      '@type': 'ProfessionalService',
-      name: SITE_NAME,
-      url: `${SITE_URL}/`,
-    },
+    provider: { '@id': ORGANIZATION_ID },
+    isPartOf: { '@id': WEBSITE_ID },
     url: `${SITE_URL}${entry.path}`,
+    mainEntityOfPage: `${SITE_URL}${entry.path}`,
     areaServed: 'ES',
   }
 }
 
-const homeSchema: Record<string, unknown> = {
+/** ItemList de una página índice. El orden es el que ve quien la lee. */
+function itemListSchema(
+  entries: CatalogEntry[],
+  name: string,
+  path: string,
+): Record<string, unknown> {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name,
+    url: `${SITE_URL}${path}`,
+    numberOfItems: entries.length,
+    itemListOrder: 'https://schema.org/ItemListOrderAscending',
+    itemListElement: entries.map((entry, position) => ({
+      '@type': 'ListItem',
+      position: position + 1,
+      url: `${SITE_URL}${entry.path}`,
+      name: entry.title,
+    })),
+  }
+}
+
+/**
+ * La marca es un único nodo: `Organization` y `ProfessionalService` a la vez.
+ * Declararlas por separado crearía dos entidades compitiendo por el mismo
+ * nombre.
+ */
+const organizationSchema: Record<string, unknown> = {
   '@context': 'https://schema.org',
-  '@type': 'ProfessionalService',
+  '@type': ['Organization', 'ProfessionalService'],
+  '@id': ORGANIZATION_ID,
   name: SITE_NAME,
   url: `${SITE_URL}/`,
   description:
@@ -59,6 +104,7 @@ const homeSchema: Record<string, unknown> = {
   email: 'contacto@javaevolve.com',
   areaServed: 'ES',
   availableLanguage: 'es',
+  knowsLanguage: 'es',
   serviceType: [
     'Desarrollo Java',
     'Desarrollo Backend',
@@ -66,6 +112,19 @@ const homeSchema: Record<string, unknown> = {
     'APIs REST',
     'Modernización de aplicaciones Java',
   ],
+  ...(SAME_AS.length > 0 ? { sameAs: SAME_AS } : {}),
+}
+
+// Sin `potentialAction: SearchAction`: el sitio no tiene buscador y
+// declararlo sería describir algo que no existe.
+const webSiteSchema: Record<string, unknown> = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  '@id': WEBSITE_ID,
+  url: `${SITE_URL}/`,
+  name: SITE_NAME,
+  inLanguage: 'es-ES',
+  publisher: { '@id': ORGANIZATION_ID },
 }
 
 const staticRoutes: Record<string, RouteMeta> = {
@@ -74,19 +133,25 @@ const staticRoutes: Record<string, RouteMeta> = {
     description:
       'JavaEvolve ofrece desarrollo backend Java, Spring Boot, APIs REST y modernización de aplicaciones Java empresariales.',
     path: '/',
-    jsonLd: [homeSchema],
+    jsonLd: [organizationSchema, webSiteSchema],
   },
   '/servicios/': {
     title: 'Servicios de desarrollo Java | JavaEvolve',
     description:
       'Servicios de desarrollo backend Java: Spring Boot, APIs REST, evolución de aplicaciones existentes y modernización de sistemas legacy.',
     path: '/servicios/',
+    jsonLd: [
+      itemListSchema(services, 'Servicios de desarrollo Java', '/servicios/'),
+    ],
   },
   '/retos/': {
     title: 'Retos técnicos en aplicaciones Java | JavaEvolve',
     description:
       'Migración de Java EE a Jakarta EE, actualización de versiones de Java, evolución hacia Spring Boot y modernización de aplicaciones legacy.',
     path: '/retos/',
+    jsonLd: [
+      itemListSchema(retos, 'Retos técnicos en aplicaciones Java', '/retos/'),
+    ],
   },
   '/aviso-legal/': {
     title: 'Aviso legal | JavaEvolve',

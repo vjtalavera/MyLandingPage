@@ -7,6 +7,14 @@
  * los metadatos de `src/seo/routeMeta.ts` y al sitemap.
  */
 
+import { contentBySlug } from './content/index.ts'
+import { internalLinksOf, plainTextOf } from './contentTypes.ts'
+import type {
+  ContentBlock,
+  QuestionAndAnswer,
+  RichText,
+} from './contentTypes.ts'
+
 export const SITE_URL = 'https://javaevolve.com'
 
 export type EntryKind = 'servicio' | 'reto'
@@ -33,7 +41,7 @@ export interface CatalogEntry {
   /** Párrafo bajo el H1. */
   intro: string
   problemTitle: string
-  problemBody: string[]
+  problemBody: RichText[]
   /** Servicios prestados (servicio) o áreas a analizar (reto). */
   bullets: string[]
   technologies: string[]
@@ -42,9 +50,28 @@ export interface CatalogEntry {
   seoDescription: string
   related: CrossLink[]
   featured?: boolean
+
+  /*
+   * Cuerpo largo de la página. Vive en `src/data/content/<slug>.ts` y lo
+   * fusiona `withContent()`: no se escribe en los literales de aquí.
+   */
+  sections?: ContentBlock[]
+  faq?: QuestionAndAnswer[]
+
+  /*
+   * Encabezados de las secciones que pinta la plantilla. Existen para que
+   * cuatro páginas no compartan el mismo H2 palabra por palabra; si se
+   * omiten, la plantilla usa su texto genérico de siempre.
+   */
+  bulletsTitle?: string
+  technologiesTitle?: string
+  relatedTitle?: string
+  faqTitle?: string
+  ctaTitle?: string
+  ctaBody?: string
 }
 
-export const services: CatalogEntry[] = [
+const serviceEntries: CatalogEntry[] = [
   {
     slug: 'desarrollo-java',
     kind: 'servicio',
@@ -84,6 +111,11 @@ export const services: CatalogEntry[] = [
     seoTitle: 'Desarrollo Java | JavaEvolve',
     seoDescription:
       'Desarrollo backend Java para aplicaciones empresariales, nuevas funcionalidades, mantenimiento y evolución de sistemas existentes.',
+    bulletsTitle: 'Qué tipo de trabajo cubre',
+    technologiesTitle: 'Con qué se trabaja en el día a día',
+    relatedTitle: 'Si antes de construir hay que desbloquear algo',
+    ctaTitle: '¿Qué necesitáis construir?',
+    ctaBody: 'Cuéntame qué hay montado y qué falta. Si el encargo no encaja con lo que hago, te lo digo en la primera llamada.',
     related: [
       {
         slug: 'actualizacion-java',
@@ -131,6 +163,11 @@ export const services: CatalogEntry[] = [
     seoTitle: 'Desarrollo Spring Boot | JavaEvolve',
     seoDescription:
       'Desarrollo backend con Spring Boot y Spring Framework para servicios, APIs REST y aplicaciones empresariales.',
+    bulletsTitle: 'Qué incluye un desarrollo con Spring Boot',
+    technologiesTitle: 'El stack habitual de estos proyectos',
+    relatedTitle: 'Si lo que hay que mover es lo que ya existe',
+    ctaTitle: '¿Servicio nuevo o evolución de lo que hay?',
+    ctaBody: 'Dime qué sistemas tiene que tocar y con qué convive. Con eso se puede plantear si conviene convivencia o migración.',
     related: [
       {
         slug: 'migracion-spring-boot',
@@ -177,6 +214,11 @@ export const services: CatalogEntry[] = [
     seoTitle: 'Desarrollo de APIs REST con Java | JavaEvolve',
     seoDescription:
       'Diseño y desarrollo de APIs REST con Java para integrar aplicaciones, servicios y sistemas empresariales.',
+    bulletsTitle: 'Qué cubre el trabajo sobre una API',
+    technologiesTitle: 'Tecnologías implicadas en la integración',
+    relatedTitle: 'Con qué suele ir acompañado este trabajo',
+    ctaTitle: '¿API nueva o una que ya tiene consumidores?',
+    ctaBody: 'Cuéntame quién la consume hoy y qué necesitáis cambiar. El margen de maniobra lo marcan los consumidores, así que es lo primero que se mira.',
     related: [
       { slug: 'migracion-spring-boot' },
       { slug: 'spring-boot' },
@@ -225,6 +267,11 @@ export const services: CatalogEntry[] = [
     seoTitle: 'Modernización de aplicaciones Java | JavaEvolve',
     seoDescription:
       'Servicio de modernización progresiva de aplicaciones Java: análisis, plan por fases y ejecución. Java EE a Jakarta EE, subida de versión y migración a Spring Boot.',
+    bulletsTitle: 'Qué trabajos cubre el servicio',
+    technologiesTitle: 'Tecnologías sobre las que se trabaja',
+    relatedTitle: 'Los retos concretos que hay detrás',
+    ctaTitle: '¿Empezamos por el análisis?',
+    ctaBody: 'Media hora de llamada para ver qué hay: versión de Java, framework, servidor y qué os está bloqueando. Al colgar sabréis si puedo ayudaros, y si la respuesta es no, os lo diré.',
     related: [
       {
         slug: 'migracion-java-legacy',
@@ -238,7 +285,7 @@ export const services: CatalogEntry[] = [
   },
 ]
 
-export const retos: CatalogEntry[] = [
+const retoEntries: CatalogEntry[] = [
   {
     slug: 'migracion-java-ee-jakarta-ee',
     kind: 'reto',
@@ -279,6 +326,11 @@ export const retos: CatalogEntry[] = [
     seoTitle: 'Migración Java EE a Jakarta EE | JavaEvolve',
     seoDescription:
       'Migración de aplicaciones Java EE a Jakarta EE, análisis de dependencias, compatibilidad, servidores y evolución de aplicaciones empresariales.',
+    bulletsTitle: 'Qué se revisa antes de cambiar el espacio de nombres',
+    technologiesTitle: 'El ecosistema afectado por el salto a Jakarta EE',
+    relatedTitle: 'Lo que suele venir con esta migración',
+    ctaTitle: '¿Tenéis una aplicación Java EE que hay que mover?',
+    ctaBody: 'Cuéntame qué servidor usáis y qué dependencias os preocupan. El inventario de compatibilidad es lo primero que se hace, y es lo que dice si esto son semanas o meses.',
     related: [
       {
         slug: 'modernizacion-java',
@@ -328,6 +380,11 @@ export const retos: CatalogEntry[] = [
     seoTitle: 'Modernizar una aplicación Java legacy: qué implica | JavaEvolve',
     seoDescription:
       'Qué se analiza antes de modernizar una aplicación Java legacy: inventario de dependencias, incompatibilidades, riesgos y por dónde empezar.',
+    bulletsTitle: 'Qué se mira para saber por dónde empezar',
+    technologiesTitle: 'Dónde suele acumularse la deuda técnica',
+    relatedTitle: 'Cómo se pasa del diagnóstico a la ejecución',
+    ctaTitle: '¿Tenéis una aplicación que nadie quiere tocar?',
+    ctaBody: 'Cuéntame qué hace, cuántos años tiene y qué es lo que más duele hoy. El análisis inicial sirve para responder con datos en vez de con suposiciones.',
     related: [
       {
         slug: 'modernizacion-java',
@@ -378,6 +435,11 @@ export const retos: CatalogEntry[] = [
     seoTitle: 'Migración a Spring Boot | JavaEvolve',
     seoDescription:
       'Migración y evolución de aplicaciones Java hacia Spring Boot, desarrollo backend, APIs REST y modernización progresiva.',
+    bulletsTitle: 'Qué se mira antes de mover la aplicación a Spring Boot',
+    technologiesTitle: 'Versiones y piezas implicadas en el salto',
+    relatedTitle: 'Los dos pasos que acompañan a esta migración',
+    ctaTitle: '¿En qué versión de Spring estáis?',
+    ctaBody: 'Dime la versión actual, la de Java y qué dependencias no se pueden tocar. Con eso se ve si el camino es un salto directo o dos fases.',
     related: [
       { slug: 'spring-boot', anchor: 'Servicio de desarrollo con Spring Boot' },
       { slug: 'apis-rest' },
@@ -425,6 +487,11 @@ export const retos: CatalogEntry[] = [
     seoTitle: 'Actualización de versiones Java | JavaEvolve',
     seoDescription:
       'Actualización de versiones Java para aplicaciones empresariales, análisis de compatibilidad, dependencias, frameworks y servidores.',
+    bulletsTitle: 'Qué entra en el análisis de compatibilidad',
+    technologiesTitle: 'Las piezas del stack que condicionan la versión de Java',
+    relatedTitle: 'Antes y después de subir la versión',
+    ctaTitle: '¿En qué versión de Java está tu aplicación?',
+    ctaBody: 'Cuéntame la versión actual, el servidor de aplicaciones y qué os está bloqueando. Con eso se puede decir si el salto es de semanas o de meses.',
     related: [
       {
         slug: 'modernizacion-java',
@@ -435,6 +502,19 @@ export const retos: CatalogEntry[] = [
     ],
   },
 ]
+
+/**
+ * Engancha a cada entrada su contenido largo. Se hace aquí y no en cada
+ * literal para que no se pueda añadir un fichero a `content/` y olvidarse.
+ */
+function withContent(entry: CatalogEntry): CatalogEntry {
+  const extra = contentBySlug[entry.slug]
+
+  return extra ? { ...entry, ...extra } : entry
+}
+
+export const services: CatalogEntry[] = serviceEntries.map(withContent)
+export const retos: CatalogEntry[] = retoEntries.map(withContent)
 
 export const catalog: CatalogEntry[] = [...services, ...retos]
 
@@ -477,38 +557,208 @@ export const allPaths: string[] = [
   '/cookies/',
 ]
 
+/** Texto rico de un bloque: para contar palabras y validar sus enlaces. */
+function richTextsOf(block: ContentBlock): RichText[] {
+  const base: RichText[] = [block.heading, ...(block.intro ? [block.intro] : [])]
+
+  switch (block.type) {
+    case 'prose':
+      return [...base, ...block.body]
+
+    case 'table':
+      return [
+        ...base,
+        block.caption,
+        ...block.columns,
+        ...block.rows.flatMap((row) => [row.header, ...row.cells]),
+        ...(block.note ? [block.note] : []),
+      ]
+
+    case 'errors':
+      return [
+        ...base,
+        ...block.items.flatMap((item) => [item.signature, item.cause, item.fix]),
+      ]
+
+    case 'steps':
+      return [...base, ...block.items.flatMap((item) => [item.title, item.body])]
+
+    case 'checklist':
+      return [...base, ...block.items, ...(block.outro ? [block.outro] : [])]
+  }
+}
+
+/** Todo el texto propio de una entrada, sin lo que pone la plantilla. */
+function richTextOf(entry: CatalogEntry): RichText[] {
+  return [
+    entry.title,
+    entry.intro,
+    entry.problemTitle,
+    ...entry.problemBody,
+    ...entry.bullets,
+    ...entry.technologies,
+    ...(entry.sections ?? []).flatMap(richTextsOf),
+    ...(entry.faq ?? []).flatMap((item) => [item.question, item.answer]),
+  ]
+}
+
+/** H2 que la plantilla acaba pintando en esa página, en orden de aparición. */
+function headingsOf(entry: CatalogEntry): string[] {
+  return [
+    entry.problemTitle,
+    entry.bulletsTitle,
+    ...(entry.sections ?? []).map((block) => block.heading),
+    entry.technologiesTitle,
+    entry.relatedTitle,
+    entry.faqTitle,
+    entry.ctaTitle,
+  ].filter((heading) => heading !== undefined)
+}
+
+function duplicatesOf(values: string[]): string[] {
+  return [
+    ...new Set(
+      values
+        .map((value) => value.trim().toLowerCase())
+        .filter((value, position, all) => all.indexOf(value) !== position),
+    ),
+  ]
+}
+
+/** Por debajo de esto una página no compite por nada. Solo avisa. */
+const MIN_WORDS = 1000
+
 /**
- * Invariantes del catálogo, para llamar solo en desarrollo desde `main.tsx`.
+ * Invariantes del catálogo. En desarrollo las llama `main.tsx` y solo avisan;
+ * el prerender las llama con `strict` y entonces rompen el build.
  *
  * Un H1 repetido en dos URLs hace que compitan entre sí en los buscadores, y
- * ya pasó una vez con "Modernización de aplicaciones Java Legacy". Este módulo
- * también lo importa Node durante el prerender, así que la comprobación no
- * puede depender de `import.meta.env` ni ejecutarse al importar.
+ * ya pasó una vez con "Modernización de aplicaciones Java Legacy". Con la
+ * copia larga se añade un riesgo peor: un enlace interno mal escrito dentro
+ * de un RichText es un 404 que no ve nadie hasta que lo ve Google.
+ *
+ * Este módulo también lo importa Node durante el prerender, así que la
+ * comprobación no puede depender de `import.meta.env` ni ejecutarse al
+ * importar.
  */
-export function assertCatalogIntegrity(): void {
-  const duplicatedTitles = catalog
-    .map((entry) => entry.title.trim().toLowerCase())
-    .filter((title, position, all) => all.indexOf(title) !== position)
+export function assertCatalogIntegrity(strict = false): void {
+  const problems: string[] = []
+  const warnings: string[] = []
+
+  const duplicatedTitles = duplicatesOf(catalog.map((entry) => entry.title))
+
+  if (duplicatedTitles.length > 0) {
+    problems.push(`H1 duplicados: ${duplicatedTitles.join(', ')}`)
+  }
 
   const duplicatedPaths = catalog
     .map((entry) => entry.path)
     .filter((path, position, all) => all.indexOf(path) !== position)
 
-  const brokenLinks = catalog.flatMap((entry) =>
+  if (duplicatedPaths.length > 0) {
+    problems.push(`rutas duplicadas: ${duplicatedPaths.join(', ')}`)
+  }
+
+  const brokenCrossLinks = catalog.flatMap((entry) =>
     entry.related
       .filter((link) => !index.has(link.slug))
       .map((link) => `${entry.slug} → ${link.slug}`),
   )
 
-  if (duplicatedTitles.length > 0) {
-    console.error('[catalog] H1 duplicados:', duplicatedTitles)
+  if (brokenCrossLinks.length > 0) {
+    problems.push(`enlaces cruzados rotos: ${brokenCrossLinks.join(', ')}`)
   }
 
-  if (duplicatedPaths.length > 0) {
-    console.error('[catalog] rutas duplicadas:', duplicatedPaths)
+  const orphanContent = Object.keys(contentBySlug).filter(
+    (slug) => !index.has(slug),
+  )
+
+  if (orphanContent.length > 0) {
+    problems.push(
+      `contenido sin entrada en el catálogo: ${orphanContent.join(', ')}`,
+    )
   }
 
-  if (brokenLinks.length > 0) {
-    console.error('[catalog] enlaces cruzados rotos:', brokenLinks)
+  for (const entry of catalog) {
+    const blocks = entry.sections ?? []
+
+    const duplicatedAnchors = blocks
+      .map((block) => block.id)
+      .filter((id, position, all) => all.indexOf(id) !== position)
+
+    if (duplicatedAnchors.length > 0) {
+      problems.push(
+        `${entry.slug}: anclas repetidas en la página: ${duplicatedAnchors.join(', ')}`,
+      )
+    }
+
+    const duplicatedHeadings = duplicatesOf(headingsOf(entry))
+
+    if (duplicatedHeadings.length > 0) {
+      problems.push(
+        `${entry.slug}: H2 repetidos en la página: ${duplicatedHeadings.join(', ')}`,
+      )
+    }
+
+    const rich = richTextOf(entry)
+
+    const brokenInternalLinks = [
+      ...new Set(
+        rich.flatMap(internalLinksOf).filter((to) => !allPaths.includes(to)),
+      ),
+    ]
+
+    if (brokenInternalLinks.length > 0) {
+      problems.push(
+        `${entry.slug}: enlaces internos a rutas inexistentes: ${brokenInternalLinks.join(', ')}`,
+      )
+    }
+
+    const words = rich
+      .map(plainTextOf)
+      .join(' ')
+      .split(/\s+/)
+      .filter(Boolean).length
+
+    if (blocks.length > 0 && words < MIN_WORDS) {
+      warnings.push(`${entry.slug}: ${words} palabras, por debajo de ${MIN_WORDS}`)
+    }
   }
+
+  // Los encabezados de las secciones fijas sí tienen que ser únicos entre
+  // páginas; los del CTA no, ahí la repetición es deliberada.
+  const repeatedAcrossPages = duplicatesOf(
+    catalog.flatMap((entry) =>
+      [
+        entry.bulletsTitle,
+        entry.technologiesTitle,
+        entry.relatedTitle,
+        entry.faqTitle,
+      ].filter((heading) => heading !== undefined),
+    ),
+  )
+
+  if (repeatedAcrossPages.length > 0) {
+    problems.push(
+      `H2 de plantilla repetidos entre páginas: ${repeatedAcrossPages.join(', ')}`,
+    )
+  }
+
+  for (const warning of warnings) {
+    console.warn(`[catalog] ${warning}`)
+  }
+
+  if (problems.length === 0) {
+    return
+  }
+
+  const report = problems.map((problem) => `  - ${problem}`).join('\n')
+
+  if (strict) {
+    throw new Error(`Catálogo inconsistente:
+${report}`)
+  }
+
+  console.error(`[catalog] problemas detectados:
+${report}`)
 }

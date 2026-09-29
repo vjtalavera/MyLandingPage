@@ -1064,6 +1064,173 @@ footer {
   margin: var(--space-5) auto var(--space-6);
 }
 
+/* --- Contenido largo de servicios y retos --------------------------------- */
+
+/* El H2 de la columna derecha acompaña a la lista: no debe competir con el
+   titular del problema, que es el que manda en esa sección. */
+.service-content > div:last-child h2 {
+  margin-bottom: var(--space-5);
+  font-size: var(--step-2);
+}
+
+.page-toc {
+  margin-top: var(--space-7);
+  padding: var(--space-5) var(--space-6);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+}
+
+.page-toc ol {
+  display: grid;
+  gap: var(--space-2);
+  margin: 0;
+  padding-left: var(--space-5);
+  font-size: var(--step--1);
+}
+
+.page-toc a {
+  color: var(--ink-2);
+}
+
+.page-toc a:hover {
+  color: var(--brand-text);
+}
+
+.content-section--alt {
+  background: var(--surface-3);
+}
+
+.content-section h2 {
+  max-width: var(--measure);
+  margin-bottom: var(--space-5);
+}
+
+.content-intro {
+  max-width: var(--measure);
+  margin: 0 0 var(--space-6);
+  color: var(--ink-2);
+  font-size: var(--step-1);
+}
+
+.content-paragraph {
+  max-width: var(--measure);
+  margin: 0 0 var(--space-5);
+  color: var(--ink-2);
+}
+
+.content-paragraph:last-child {
+  margin-bottom: 0;
+}
+
+/* Matrices de compatibilidad. El scroll horizontal es la única salida real
+   en móvil: partir una tabla de versiones la vuelve ilegible. */
+.table-scroll {
+  overflow-x: auto;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+}
+
+.content-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--step--1);
+}
+
+.content-table caption {
+  padding: var(--space-4) var(--space-5);
+  border-bottom: 1px solid var(--border);
+  color: var(--ink-3);
+  text-align: left;
+}
+
+.content-table th,
+.content-table td {
+  padding: var(--space-3) var(--space-5);
+  border-bottom: 1px solid var(--border);
+  text-align: left;
+  vertical-align: top;
+}
+
+.content-table thead th {
+  background: var(--surface-3);
+  color: var(--ink);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.content-table tbody th {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.content-table tbody td {
+  color: var(--ink-2);
+}
+
+.content-table tbody tr:last-child th,
+.content-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.content-note {
+  max-width: var(--measure);
+  margin: var(--space-4) 0 0;
+  color: var(--ink-3);
+  font-size: var(--step--1);
+}
+
+.error-list {
+  display: grid;
+  gap: var(--space-5);
+}
+
+.error-card {
+  padding: var(--space-5) var(--space-6);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--brand);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+}
+
+.error-card h3 {
+  margin-bottom: var(--space-4);
+  font-size: var(--step-0);
+}
+
+/* Una traza no tiene espacios donde partirse: sin esto desborda en móvil. */
+.error-card code {
+  overflow-wrap: anywhere;
+}
+
+.error-card p {
+  margin: 0 0 var(--space-3);
+  color: var(--ink-2);
+}
+
+.error-card p:last-child {
+  margin-bottom: 0;
+}
+
+.content-steps {
+  display: grid;
+  gap: var(--space-5);
+  max-width: var(--measure);
+  margin: 0;
+  padding-left: var(--space-6);
+}
+
+.content-steps h3 {
+  margin-bottom: var(--space-2);
+  font-size: var(--step-1);
+}
+
+.content-steps p {
+  margin: 0;
+  color: var(--ink-2);
+}
+
 /* --- Retos --------------------------------------------------------------- */
 
 .challenge-grid {

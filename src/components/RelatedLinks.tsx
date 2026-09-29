@@ -6,8 +6,17 @@ import type { CatalogEntry } from '../data/catalog'
  * Enlaces cruzados al pie de una página de servicio o de reto. El texto del
  * enlace describe el destino (nunca "ver más"), porque es lo que da contexto
  * tanto a quien lee como a quien indexa.
+ *
+ * El encabezado es configurable porque, si no, las ocho páginas del catálogo
+ * comparten literalmente el mismo H2.
  */
-export default function RelatedLinks({ entry }: { entry: CatalogEntry }) {
+export default function RelatedLinks({
+  entry,
+  title = 'Sigue por aquí',
+}: {
+  entry: CatalogEntry
+  title?: string
+}) {
   const items = relatedOf(entry)
 
   if (items.length === 0) {
@@ -19,7 +28,7 @@ export default function RelatedLinks({ entry }: { entry: CatalogEntry }) {
       <div className="container">
         <p className="eyebrow">Relacionado</p>
 
-        <h2>Sigue por aquí</h2>
+        <h2>{title}</h2>
 
         <ul className="related-grid">
           {items.map(({ entry: target, anchor }) => (

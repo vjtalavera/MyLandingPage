@@ -1,6 +1,7 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import { pathToFileURL } from 'node:url'
+import { assertCatalogIntegrity } from '../src/data/catalog.ts'
 import {
   NOT_FOUND_META,
   PRERENDER_ROUTES,
@@ -43,6 +44,10 @@ export async function writePrerenderedPages(root: string): Promise<void> {
   }
 
   assertEveryRouteIsPrerendered(root)
+
+  // En modo estricto: un enlace interno roto dentro de la copia larga es un
+  // 404 que no ve nadie hasta que lo ve un buscador.
+  assertCatalogIntegrity(true)
 
   const entry = pathToFileURL(path.resolve(root, 'dist/ssr/entry-server.js')).href
   const { render } = (await import(/* @vite-ignore */ entry)) as {

@@ -17,7 +17,7 @@ export default function ServiciosIndex() {
 
           <div className="hero-split">
             <div>
-              <p className="eyebrow">Servicios</p>
+              <p className="eyebrow is-lead">Servicios</p>
 
               <h1>Desarrollo y evolución de aplicaciones Java</h1>
 
@@ -44,15 +44,11 @@ export default function ServiciosIndex() {
           <h2>Los cuatro servicios</h2>
 
           <div className="cards four">
-            {services.map((entry, position) => (
+            {services.map((entry) => (
               <article
                 className={`card service-card${entry.featured ? ' featured' : ''}`}
                 key={entry.slug}
               >
-                <span className="service-tag">
-                  {String(position + 1).padStart(2, '0')}
-                </span>
-
                 <h3>{entry.navLabel}</h3>
 
                 <p>{entry.cardText}</p>

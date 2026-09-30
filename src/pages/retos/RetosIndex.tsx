@@ -17,7 +17,7 @@ export default function RetosIndex() {
 
           <div className="hero-split">
             <div>
-              <p className="eyebrow">Retos técnicos</p>
+              <p className="eyebrow is-lead">Retos técnicos</p>
 
               <h1>Los problemas que suelen bloquear un backend Java</h1>
 

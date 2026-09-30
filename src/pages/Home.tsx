@@ -9,7 +9,7 @@ export default function Home() {
       <section id="inicio" className="hero">
         <div className="container hero-grid">
           <div className="hero-content">
-            <p className="eyebrow">Java · Backend · Modernización</p>
+            <p className="eyebrow is-lead">Java · Backend · Modernización</p>
 
             <h1>
               Desarrollo Java y Backend para
@@ -95,7 +95,6 @@ export default function Home() {
 
           <div className="cards three">
             <article className="card">
-              <div className="card-number">01</div>
               <h3>El proveedor original ya no está</h3>
               <p>
                 Nadie del equipo que la construyó sigue en la empresa y la
@@ -105,7 +104,6 @@ export default function Home() {
             </article>
 
             <article className="card">
-              <div className="card-number">02</div>
               <h3>La versión de Java bloquea lo demás</h3>
               <p>
                 Seguís en Java 8 y las librerías que necesitáis ya no publican
@@ -115,7 +113,6 @@ export default function Home() {
             </article>
 
             <article className="card">
-              <div className="card-number">03</div>
               <h3>Cada despliegue es un evento</h3>
               <p>
                 Sale en fin de semana, con plan de vuelta atrás y media
@@ -135,15 +132,11 @@ export default function Home() {
           </div>
 
           <div className="cards four">
-            {services.map((entry, position) => (
+            {services.map((entry) => (
               <article
                 className={`card service-card${entry.featured ? ' featured' : ''}`}
                 key={entry.slug}
               >
-                <span className="service-tag">
-                  {String(position + 1).padStart(2, '0')}
-                </span>
-
                 <h3>{entry.navLabel}</h3>
 
                 <p>{entry.cardText}</p>
@@ -159,7 +152,7 @@ export default function Home() {
         <div className="container">
           <div className="legacy-grid">
             <div>
-              <p className="eyebrow">Modernización</p>
+              <p className="eyebrow is-lead">Modernización</p>
 
               <h2>Modernizar una aplicación Java que no puede pararse</h2>
 
@@ -183,7 +176,6 @@ export default function Home() {
 
             <ol className="topics">
               <li>
-                <b>01</b>
                 <div>
                   <h3>Inventario</h3>
                   <p>
@@ -195,7 +187,6 @@ export default function Home() {
               </li>
 
               <li>
-                <b>02</b>
                 <div>
                   <h3>Matriz de impacto</h3>
                   <p>
@@ -206,7 +197,6 @@ export default function Home() {
               </li>
 
               <li>
-                <b>03</b>
                 <div>
                   <h3>Plan por fases desplegables</h3>
                   <p>
@@ -217,7 +207,6 @@ export default function Home() {
               </li>
 
               <li>
-                <b>04</b>
                 <div>
                   <h3>Verificación</h3>
                   <p>
@@ -269,8 +258,6 @@ export default function Home() {
 
           <div className="tech-blocks">
             <article className="tech-block">
-              <span className="card-number">01</span>
-
               <h3>La plataforma: Java, Java EE y Jakarta EE</h3>
 
               <p>
@@ -302,8 +289,6 @@ export default function Home() {
             </article>
 
             <article className="tech-block">
-              <span className="card-number">02</span>
-
               <h3>Spring y Spring Boot</h3>
 
               <p>
@@ -335,8 +320,6 @@ export default function Home() {
             </article>
 
             <article className="tech-block">
-              <span className="card-number">03</span>
-
               <h3>Persistencia: JPA e Hibernate</h3>
 
               <p>
@@ -370,8 +353,6 @@ export default function Home() {
             </article>
 
             <article className="tech-block">
-              <span className="card-number">04</span>
-
               <h3>Servidores, integración y APIs</h3>
 
               <p>
@@ -416,7 +397,6 @@ export default function Home() {
           <div className="about-grid">
             <ol className="process">
               <li>
-                <span className="card-number">01</span>
                 <h3>Llamada de diagnóstico</h3>
                 <p>
                   Media hora para entender qué hay: versión de Java, framework,
@@ -427,7 +407,6 @@ export default function Home() {
               </li>
 
               <li>
-                <span className="card-number">02</span>
                 <h3>Análisis técnico con alcance cerrado</h3>
                 <p>
                   Inventario de dependencias, incompatibilidades detectadas,
@@ -438,7 +417,6 @@ export default function Home() {
               </li>
 
               <li>
-                <span className="card-number">03</span>
                 <h3>Ejecución por fases que se despliegan</h3>
                 <p>
                   Incrementos que llegan a producción. Cada fase deja la
@@ -448,7 +426,6 @@ export default function Home() {
               </li>
 
               <li>
-                <span className="card-number">04</span>
                 <h3>Traspaso al equipo</h3>
                 <p>
                   Documentación de qué se ha cambiado y por qué, decisiones

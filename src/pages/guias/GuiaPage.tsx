@@ -24,7 +24,7 @@ export default function GuiaPage({ guide }: { guide: GuideEntry }) {
 
           <div className="hero-split">
             <div>
-              <p className="eyebrow">{guide.eyebrow}</p>
+              <p className="eyebrow is-lead">{guide.eyebrow}</p>
 
               <h1>{guide.title}</h1>
 

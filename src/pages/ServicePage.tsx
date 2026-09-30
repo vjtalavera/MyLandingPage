@@ -27,7 +27,7 @@ export default function ServicePage({ entry }: { entry: CatalogEntry }) {
 
           <div className="hero-split">
             <div>
-              <p className="eyebrow">{entry.eyebrow}</p>
+              <p className="eyebrow is-lead">{entry.eyebrow}</p>
 
               <h1>{entry.title}</h1>
 

@@ -9,7 +9,7 @@ export default function GuiasIndex() {
         <div className="container">
           <Breadcrumbs items={[{ label: 'Inicio', to: '/' }, { label: 'Guías' }]} />
 
-          <p className="eyebrow">Guías técnicas</p>
+          <p className="eyebrow is-lead">Guías técnicas</p>
 
           <h1>Procedimientos concretos para migrar sin sorpresas</h1>
 

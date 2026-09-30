@@ -6,7 +6,7 @@ export default function Privacidad() {
         <>
             <section className="legal-page">
                 <div className="container legal-content">
-                    <p className="eyebrow">PROTECCIÓN DE DATOS</p>
+                    <p className="eyebrow is-lead">Protección de datos</p>
 
                     <h1>Política de Privacidad</h1>
 

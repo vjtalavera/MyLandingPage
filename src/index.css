@@ -71,11 +71,24 @@
   --border: #e1e7ef;
   --border-strong: #d5deea;
 
+  /* Planos de página. El hero es un plano propio: ni el fondo del sitio ni la
+     superficie de tarjeta, para que el índice y la tarjeta de código floten
+     sobre él en los dos temas. */
+  --hero-surface: #eef2f8;
+  --grid-line: #e3e9f2;
+
+  /* Hilos sobre fondo permanentemente oscuro (bloque legacy, pie, code-card).
+     No se invierten con el tema porque su fondo tampoco se invierte. */
+  --hairline-on-dark: rgba(255, 255, 255, 0.1);
+  --hairline-on-dark-soft: rgba(255, 255, 255, 0.06);
+  --border-on-dark: rgba(255, 255, 255, 0.14);
+  --surface-on-dark: rgba(255, 255, 255, 0.04);
+  --grid-on-dark: rgba(255, 255, 255, 0.045);
+
   /* Radios */
   --radius-sm: 8px;
   --radius-md: 10px;
   --radius-lg: 12px;
-  --radius-pill: 999px;
 
   /* Sombras */
   --shadow-sm: 0 4px 14px rgba(20, 40, 70, 0.05);
@@ -162,6 +175,9 @@
     --surface-3: #1a212c;
     --ink-deep: #0a0e15;
     --ink-deeper: #070a10;
+
+    --hero-surface: #11161f;
+    --grid-line: #1a212e;
 
     --code-surface: #0a0e15;
     --code-chrome: #131a26;

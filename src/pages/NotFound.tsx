@@ -4,7 +4,7 @@ export default function NotFound() {
   return (
     <section className="service-hero not-found">
       <div className="container">
-        <p className="eyebrow">ERROR 404</p>
+        <p className="eyebrow is-lead">Error 404</p>
 
         <h1>Esta página no existe</h1>
 

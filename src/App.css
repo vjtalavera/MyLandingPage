@@ -128,14 +128,49 @@ h1 span {
   color: var(--brand-text);
 }
 
+/*
+ * Etiquetas de sección. Dos rangos a propósito: hay más de treinta en el sitio
+ * y si todas pesan lo mismo ninguna orienta.
+ *   .eyebrow          -> etiqueta de sección, voz baja, neutra.
+ *   .eyebrow.is-lead  -> una por página, la que abre el hero.
+ * Sin monoespaciada: el carácter lo dan la caja alta, el tracking y las cifras
+ * tabulares, no la familia.
+ */
+.eyebrow,
+.related-kind,
+.challenge-card > span {
+  font-size: var(--step--2);
+  font-weight: 600;
+  line-height: 1.45;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  font-variant-numeric: tabular-nums;
+}
+
 .eyebrow {
   margin: 0 0 var(--space-4);
+  color: var(--ink-2);
+}
+
+.eyebrow.is-lead {
   color: var(--brand-text);
-  font-family: var(--mono);
-  font-size: var(--step--2);
-  font-weight: 500;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+/*
+ * Guion de acento. Inline-block y no flex a propósito: así la etiqueta sigue
+ * siendo un párrafo normal, hereda el text-align (el CTA de servicio está
+ * centrado) y parte de línea sin dejar el guion colgando.
+ */
+.eyebrow.is-lead::before {
+  content: '';
+  display: inline-block;
+  width: 20px;
+  height: 2px;
+  margin-right: var(--space-3);
+  vertical-align: 0.26em;
+  background: currentColor;
 }
 
 code {
@@ -244,33 +279,30 @@ code {
 
 /* --- Hero ---------------------------------------------------------------- */
 
+/*
+ * El hero es un plano propio. Sin degradado: el relieve lo dan la retícula de
+ * 1px, la línea de cierre inferior y las tarjetas que flotan encima. La
+ * retícula usa paradas duras (0 1px / 1px 32px): son filetes, no una
+ * transición.
+ *
+ * Los tokens resuelven el tema: ya no hace falta el bloque oscuro aparte, que
+ * era lo que antes invertía la jerarquía del hero.
+ */
 .hero,
-.service-hero,
-.challenge-hero {
-  background:
-    radial-gradient(
-      circle at 80% 20%,
-      color-mix(in srgb, var(--brand) 14%, transparent),
-      transparent 30%
+.service-hero {
+  background-color: var(--hero-surface);
+  background-image:
+    repeating-linear-gradient(
+      to right,
+      var(--grid-line) 0 1px,
+      transparent 1px 32px
     ),
-    linear-gradient(135deg, var(--surface) 0%, var(--brand-soft) 100%);
-}
-
-/* En oscuro el hero quedaba MÁS claro que el resto de la página e invertía la
-   jerarquía: se parte de la superficie de fondo, no de la de tarjeta. */
-@media (prefers-color-scheme: dark) {
-  .hero,
-  .service-hero,
-  .challenge-hero {
-    background:
-      radial-gradient(
-        circle at 80% 20%,
-        color-mix(in srgb, var(--brand) 18%, transparent),
-        transparent 34%
-      ),
-      linear-gradient(135deg, var(--surface-2) 0%, var(--brand-soft) 100%);
-    border-bottom: 1px solid var(--border);
-  }
+    repeating-linear-gradient(
+      to bottom,
+      var(--grid-line) 0 1px,
+      transparent 1px 32px
+    );
+  border-bottom: 1px solid var(--border-strong);
 }
 
 .hero {
@@ -370,7 +402,7 @@ code {
   gap: 7px;
   padding: 0 15px;
   background: var(--code-chrome);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  border-bottom: 1px solid var(--hairline-on-dark-soft);
 }
 
 .code-header span {
@@ -464,14 +496,20 @@ pre {
   box-shadow: var(--shadow-sm);
 }
 
-.card-number,
-.service-tag {
-  color: var(--brand-text);
-  font-family: var(--mono);
-  font-size: var(--step--2);
-  font-weight: 500;
-  letter-spacing: 0.06em;
-  font-variant-numeric: tabular-nums;
+/*
+ * Barra de acento. Sustituye a los números de tarjeta: ocupa exactamente su
+ * hueco (ni la rejilla ni los márgenes cambian) y no insinúa un orden que en
+ * estas listas no existe.
+ */
+.problem .card::before,
+.service-card::before,
+.tech-block::before {
+  content: '';
+  display: block;
+  flex: none;
+  width: 28px;
+  height: 3px;
+  background: var(--brand);
 }
 
 /* Las tarjetas usan h3 en la home (bajo el h2 de sección) y h2 en las páginas
@@ -502,25 +540,56 @@ pre {
   font-weight: 600;
 }
 
+/*
+ * Tarjeta destacada. Plano de marca + borde de marca: el contraste con las
+ * hermanas lo da el color de fondo, no una transición. La barra de acento es
+ * más larga que la de las otras tres: misma pieza, distinto rango.
+ */
 .service-card.featured {
-  border-color: var(--brand-on-dark-soft);
-  background: linear-gradient(145deg, var(--surface), var(--brand-soft));
+  border-color: var(--brand);
+  background: var(--brand-soft);
+}
+
+.service-card.featured::before {
+  width: 44px;
+}
+
+/* Sin esto la destacada sería la única tarjeta sin respuesta al hover: su
+   regla gana por orden a la de .card:hover. */
+.service-card.featured:hover {
+  border-color: var(--brand-strong);
+  box-shadow: var(--shadow-sm);
 }
 
 /* --- Bloque de modernización (fondo oscuro) ------------------------------ */
 
+/*
+ * Bloque de modernización. Fondo plano, oscuro en los dos temas: lo que lo
+ * separa de las secciones vecinas es el salto de plano, no un halo de marca.
+ * La retícula es la misma del hero, en su versión sobre oscuro.
+ */
 .legacy-section {
   color: var(--on-dark);
-  background:
-    radial-gradient(
-      circle at 80% 30%,
-      color-mix(in srgb, var(--brand) 24%, transparent),
-      transparent 32%
+  background-color: var(--ink-deep);
+  background-image:
+    repeating-linear-gradient(
+      to right,
+      var(--grid-on-dark) 0 1px,
+      transparent 1px 32px
     ),
-    var(--ink-deep);
+    repeating-linear-gradient(
+      to bottom,
+      var(--grid-on-dark) 0 1px,
+      transparent 1px 32px
+    );
+  border-block: 1px solid var(--hairline-on-dark);
 }
 
 .legacy-section .eyebrow {
+  color: var(--on-dark-muted);
+}
+
+.legacy-section .eyebrow.is-lead {
   color: var(--brand-on-dark);
 }
 
@@ -536,7 +605,8 @@ pre {
   margin: var(--space-5) 0 var(--space-5);
 }
 
-/* Itinerario de trabajo: pasos numerados, no etiquetas sueltas. */
+/* Itinerario de trabajo. La secuencia la marca el raíl que une las cuatro
+   fases, no una cifra: el orden ya lo dice el <ol>. */
 .topics {
   display: grid;
   gap: var(--space-3);
@@ -546,21 +616,35 @@ pre {
 }
 
 .topics li {
+  position: relative;
   display: grid;
   grid-template-columns: auto 1fr;
   gap: var(--space-4);
   padding: var(--space-4) var(--space-5);
-  border: 1px solid rgba(255, 255, 255, 0.14);
+  border: 1px solid var(--border-on-dark);
   border-radius: var(--radius-md);
-  background: rgba(255, 255, 255, 0.04);
+  background: var(--surface-on-dark);
 }
 
-.topics b {
-  color: var(--brand-on-dark);
-  font-family: var(--mono);
-  font-size: var(--step--2);
-  font-weight: 500;
-  font-variant-numeric: tabular-nums;
+/* Nodo de la fase: ocupa la columna donde antes iba el número. */
+.topics li::before {
+  content: '';
+  width: 9px;
+  height: 9px;
+  margin-top: 0.45em;
+  border-radius: 50%;
+  background: var(--brand-on-dark);
+}
+
+/* Tramo que cruza el hueco hasta la fase siguiente. */
+.topics li:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  left: calc(var(--space-5) + 4px);
+  top: calc(var(--space-4) + 0.45em + 9px);
+  bottom: calc(-1 * var(--space-3));
+  width: 1px;
+  background: var(--border-on-dark);
 }
 
 .topics h3 {
@@ -677,6 +761,7 @@ pre {
 }
 
 .process li {
+  position: relative;
   padding: var(--space-4) var(--space-5);
   border: 1px solid var(--border);
   border-left: 3px solid var(--brand);
@@ -684,8 +769,20 @@ pre {
   background: var(--surface-2);
 }
 
+/* El raíl de marca no se corta entre pasos: la secuencia se lee sola. */
+.process li:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  left: -3px;
+  top: 100%;
+  width: 3px;
+  height: calc(var(--space-3) + 1px);
+  background: var(--brand);
+}
+
+/* Sin el número delante, el título ya no necesita separarse de nada. */
 .process h3 {
-  margin: var(--space-2) 0 var(--space-2);
+  margin: 0 0 var(--space-2);
   font-size: var(--step-0);
 }
 
@@ -924,8 +1021,11 @@ pre {
   background: var(--brand-soft);
 }
 
+/* La tarjeta tiene fondo claro dentro de una sección oscura: sin esto el
+   texto hereda el blanco de .legacy-section y queda ilegible. */
 .challenge-cta p {
   margin: 0;
+  color: var(--ink);
   font-size: var(--step-1);
   font-weight: 600;
 }
@@ -987,7 +1087,7 @@ footer {
   gap: var(--space-5);
   margin-top: var(--space-7);
   padding-top: var(--space-5);
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-top: 1px solid var(--hairline-on-dark);
   font-size: var(--step--2);
 }
 
@@ -1294,13 +1394,9 @@ footer {
   box-shadow: var(--shadow-md);
 }
 
+/* Único rótulo de la tarjeta: se queda en color de marca. */
 .challenge-card > span {
   color: var(--brand-text);
-  font-family: var(--mono);
-  font-size: var(--step--2);
-  font-weight: 500;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
 }
 
 .challenge-card :is(h2, h3) {
@@ -1352,12 +1448,9 @@ footer {
   box-shadow: var(--shadow-sm);
 }
 
+/* Clasificador, no ancla: no debe competir con el enlace que tiene debajo. */
 .related-kind {
-  color: var(--brand-text);
-  font-family: var(--mono);
-  font-size: var(--step--2);
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+  color: var(--ink-2);
 }
 
 .related-grid strong {

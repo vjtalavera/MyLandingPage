@@ -6,7 +6,7 @@ export default function AvisoLegal() {
         <>
             <section className="legal-page">
                 <div className="container legal-content">
-                    <p className="eyebrow">INFORMACIÓN LEGAL</p>
+                    <p className="eyebrow is-lead">Información legal</p>
 
                     <h1>Aviso Legal</h1>
 

@@ -5,7 +5,7 @@ export default function Cookies() {
         <>
             <section className="legal-page">
                 <div className="container legal-content">
-                    <p className="eyebrow">COOKIES</p>
+                    <p className="eyebrow is-lead">Cookies</p>
 
                     <h1>Política de Cookies</h1>
 

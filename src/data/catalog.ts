@@ -51,7 +51,6 @@ export interface CatalogEntry {
   seoTitle: string
   seoDescription: string
   related: CrossLink[]
-  featured?: boolean
 
   /*
    * Fechas en formato YYYY-MM-DD. Se mantienen A MANO y a propósito: alimentan
@@ -300,7 +299,6 @@ const serviceEntries: CatalogEntry[] = [
       { slug: 'actualizacion-java' },
       { slug: 'spring-boot' },
     ],
-    featured: true,
   },
 ]
 

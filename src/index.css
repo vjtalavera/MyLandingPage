@@ -139,6 +139,21 @@
   /* Anillo de foco */
   --focus-ring: 0 0 0 3px color-mix(in srgb, var(--brand) 32%, transparent);
 
+  /*
+   * Movimiento. Una curva y tres duraciones, y no más: el repertorio corto es
+   * lo que hace que los gestos se reconozcan entre secciones.
+   *   --dur-hover   respuesta a una acción del usuario, tiene que ir por
+   *                 delante de su percepción.
+   *   --dur-reveal  acompaña a la lectura, va deliberadamente más lento.
+   *   --dur-diff    el escalón entre líneas del diff del hero.
+   * Todo lo que las use queda neutralizado por el bloque de
+   * prefers-reduced-motion del final del archivo.
+   */
+  --ease-out: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --dur-hover: 150ms;
+  --dur-reveal: 520ms;
+  --dur-diff: 320ms;
+
   /* Tipografía */
   --sans: 'Inter Variable', 'Inter Fallback', ui-sans-serif, system-ui,
     -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;

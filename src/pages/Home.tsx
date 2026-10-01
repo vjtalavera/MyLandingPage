@@ -30,6 +30,30 @@ export default function Home() {
                 Ver servicios →
               </Link>
             </div>
+
+            {/*
+              Señales de confianza. Las tres son verificables contra el resto
+              de la página (el alcance del análisis y las fases desplegables
+              salen de #proceso), que es justo lo que las separa de un "500
+              clientes satisfechos": aquí no hay nada que el visitante no pueda
+              contrastar leyendo.
+            */}
+            <ul className="hero-proof">
+              <li>
+                <strong>Java 8 → 17 / 21</strong>
+                <span>Jakarta EE y Spring Boot 3 incluidos</span>
+              </li>
+
+              <li>
+                <strong>El análisis es tuyo</strong>
+                <span>Te lo quedas aunque después no sigamos</span>
+              </li>
+
+              <li>
+                <strong>Cada fase se despliega</strong>
+                <span>Sin ramas de migración abiertas meses</span>
+              </li>
+            </ul>
           </div>
 
           <div
@@ -44,35 +68,44 @@ export default function Home() {
               <em>OrderRepository.java</em>
             </div>
 
+            {/*
+              Una línea = un elemento, para poder escalonar el revelado del
+              diff. Los saltos de línea ya no se escriben: los da el
+              `display: block` de .code-line.
+
+              OJO: los retardos del revelado se asignan en App.css por
+              :nth-child sobre las líneas 1-4, 7 y 8, que son las del diff. Si
+              se añaden o quitan líneas aquí, hay que revisar esas reglas.
+            */}
             <pre aria-hidden="true">
               <code>
-                <span className="code-del">
-                  {'- import javax.persistence.Entity;'}
+                <span className="code-line code-del">
+                  - import javax.persistence.Entity;
                 </span>
-                {'\n'}
-                <span className="code-del">
-                  {'- import javax.persistence.Id;'}
+                <span className="code-line code-del">
+                  - import javax.persistence.Id;
                 </span>
-                {'\n'}
-                <span className="code-add">
-                  {'+ import jakarta.persistence.Entity;'}
+                <span className="code-line code-add">
+                  + import jakarta.persistence.Entity;
                 </span>
-                {'\n'}
-                <span className="code-add">
-                  {'+ import jakarta.persistence.Id;'}
+                <span className="code-line code-add">
+                  + import jakarta.persistence.Id;
                 </span>
-                {'\n\n'}
-                {'  // pom.xml\n'}
-                <span className="code-del">
+                <span className="code-line">{' '}</span>
+                <span className="code-line is-comment">{'  // pom.xml'}</span>
+                <span className="code-line code-del">
                   {'-   <maven.compiler.source>1.8</...>'}
                 </span>
-                {'\n'}
-                <span className="code-add">
+                <span className="code-line code-add">
                   {'+   <maven.compiler.release>21</...>'}
                 </span>
-                {'\n\n'}
-                {'  // hibernate-core 5.6 → 6.4\n'}
-                {'  // 34 dependencias por revisar'}
+                <span className="code-line">{' '}</span>
+                <span className="code-line is-comment">
+                  {'  // hibernate-core 5.6 → 6.4'}
+                </span>
+                <span className="code-line is-comment">
+                  {'  // 34 dependencias por revisar'}
+                </span>
               </code>
             </pre>
           </div>
@@ -124,7 +157,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="servicios" className="section">
+      <section id="servicios" className="section section--sunken">
         <div className="container">
           <div className="section-heading">
             <p className="eyebrow">Servicios</p>
@@ -133,10 +166,7 @@ export default function Home() {
 
           <div className="cards four">
             {services.map((entry) => (
-              <article
-                className={`card service-card${entry.featured ? ' featured' : ''}`}
-                key={entry.slug}
-              >
+              <article className="card service-card" key={entry.slug}>
                 <h3>{entry.navLabel}</h3>
 
                 <p>{entry.cardText}</p>
@@ -164,7 +194,12 @@ export default function Home() {
               </p>
 
               <div className="legacy-actions">
-                <Link className="button primary" to="/#contacto">
+                {/* Deliberadamente NO es `primary`: el azul sólido queda
+                    reservado al CTA del hero, al del header y al envío del
+                    formulario. Aquí basta con el contorno de marca sobre
+                    oscuro para que siga leyéndose como acción principal de la
+                    sección sin competir con ellos. */}
+                <Link className="button on-dark" to="/#contacto">
                   Analizar mi caso
                 </Link>
 
@@ -260,6 +295,17 @@ export default function Home() {
             <article className="tech-block">
               <h3>La plataforma: Java, Java EE y Jakarta EE</h3>
 
+              {/* Las chips van antes que la prosa en los cuatro bloques: quien
+                  escanea busca si su stack aparece, y solo lee el párrafo si
+                  lo encuentra. El texto sigue íntegro, debajo. */}
+              <ul className="tech-list">
+                <li>Java 8 / 11 / 17 / 21</li>
+                <li>Java EE</li>
+                <li>Jakarta EE</li>
+                <li>Maven</li>
+                <li>JDK / JVM</li>
+              </ul>
+
               <p>
                 El salto de Java 8 a 17 o 21 rara vez se queda en cambiar el
                 JDK: el sistema de módulos, la retirada de APIs que antes
@@ -268,14 +314,6 @@ export default function Home() {
                 <code>javax.*</code> a <code>jakarta.*</code> afecta a todas las
                 librerías, no solo al código propio.
               </p>
-
-              <ul className="tech-list">
-                <li>Java 8 / 11 / 17 / 21</li>
-                <li>Java EE</li>
-                <li>Jakarta EE</li>
-                <li>Maven</li>
-                <li>JDK / JVM</li>
-              </ul>
 
               <p className="tech-links">
                 <Link to="/retos/actualizacion-java/">
@@ -291,6 +329,14 @@ export default function Home() {
             <article className="tech-block">
               <h3>Spring y Spring Boot</h3>
 
+              <ul className="tech-list">
+                <li>Spring Framework</li>
+                <li>Spring Boot 2 / 3</li>
+                <li>Spring MVC</li>
+                <li>Spring Data</li>
+                <li>Spring Security</li>
+              </ul>
+
               <p>
                 La mayoría de aplicaciones no necesitan una migración completa
                 de golpe: los servicios nuevos se levantan en Spring Boot y
@@ -299,14 +345,6 @@ export default function Home() {
                 cambio de espacio de nombres y exige una versión de Java con
                 soporte.
               </p>
-
-              <ul className="tech-list">
-                <li>Spring Framework</li>
-                <li>Spring Boot 2 / 3</li>
-                <li>Spring MVC</li>
-                <li>Spring Data</li>
-                <li>Spring Security</li>
-              </ul>
 
               <p className="tech-links">
                 <Link to="/servicios/spring-boot/">
@@ -321,6 +359,14 @@ export default function Home() {
 
             <article className="tech-block">
               <h3>Persistencia: JPA e Hibernate</h3>
+
+              <ul className="tech-list">
+                <li>JPA</li>
+                <li>Hibernate 5 / 6</li>
+                <li>Spring Data JPA</li>
+                <li>HQL / JPQL</li>
+                <li>SQL</li>
+              </ul>
 
               <p>
                 Es donde más suele doler una modernización. Mapeos que arrastran
@@ -337,14 +383,6 @@ export default function Home() {
                 y después.
               </p>
 
-              <ul className="tech-list">
-                <li>JPA</li>
-                <li>Hibernate 5 / 6</li>
-                <li>Spring Data JPA</li>
-                <li>HQL / JPQL</li>
-                <li>SQL</li>
-              </ul>
-
               <p className="tech-links">
                 <Link to="/servicios/modernizacion-java/">
                   Modernización de aplicaciones Java
@@ -355,13 +393,6 @@ export default function Home() {
             <article className="tech-block">
               <h3>Servidores, integración y APIs</h3>
 
-              <p>
-                El servidor de aplicaciones condiciona hasta dónde se puede
-                subir de versión, y las integraciones existentes marcan qué se
-                puede cambiar sin avisar a nadie. Antes de mover una pieza hay
-                que saber quién la está consumiendo y con qué contrato.
-              </p>
-
               <ul className="tech-list">
                 <li>JBoss / WildFly</li>
                 <li>Tomcat</li>
@@ -369,6 +400,13 @@ export default function Home() {
                 <li>JAX-RS</li>
                 <li>JSON</li>
               </ul>
+
+              <p>
+                El servidor de aplicaciones condiciona hasta dónde se puede
+                subir de versión, y las integraciones existentes marcan qué se
+                puede cambiar sin avisar a nadie. Antes de mover una pieza hay
+                que saber quién la está consumiendo y con qué contrato.
+              </p>
 
               <p className="tech-links">
                 <Link to="/servicios/apis-rest/">Desarrollo de APIs REST</Link>
@@ -469,7 +507,7 @@ export default function Home() {
         </div>
       </section>
 
-      <Faq />
+      <Faq className="section--sunken" />
 
       <ContactSection />
     </>

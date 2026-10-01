@@ -45,10 +45,7 @@ export default function ServiciosIndex() {
 
           <div className="cards four">
             {services.map((entry) => (
-              <article
-                className={`card service-card${entry.featured ? ' featured' : ''}`}
-                key={entry.slug}
-              >
+              <article className="card service-card" key={entry.slug}>
                 <h3>{entry.navLabel}</h3>
 
                 <p>{entry.cardText}</p>

@@ -19,6 +19,8 @@ interface FaqProps {
   title?: string
   /** Ancla de la sección, y nombre del grupo de acordeón. Único por página. */
   id?: string
+  /** Modificador de plano (`section--sunken`…) para la alternancia de fondos. */
+  className?: string
 }
 
 export default function Faq({
@@ -26,6 +28,7 @@ export default function Faq({
   eyebrow = 'Preguntas frecuentes',
   title = 'Lo que suelen preguntarme antes de empezar',
   id = 'faq',
+  className = '',
 }: FaqProps) {
   if (items.length === 0) {
     return null
@@ -45,7 +48,7 @@ export default function Faq({
   }
 
   return (
-    <section id={id} className="section">
+    <section id={id} className={className ? `section ${className}` : 'section'}>
       <div className="container">
         <div className="section-heading">
           <p className="eyebrow">{eyebrow}</p>

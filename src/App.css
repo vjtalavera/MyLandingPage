@@ -30,6 +30,16 @@ select {
   outline-offset: 2px;
 }
 
+/*
+ * WCAG 2.2, 2.4.11 (foco no oscurecido). Al recorrer la página con Tab, el
+ * navegador desplaza lo justo para que el elemento entre en pantalla, y con un
+ * encabezado fijo eso lo deja debajo de él. El margen reserva su altura.
+ */
+:is(a, button, input, textarea, select, summary, [tabindex]):focus-visible {
+  scroll-margin-top: calc(var(--header-height) + var(--space-4));
+  scroll-margin-bottom: var(--space-5);
+}
+
 /* Sobre fondo oscuro el anillo de marca no contrasta: se aclara. */
 .legacy-section :focus-visible,
 footer :focus-visible,
@@ -347,13 +357,20 @@ code {
   font-weight: 600;
   cursor: pointer;
   transition:
-    background-color 0.15s ease,
-    border-color 0.15s ease,
-    box-shadow 0.15s ease;
+    background-color var(--dur-hover) var(--ease-out),
+    border-color var(--dur-hover) var(--ease-out),
+    box-shadow var(--dur-hover) var(--ease-out),
+    transform var(--dur-hover) var(--ease-out);
 }
 
+.button:hover {
+  transform: translateY(-1px);
+}
+
+/* Vuelve a 0 y no a 1px: desde el hover elevado, el regreso al plano ya se
+   percibe como pulsación. */
 .button:active {
-  transform: translateY(1px);
+  transform: translateY(0);
 }
 
 .button.primary {
@@ -388,11 +405,21 @@ code {
 
 /* --- Tarjeta de código --------------------------------------------------- */
 
+/*
+ * La profundidad no sale de una sombra más grande, sino de tres planos: el
+ * filete exterior que separa la tarjeta del hero, el reflejo interior de 1px
+ * que simula el canto superior, y la sombra larga que la despega del fondo.
+ * Los tres usan hilos sobre oscuro, que no se invierten con el tema porque el
+ * fondo de la tarjeta tampoco lo hace.
+ */
 .code-card {
   overflow: hidden;
+  border: 1px solid var(--border-on-dark);
   border-radius: var(--radius-lg);
   background: var(--code-surface);
-  box-shadow: var(--shadow-lg);
+  box-shadow:
+    var(--shadow-lg),
+    inset 0 1px 0 var(--hairline-on-dark);
 }
 
 .code-header {
@@ -437,6 +464,88 @@ pre {
 
 .code-del {
   color: var(--code-del);
+}
+
+/*
+ * Líneas del diff.
+ *
+ * El padding horizontal pasa del <pre> a cada línea para que el realce de las
+ * líneas tocadas llegue a sangre hasta el canto de la tarjeta, como en
+ * cualquier visor de diffs. El borde izquierdo lo llevan TODAS las líneas, en
+ * transparente las que no cambian: así el texto queda alineado y el filete de
+ * color no desplaza nada.
+ */
+.code-card pre {
+  padding-inline: 0;
+}
+
+.code-line {
+  display: block;
+  padding-inline: var(--space-6);
+  border-left: 3px solid transparent;
+}
+
+.code-line.is-comment {
+  color: var(--code-ink-dim);
+}
+
+.code-line.code-del {
+  background: color-mix(in srgb, var(--code-del) 11%, transparent);
+  border-left-color: color-mix(in srgb, var(--code-del) 60%, transparent);
+}
+
+.code-line.code-add {
+  background: color-mix(in srgb, var(--code-add) 11%, transparent);
+  border-left-color: color-mix(in srgb, var(--code-add) 60%, transparent);
+}
+
+/*
+ * Revelado del diff al cargar.
+ *
+ * Solo se animan las seis líneas que cambian; las demás se pintan de entrada,
+ * así que la tarjeta nunca está vacía y el bloque conserva su alto desde el
+ * primer frame (sin CLS). El desplazamiento es horizontal, de 8px: imita cómo
+ * entra una línea nueva en un diff y no toca el flujo vertical.
+ *
+ * Los retardos van por :nth-child y dependen del orden de las líneas en
+ * Home.tsx. Si se tocan allí, hay que revisarlos aquí.
+ */
+@keyframes code-line-in {
+  from {
+    opacity: 0;
+    transform: translateX(-8px);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .code-line.code-add,
+  .code-line.code-del {
+    animation: code-line-in var(--dur-diff) var(--ease-out) both;
+  }
+
+  .code-line:nth-child(1) {
+    animation-delay: 120ms;
+  }
+
+  .code-line:nth-child(2) {
+    animation-delay: 180ms;
+  }
+
+  .code-line:nth-child(3) {
+    animation-delay: 240ms;
+  }
+
+  .code-line:nth-child(4) {
+    animation-delay: 300ms;
+  }
+
+  .code-line:nth-child(7) {
+    animation-delay: 400ms;
+  }
+
+  .code-line:nth-child(8) {
+    animation-delay: 460ms;
+  }
 }
 
 /* --- Secciones ----------------------------------------------------------- */
@@ -488,12 +597,16 @@ pre {
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
   background: var(--surface);
-  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  transition:
+    border-color var(--dur-hover) var(--ease-out),
+    box-shadow var(--dur-hover) var(--ease-out),
+    transform var(--dur-hover) var(--ease-out);
 }
 
 .card:hover {
   border-color: var(--border-strong);
   box-shadow: var(--shadow-sm);
+  transform: translateY(-2px);
 }
 
 /*
@@ -538,27 +651,6 @@ pre {
   padding-top: 25px;
   color: var(--brand-text);
   font-weight: 600;
-}
-
-/*
- * Tarjeta destacada. Plano de marca + borde de marca: el contraste con las
- * hermanas lo da el color de fondo, no una transición. La barra de acento es
- * más larga que la de las otras tres: misma pieza, distinto rango.
- */
-.service-card.featured {
-  border-color: var(--brand);
-  background: var(--brand-soft);
-}
-
-.service-card.featured::before {
-  width: 44px;
-}
-
-/* Sin esto la destacada sería la única tarjeta sin respuesta al hover: su
-   regla gana por orden a la de .card:hover. */
-.service-card.featured:hover {
-  border-color: var(--brand-strong);
-  box-shadow: var(--shadow-sm);
 }
 
 /* --- Bloque de modernización (fondo oscuro) ------------------------------ */
@@ -673,8 +765,13 @@ pre {
 
 /* --- Tecnologías --------------------------------------------------------- */
 
+/*
+ * Baja de --surface-3 a --surface-2 para no repetir el plano de #servicios.
+ * Ver "Planos de sección" más abajo: la alternancia de la home depende de este
+ * valor.
+ */
 .technologies {
-  background: var(--surface-3);
+  background: var(--surface-2);
 }
 
 .tech-blocks {
@@ -1386,12 +1483,16 @@ footer {
   border-radius: var(--radius-lg);
   background: var(--surface);
   color: var(--ink);
-  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  transition:
+    border-color var(--dur-hover) var(--ease-out),
+    box-shadow var(--dur-hover) var(--ease-out),
+    transform var(--dur-hover) var(--ease-out);
 }
 
 .challenge-card:hover {
   border-color: var(--brand);
   box-shadow: var(--shadow-md);
+  transform: translateY(-3px);
 }
 
 /* Único rótulo de la tarjeta: se queda en color de marca. */
@@ -1440,12 +1541,16 @@ footer {
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
   background: var(--surface);
-  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  transition:
+    border-color var(--dur-hover) var(--ease-out),
+    box-shadow var(--dur-hover) var(--ease-out),
+    transform var(--dur-hover) var(--ease-out);
 }
 
 .related-grid a:hover {
   border-color: var(--brand);
   box-shadow: var(--shadow-sm);
+  transform: translateY(-2px);
 }
 
 /* Clasificador, no ancla: no debe competir con el enlace que tiene debajo. */
@@ -1554,6 +1659,211 @@ footer {
   margin-top: var(--space-6);
 }
 
+/* --- Planos de sección --------------------------------------------------- */
+
+/*
+ * La home encadena nueve secciones. Con todas en el mismo plano se leen como
+ * una lista continua y el scroll pierde el sentido de avance, así que alternan
+ * tres fondos claros además de los dos planos propios que ya existían (el hero
+ * y el bloque oscuro de #retos):
+ *
+ *   base     --surface-2   #senales · #tecnologias · #contacto
+ *   hundido  --surface-3   #servicios · #faq
+ *   elevado  --surface     #proceso
+ *
+ * La regla es que dos secciones contiguas nunca comparten plano. Las tarjetas
+ * siguen en --surface, así que en el plano hundido destacan más, no menos.
+ */
+.section--sunken {
+  background: var(--surface-3);
+  border-block: 1px solid var(--border);
+}
+
+/* --- Señales de confianza del hero --------------------------------------- */
+
+/*
+ * Tres afirmaciones contrastables con el resto de la página, no métricas de
+ * marketing. Van bajo la línea de cierre para que se lean como pie del hero y
+ * no compitan con el CTA.
+ */
+.hero-proof {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-5) var(--space-7);
+  margin: var(--space-7) 0 0;
+  padding-top: var(--space-5);
+  border-top: 1px solid var(--border-strong);
+  list-style: none;
+}
+
+.hero-proof li {
+  display: grid;
+  gap: 2px;
+  max-width: 32ch;
+}
+
+.hero-proof strong {
+  color: var(--ink);
+  font-size: var(--step--1);
+  font-weight: 600;
+}
+
+.hero-proof strong::before {
+  content: '';
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  margin-right: var(--space-2);
+  border-radius: 50%;
+  background: var(--brand);
+  vertical-align: 0.18em;
+}
+
+.hero-proof span {
+  color: var(--ink-2);
+  font-size: var(--step--2);
+  line-height: 1.5;
+}
+
+/* --- CTA del encabezado --------------------------------------------------- */
+
+/*
+ * El encabezado ya es fijo, así que este botón hace de CTA persistente en toda
+ * la página. Es deliberadamente más bajo y más pequeño que el del hero: mismo
+ * color, distinto rango. Sustituye a la barra flotante inferior que se suele
+ * poner en móvil, que aquí solo serviría para repetir la misma acción dos
+ * veces en la misma pantalla y robar alto de viewport.
+ */
+.header-cta {
+  flex: none;
+  min-height: 40px;
+  padding-inline: var(--space-4);
+  font-size: var(--step--1);
+  box-shadow: none;
+}
+
+.header-cta:hover {
+  box-shadow: var(--shadow-brand);
+}
+
+.header-cta-short {
+  display: none;
+}
+
+/* --- Sección actual en el menú -------------------------------------------- */
+
+.site-nav a {
+  position: relative;
+}
+
+.site-nav a[aria-current='location'] {
+  color: var(--brand-text);
+}
+
+.site-nav a[aria-current='location']::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -6px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--brand);
+}
+
+/* --- Progreso de lectura -------------------------------------------------- */
+
+/*
+ * Barra de 2px en el canto inferior del encabezado, dibujada por una animación
+ * ligada al scroll del documento: sin JS y sin tocar el layout, porque solo
+ * anima transform.
+ *
+ * Fuera del @supports y con movimiento reducido se queda en scaleX(0), es
+ * decir, invisible: un indicador de progreso es movimiento puro, y sin
+ * animación no informa de nada.
+ */
+.read-progress {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 2px;
+  background: var(--brand);
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+}
+
+@keyframes read-progress-grow {
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@supports (animation-timeline: scroll()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .read-progress {
+      animation: read-progress-grow linear both;
+      animation-timeline: scroll(root block);
+    }
+  }
+}
+
+/* --- Botón sobre fondo oscuro --------------------------------------------- */
+
+/*
+ * Rango intermedio: manda dentro del bloque oscuro de #retos, pero no compite
+ * con el azul sólido del hero, del encabezado y del envío del formulario. El
+ * contorno de 1px en --brand-on-dark pasa de sobra el 3:1 que pide 1.4.11
+ * sobre --ink-deep.
+ */
+.button.on-dark {
+  color: var(--brand-on-dark);
+  background: transparent;
+  border: 1px solid var(--brand-on-dark);
+}
+
+.button.on-dark:hover {
+  color: var(--ink-deep);
+  background: var(--brand-on-dark);
+}
+
+/* --- Revelado al entrar en pantalla --------------------------------------- */
+
+/*
+ * Movimiento ligado al scroll, sin JS ni observadores.
+ *
+ * Va dentro de @supports porque el fallback tiene que ser el estado final
+ * VISIBLE: el HTML se sirve estático desde el edge y no puede quedar contenido
+ * oculto si el navegador no entiende las animaciones de scroll.
+ *
+ * Solo se aplica a piezas que caben holgadamente en pantalla. Un contenedor
+ * más alto que el viewport nunca completaría el rango `entry` y se quedaría a
+ * medio revelar, así que el formulario y la lista de preguntas quedan fuera.
+ */
+@keyframes reveal-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .section-heading,
+    .cards > .card,
+    .challenge-card,
+    .tech-block,
+    .topics li,
+    .process li,
+    .no-list li,
+    .related-grid li {
+      animation: reveal-in var(--dur-reveal) var(--ease-out) both;
+      animation-timeline: view();
+      animation-range: entry 5% entry 45%;
+    }
+  }
+}
+
 /* --- Adaptación a pantallas pequeñas ------------------------------------- */
 
 @media (max-width: 1050px) {
@@ -1578,6 +1888,41 @@ footer {
 
   .nav-toggle {
     display: inline-flex;
+  }
+
+  /* Tres elementos en una barra estrecha: el hueco de 30px ya no cabe. */
+  .header-inner {
+    gap: var(--space-3);
+  }
+
+  /*
+   * El rótulo largo no se oculta, se reduce a texto accesible: el botón pasa a
+   * decir "Hablemos" a la vista y sigue anunciándose como "Cuéntame tu
+   * proyecto" para quien usa lector de pantalla.
+   */
+  .header-cta-long {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  .header-cta-short {
+    display: inline;
+  }
+
+  /* En vertical el subrayado no cabe bajo el enlace: pasa a filete lateral. */
+  .site-nav a[aria-current='location']::after {
+    left: 0;
+    right: auto;
+    top: var(--space-2);
+    bottom: var(--space-2);
+    width: 3px;
+    height: auto;
   }
 
   .site-nav {
@@ -1653,6 +1998,12 @@ footer {
 
   .footer-grid {
     grid-template-columns: 1fr;
+  }
+
+  /* Con el ancho justo, el realce del diff se come el texto si mantiene el
+     sangrado del escritorio. */
+  .code-line {
+    padding-inline: var(--space-5);
   }
 
   .contact-form,

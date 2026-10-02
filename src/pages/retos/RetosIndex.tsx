@@ -22,8 +22,8 @@ export default function RetosIndex() {
               <h1>Los problemas que suelen bloquear un backend Java</h1>
 
               <p className="index-intro">
-                Cuatro situaciones que se repiten en aplicaciones empresariales
-                con años encima. Cada una explica qué se analiza antes de tocar
+                Situaciones que se repiten en aplicaciones empresariales con
+                años encima. Cada una explica qué se analiza antes de tocar
                 nada y qué suele salir mal cuando no se hace.
               </p>
 
@@ -41,7 +41,7 @@ export default function RetosIndex() {
 
       <section className="section">
         <div className="container">
-          <h2>Los cuatro retos</h2>
+          <h2>Qué me suelo encontrar</h2>
 
           <div className="challenge-grid">
             {retos.map((entry) => (

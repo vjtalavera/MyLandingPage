@@ -14,7 +14,7 @@ export default function SiteFooter() {
         <div className="footer-grid">
           <div className="footer-brand">
             <strong>JavaEvolve</strong>
-            <span>Desarrollo Java · Backend · Modernización</span>
+            <span>Consultoría Java · Spring Boot · Migraciones</span>
           </div>
 
           <nav aria-labelledby="footer-servicios">

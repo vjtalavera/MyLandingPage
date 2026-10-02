@@ -22,7 +22,7 @@ export default function ServiciosIndex() {
               <h1>Desarrollo y evolución de aplicaciones Java</h1>
 
               <p className="index-intro">
-                Cuatro formas de trabajar sobre un backend Java: construir lo
+                Distintas formas de trabajar sobre un backend Java: construir lo
                 que falta, llevarlo a Spring Boot, exponerlo como API o
                 modernizar lo que ya hay sin parar la aplicación.
               </p>
@@ -41,7 +41,7 @@ export default function ServiciosIndex() {
 
       <section className="section">
         <div className="container">
-          <h2>Los cuatro servicios</h2>
+          <h2>En qué puedo ayudarte</h2>
 
           <div className="cards four">
             {services.map((entry) => (

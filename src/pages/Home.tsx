@@ -9,16 +9,19 @@ export default function Home() {
       <section id="inicio" className="hero">
         <div className="container hero-grid">
           <div className="hero-content">
-            <p className="eyebrow is-lead">Java · Backend · Modernización</p>
+            <p className="eyebrow is-lead">
+              Consultoría Java · Spring Boot · Migraciones
+            </p>
 
             <h1>
-              Desarrollo Java y Backend para
-              <span> aplicaciones empresariales</span>
+              Consultoría y desarrollo Java
+              <span> para aplicaciones empresariales</span>
             </h1>
 
             <p className="hero-text">
-              Desarrollo con Java y Spring Boot, APIs REST y modernización de
-              aplicaciones Java que ya están en producción y no pueden pararse.
+              Servicios de desarrollo backend, APIs REST, migraciones y
+              evolutivos sobre Java y Spring Boot, para aplicaciones que ya
+              están en producción y no pueden pararse.
             </p>
 
             <div className="hero-actions">
@@ -30,6 +33,21 @@ export default function Home() {
                 Ver servicios →
               </Link>
             </div>
+
+            {/*
+              El catálogo, sin scroll. Sale de `services` para no repetir aquí
+              lo que ya vive en el catálogo, y es un <nav> porque son cuatro
+              destinos reales: quien entra ve de una pasada qué se contrata,
+              sin tener que bajar. Sin azul sólido a propósito, que queda
+              reservado al CTA de al lado.
+            */}
+            <nav className="hero-services" aria-label="Servicios">
+              {services.map((entry) => (
+                <Link key={entry.slug} to={entry.path}>
+                  {entry.navLabel}
+                </Link>
+              ))}
+            </nav>
 
             {/*
               Señales de confianza. Las tres son verificables contra el resto
@@ -112,10 +130,37 @@ export default function Home() {
         </div>
       </section>
 
+      <section id="servicios" className="section section--sunken">
+        <div className="container">
+          <div className="section-heading">
+            <p className="eyebrow">Servicios</p>
+
+            <h2>Consultoría, desarrollo y migraciones Java</h2>
+
+            <p>
+              Cuatro formas de trabajar sobre un backend Java: construir lo que
+              falta, modernizar lo que bloquea, o las dos cosas por fases.
+            </p>
+          </div>
+
+          <div className="cards four">
+            {services.map((entry) => (
+              <article className="card service-card" key={entry.slug}>
+                <h3>{entry.navLabel}</h3>
+
+                <p>{entry.cardText}</p>
+
+                <Link to={entry.path}>Ver servicio →</Link>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <section id="senales" className="problem section">
         <div className="container">
           <div className="section-heading">
-            <p className="eyebrow">Evolución de software</p>
+            <p className="eyebrow">Cuándo tiene sentido llamarme</p>
 
             <h2>¿Tu aplicación Java necesita evolucionar?</h2>
 
@@ -153,27 +198,6 @@ export default function Home() {
                 arquitectura y de pruebas.
               </p>
             </article>
-          </div>
-        </div>
-      </section>
-
-      <section id="servicios" className="section section--sunken">
-        <div className="container">
-          <div className="section-heading">
-            <p className="eyebrow">Servicios</p>
-            <h2>Desarrollo y evolución de aplicaciones Java</h2>
-          </div>
-
-          <div className="cards four">
-            {services.map((entry) => (
-              <article className="card service-card" key={entry.slug}>
-                <h3>{entry.navLabel}</h3>
-
-                <p>{entry.cardText}</p>
-
-                <Link to={entry.path}>Ver servicio →</Link>
-              </article>
-            ))}
           </div>
         </div>
       </section>

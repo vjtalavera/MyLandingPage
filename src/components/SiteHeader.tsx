@@ -92,9 +92,18 @@ export default function SiteHeader() {
       <div className="read-progress" aria-hidden="true" />
 
       <div className="container header-inner">
-        <Link className="logo" to="/" onClick={() => setOpen(false)}>
-          Java<span>Evolve</span>
-        </Link>
+        {/*
+          El logo solo da el nombre; el descriptor es lo que sitúa a quien
+          entra por una página interna. Se oculta por debajo de 800px, donde
+          la barra ya reparte su alto entre el CTA y el botón de menú.
+        */}
+        <div className="brand">
+          <Link className="logo" to="/" onClick={() => setOpen(false)}>
+            Java<span>Evolve</span>
+          </Link>
+
+          <span className="brand-tagline">Consultoría y desarrollo Java</span>
+        </div>
 
         {/*
           Orden del DOM: logo, menú, CTA, botón de menú. Es el orden visual en

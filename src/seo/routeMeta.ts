@@ -177,11 +177,11 @@ const webSiteSchema: Record<string, unknown> = {
 
 const staticRoutes: Record<string, RouteMeta> = {
   '/': {
-    title: 'JavaEvolve | Desarrollo Java, Backend y Modernización',
+    title: 'JavaEvolve | Consultoría y desarrollo Java, Spring Boot y migraciones',
     description:
-      'JavaEvolve ofrece desarrollo backend Java, Spring Boot, APIs REST y modernización de aplicaciones Java empresariales.',
+      'Servicios de consultoría y desarrollo Java: backend con Spring Boot, APIs REST, migraciones y evolutivos sobre aplicaciones empresariales en producción.',
     path: '/',
-    updated: '2026-09-29',
+    updated: '2026-10-02',
     jsonLd: [organizationSchema, webSiteSchema],
   },
   '/servicios/': {

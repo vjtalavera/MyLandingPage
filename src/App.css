@@ -210,6 +210,21 @@ code {
   gap: 30px;
 }
 
+/*
+ * Marca del encabezado: nombre y descriptor. Rejilla y no flex para que el
+ * descriptor caiga bajo el logo sin empujar el alto de la barra.
+ */
+.brand {
+  display: grid;
+  gap: 1px;
+}
+
+.brand-tagline {
+  color: var(--ink-2);
+  font-size: var(--step--2);
+  line-height: 1.3;
+}
+
 .logo {
   font-size: 1.3rem;
   font-weight: 600;
@@ -1679,6 +1694,44 @@ footer {
   border-block: 1px solid var(--border);
 }
 
+/* --- Chips de servicio del hero ------------------------------------------ */
+
+/*
+ * El catálogo resumido a cuatro enlaces, por encima de la línea de flotación:
+ * es lo que convierte el hero en una oferta y no en una descripción de a qué
+ * me dedico. Contorno y no relleno a propósito, para que ninguno compita con
+ * el botón azul que tienen justo encima.
+ */
+.hero-services {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin-top: var(--space-6);
+}
+
+.hero-services a {
+  display: inline-flex;
+  align-items: center;
+  padding: 7px 15px;
+  border: 1px solid var(--border-strong);
+  border-radius: 999px;
+  color: var(--ink-2);
+  font-size: var(--step--2);
+  font-weight: 600;
+  line-height: 1.4;
+  transition:
+    border-color var(--dur-hover) var(--ease-out),
+    background-color var(--dur-hover) var(--ease-out),
+    color var(--dur-hover) var(--ease-out);
+}
+
+.hero-services a:hover,
+.hero-services a:focus-visible {
+  border-color: var(--brand);
+  background: var(--brand-soft);
+  color: var(--brand-text);
+}
+
 /* --- Señales de confianza del hero --------------------------------------- */
 
 /*
@@ -1888,6 +1941,10 @@ footer {
 
   .nav-toggle {
     display: inline-flex;
+  }
+
+  .brand-tagline {
+    display: none;
   }
 
   /* Tres elementos en una barra estrecha: el hueco de 30px ya no cabe. */

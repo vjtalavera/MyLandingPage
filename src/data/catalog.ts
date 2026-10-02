@@ -90,7 +90,7 @@ const serviceEntries: CatalogEntry[] = [
     navLabel: 'Desarrollo Java',
     eyebrow: 'Desarrollo Java',
     cardText:
-      'Desarrollo backend con Java para aplicaciones empresariales y sistemas de negocio.',
+      'Desarrollo backend a medida y evolutivos sobre aplicaciones empresariales Java.',
     intro:
       'Desarrollo backend con Java para nuevas funcionalidades, aplicaciones empresariales y evolución de sistemas existentes.',
     problemTitle: 'Desarrollo y evolución de aplicaciones Java',
@@ -145,7 +145,7 @@ const serviceEntries: CatalogEntry[] = [
     navLabel: 'Spring Boot',
     eyebrow: 'Spring Boot',
     cardText:
-      'Desarrollo de servicios y APIs con Spring Boot y Spring Framework.',
+      'Desarrollo de servicios y APIs con Spring Boot, desde cero o sobre lo que ya existe.',
     intro:
       'Desarrollo de servicios backend y APIs con Spring Boot y Spring Framework para aplicaciones empresariales.',
     problemTitle: 'Backend preparado para evolucionar',
@@ -251,7 +251,7 @@ const serviceEntries: CatalogEntry[] = [
     navLabel: 'Modernización Java',
     eyebrow: 'Modernización Java',
     cardText:
-      'Análisis, refactorización y migración progresiva de aplicaciones Java existentes.',
+      'Consultoría de modernización: análisis, migración progresiva y refactorización por fases.',
     intro:
       'Análisis, plan por fases y ejecución de la modernización de una aplicación Java existente, con el sistema en producción durante todo el proceso.',
     problemTitle: 'Modernizar sin empezar necesariamente desde cero',

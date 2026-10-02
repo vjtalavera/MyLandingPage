@@ -189,7 +189,7 @@ const staticRoutes: Record<string, RouteMeta> = {
     description:
       'Servicios de desarrollo backend Java: Spring Boot, APIs REST, evolución de aplicaciones existentes y modernización de sistemas legacy.',
     path: '/servicios/',
-    updated: '2026-09-29',
+    updated: '2026-10-02',
     jsonLd: [
       itemListSchema(services, 'Servicios de desarrollo Java', '/servicios/'),
     ],

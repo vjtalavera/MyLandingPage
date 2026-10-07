@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
+import { OFFER } from '../data/offer'
 
 // Servicios y Retos son páginas reales, no anclas de la home: así el menú
 // lleva a un nivel de navegación propio y no siempre a la misma página.
@@ -143,7 +144,7 @@ export default function SiteHeader() {
           pantalla.
         */}
         <Link className="button primary header-cta" to="/#contacto">
-          <span className="header-cta-long">Cuéntame tu proyecto</span>
+          <span className="header-cta-long">{OFFER.ctaShort}</span>
           <span className="header-cta-short" aria-hidden="true">
             Hablemos
           </span>

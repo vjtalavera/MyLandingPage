@@ -494,6 +494,17 @@ pre {
   padding-inline: 0;
 }
 
+/*
+ * El estilo global de `code` es el de chip en línea (fondo claro y padding).
+ * Dentro de la tarjeta el <code> envuelve todas las líneas, y como es inline
+ * ese fondo asomaba en dos marcas blancas al canto izquierdo, al principio de
+ * la primera línea y al final de la última.
+ */
+.code-card pre code {
+  padding: 0;
+  background: none;
+}
+
 .code-line {
   display: block;
   padding-inline: var(--space-6);
@@ -998,6 +1009,63 @@ pre {
   max-width: var(--measure-narrow);
 }
 
+/*
+ * "Qué pasa después". Ocupa el hueco que quedaba bajo los dos párrafos en
+ * escritorio, y en móvil va antes del formulario, que es justo cuando hace
+ * falta: resuelve la duda antes de pedir los datos.
+ */
+.contact-steps-title {
+  margin-top: var(--space-7);
+  font-size: var(--step-1);
+}
+
+.contact-steps {
+  display: grid;
+  gap: var(--space-4);
+  max-width: var(--measure-narrow);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: paso;
+}
+
+.contact-steps li {
+  position: relative;
+  padding-left: var(--space-7);
+  color: var(--ink-2);
+  counter-increment: paso;
+}
+
+.contact-steps li::before {
+  content: counter(paso);
+  position: absolute;
+  top: 0.1em;
+  left: 0;
+  display: grid;
+  place-items: center;
+  width: 1.6em;
+  height: 1.6em;
+  border-radius: 50%;
+  background: var(--brand-soft);
+  color: var(--brand-text);
+  font-size: var(--step--1);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.contact-copy > .contact-hint {
+  margin-top: var(--space-6);
+  padding: var(--space-4) var(--space-5);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  font-size: var(--step--1);
+}
+
+.contact-hint strong {
+  color: var(--ink);
+}
+
 .contact-form {
   display: grid;
   gap: var(--space-5);
@@ -1275,6 +1343,13 @@ footer {
 .service-cta p {
   max-width: 650px;
   margin: var(--space-5) auto var(--space-6);
+}
+
+/* Línea de la oferta bajo el botón de cierre: apoyo, no otro párrafo. */
+.service-cta .cta-note {
+  margin: var(--space-4) auto 0;
+  color: var(--ink-3);
+  font-size: var(--step--1);
 }
 
 /* --- Contenido largo de servicios y retos --------------------------------- */

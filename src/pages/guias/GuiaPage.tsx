@@ -4,6 +4,7 @@ import ContentSections from '../../components/ContentSections'
 import Faq from '../../components/Faq'
 import PageToc from '../../components/PageToc'
 import type { GuideEntry } from '../../data/guides'
+import { OFFER } from '../../data/offer'
 
 /**
  * Plantilla de guía técnica. Mismo contrato que `ServicePage`: el contenido
@@ -48,16 +49,18 @@ export default function GuiaPage({ guide }: { guide: GuideEntry }) {
         <div className="container">
           <p className="eyebrow">JavaEvolve</p>
 
-          <h2>¿Te has encontrado con esto en tu aplicación?</h2>
+          <h2>{guide.ctaTitle ?? '¿Te has encontrado con esto en tu aplicación?'}</h2>
 
           <p>
-            Si el caso concreto no encaja con lo que hay aquí, cuéntamelo y te
-            digo por dónde lo abordaría.
+            {guide.ctaBody ??
+              'Si el caso concreto no encaja con lo que hay aquí, cuéntamelo y te digo por dónde lo abordaría.'}
           </p>
 
           <Link className="button primary" to="/#contacto">
-            Escríbeme
+            {OFFER.cta}
           </Link>
+
+          <p className="cta-note">{OFFER.note}</p>
         </div>
       </section>
     </>

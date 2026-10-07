@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import ContactSection from '../components/ContactSection'
 import Faq from '../components/Faq'
 import { retos, services } from '../data/catalog'
+import { OFFER } from '../data/offer'
 
 export default function Home() {
   return (
@@ -9,28 +10,35 @@ export default function Home() {
       <section id="inicio" className="hero">
         <div className="container hero-grid">
           <div className="hero-content">
+            {/*
+              El H1 promete un resultado; la categoría ("Consultoría y
+              desarrollo Java") se queda en el eyebrow y en el <title>, que es
+              donde la buscan Google y quien llega desde una búsqueda.
+              Los &nbsp; impiden que el balanceo parta "17 / o 21".
+            */}
             <p className="eyebrow is-lead">
-              Consultoría Java · Spring Boot · Migraciones
+              Consultoría y desarrollo Java · Spring Boot
             </p>
 
             <h1>
-              Consultoría y desarrollo Java
-              <span> para aplicaciones empresariales</span>
+              Tu aplicación Java en&nbsp;17&nbsp;o&nbsp;21,
+              <span> sin parar producción</span>
             </h1>
 
             <p className="hero-text">
-              Servicios de desarrollo backend, APIs REST, migraciones y
-              evolutivos sobre Java y Spring Boot, para aplicaciones que ya
-              están en producción y no pueden pararse.
+              Migraciones de Java EE a Jakarta, de Spring Boot 2 a 3 y
+              evolutivos sobre backends que ya están dando servicio. Empezamos
+              con un diagnóstico gratuito de 30 minutos: al colgar sabrás si se
+              puede, por dónde empezar y qué riesgos veo.
             </p>
 
             <div className="hero-actions">
               <Link className="button primary" to="/#contacto">
-                Cuéntame tu proyecto
+                {OFFER.cta}
               </Link>
 
-              <Link className="text-link" to="/servicios/">
-                Ver servicios →
+              <Link className="text-link" to="/#proceso">
+                Ver cómo trabajo →
               </Link>
             </div>
 
@@ -459,7 +467,7 @@ export default function Home() {
           <div className="about-grid">
             <ol className="process">
               <li>
-                <h3>Llamada de diagnóstico</h3>
+                <h3>Llamada de diagnóstico, sin coste</h3>
                 <p>
                   Media hora para entender qué hay: versión de Java, framework,
                   servidor, cómo se construye y se despliega, y qué es lo que

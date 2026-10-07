@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import type { FormEvent } from 'react'
 import { Link } from 'react-router-dom'
+import { OFFER } from '../data/offer'
 
 /**
  * Formulario de contacto. Envía a POST /api/contact, que reenvía el mensaje
@@ -105,7 +106,7 @@ export default function ContactSection() {
 
       if (response.ok && data.success) {
         setOk(true)
-        setResult('Mensaje enviado correctamente. Te respondo en breve.')
+        setResult(`Mensaje enviado. Te respondo en ${OFFER.responseTime}.`)
         form.reset()
       } else {
         setOk(false)
@@ -128,13 +129,36 @@ export default function ContactSection() {
           <h2>Cuéntame qué necesitas construir o modernizar.</h2>
 
           <p>
-            ¿Tienes una aplicación Java que necesita evolucionar, una nueva
-            funcionalidad que desarrollar o un proyecto backend que quieres
-            poner en marcha?
+            Explícame brevemente el caso y te digo si puedo ayudarte y cómo.
+            El primer paso es un diagnóstico de 30 minutos, sin coste.
           </p>
 
-          <p>
-            Explícame brevemente el caso y te digo si puedo ayudarte y cómo.
+          {/*
+            Lo que pasa después de enviar. Va aquí y no en el mensaje de
+            éxito porque la duda ("¿y luego qué?") la tiene quien aún no ha
+            escrito. Los compromisos salen de OFFER, no se escriben a mano.
+          */}
+          <h3 className="contact-steps-title">Qué pasa después</h3>
+
+          <ol className="contact-steps">
+            <li>
+              Te respondo en {OFFER.responseTime}, con preguntas concretas o
+              una propuesta de hora.
+            </li>
+            <li>
+              Hablamos media hora: versión de Java, framework, servidor y qué
+              duele hoy. Si no puedo ayudarte, te lo digo.
+            </li>
+            <li>
+              Si tiene sentido seguir, te envío una propuesta de análisis con
+              alcance y precio cerrados. Sin compromiso de continuidad.
+            </li>
+          </ol>
+
+          <p className="contact-hint">
+            <strong>Para que la respuesta sea útil, cuéntame:</strong> versión
+            de Java y de Spring o Java EE, servidor de aplicaciones, cuántos
+            módulos o servicios hay y qué te está bloqueando.
           </p>
         </div>
 

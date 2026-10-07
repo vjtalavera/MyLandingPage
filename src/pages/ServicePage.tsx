@@ -6,6 +6,7 @@ import PageToc from '../components/PageToc'
 import { Paragraphs } from '../components/Prose'
 import RelatedLinks from '../components/RelatedLinks'
 import type { CatalogEntry } from '../data/catalog'
+import { OFFER } from '../data/offer'
 
 /**
  * Plantilla de página de servicio. Todo el contenido viene del catálogo
@@ -103,8 +104,10 @@ export default function ServicePage({ entry }: { entry: CatalogEntry }) {
           </p>
 
           <Link className="button primary" to="/#contacto">
-            Escríbeme
+            {OFFER.cta}
           </Link>
+
+          <p className="cta-note">{OFFER.note}</p>
         </div>
       </section>
     </>

@@ -125,7 +125,7 @@ const serviceEntries: CatalogEntry[] = [
     ctaTitle: '¿Qué necesitáis construir?',
     ctaBody: 'Cuéntame qué hay montado y qué falta. Si el encargo no encaja con lo que hago, te lo digo en la primera llamada.',
     published: '2026-09-28',
-    updated: '2026-09-29',
+    updated: '2026-10-10',
     related: [
       {
         slug: 'actualizacion-java',
@@ -284,7 +284,7 @@ const serviceEntries: CatalogEntry[] = [
     ctaTitle: '¿Empezamos por el análisis?',
     ctaBody: 'El primer paso es una conversación, no un presupuesto. Al colgar sabréis si se puede hacer, por dónde empezaría y qué riesgos veo.',
     published: '2026-09-28',
-    updated: '2026-09-29',
+    updated: '2026-10-10',
     related: [
       {
         slug: 'migracion-java-legacy',

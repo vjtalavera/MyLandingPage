@@ -359,6 +359,20 @@ code {
   gap: var(--space-5);
 }
 
+/* La oferta en una línea, pegada al botón: lo que cuesta y cuánto se tarda
+   en saber algo es lo que decide el clic. */
+.hero-note {
+  margin: var(--space-4) 0 0;
+  color: var(--ink-2);
+  font-size: var(--step--1);
+}
+
+/* El código dentro del párrafo del hero: el mismo chip, sin que engorde la
+   línea. */
+.hero-text code {
+  padding-block: 0;
+}
+
 /* --- Botones y enlaces --------------------------------------------------- */
 
 .button {
@@ -679,6 +693,175 @@ pre {
   font-weight: 600;
 }
 
+/* --- Diagnóstico ---------------------------------------------------------- */
+
+/*
+ * El bloque que responde "¿qué me llevo si pido la llamada?". Se dibuja como
+ * una hoja de trabajo y no como tarjetas: cabecera en monoespaciada (la misma
+ * voz que el diff del hero), filas de definición separadas por filetes y una
+ * sola acción al pie. Al lado, los riesgos de ejemplo, con la firma en código
+ * y el efecto en una etiqueta: es el método, no una promesa.
+ */
+.diagnosis {
+  background: var(--surface);
+}
+
+.diagnosis-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+  gap: var(--space-7);
+  align-items: start;
+}
+
+.diagnosis-sheet {
+  overflow: hidden;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-lg);
+  background: var(--surface-2);
+}
+
+.diagnosis-sheet-head {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-4);
+  margin: 0;
+  padding: var(--space-3) var(--space-5);
+  border-bottom: 1px dashed var(--border-strong);
+  color: var(--ink-2);
+  font-family: var(--mono);
+  font-size: var(--step--2);
+}
+
+.diagnosis-sheet-head span:first-child {
+  color: var(--brand-text);
+  font-weight: 600;
+}
+
+.diagnosis-sheet dl {
+  margin: 0;
+}
+
+.diagnosis-sheet dl > div {
+  display: grid;
+  grid-template-columns: 9.5rem 1fr;
+  gap: var(--space-4);
+  padding: var(--space-4) var(--space-5);
+}
+
+.diagnosis-sheet dl > div + div {
+  border-top: 1px solid var(--border);
+}
+
+.diagnosis-sheet dt {
+  color: var(--ink);
+  font-size: var(--step--1);
+  font-weight: 700;
+  line-height: var(--lh-body);
+}
+
+.diagnosis-sheet dd {
+  margin: 0;
+  color: var(--ink-2);
+  line-height: var(--lh-body);
+}
+
+.diagnosis-sheet-action {
+  padding: var(--space-5);
+  border-top: 1px dashed var(--border-strong);
+  background: var(--surface);
+}
+
+.diagnosis-risks h3 {
+  margin: 0 0 var(--space-4);
+  font-size: var(--step-1);
+}
+
+.diagnosis-risks ul {
+  display: grid;
+  gap: var(--space-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.diagnosis-risks li {
+  padding: var(--space-4);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--code-del);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+}
+
+.diagnosis-risks li p {
+  margin: 0;
+  color: var(--ink-2);
+  font-size: var(--step--1);
+}
+
+.diagnosis-risks .risk-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-2) var(--space-3);
+  margin-bottom: var(--space-2);
+}
+
+.risk-head code {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.risk-head span {
+  color: var(--brand-text);
+  font-family: var(--mono);
+  font-size: var(--step--2);
+  font-weight: 600;
+}
+
+.diagnosis-risks-note {
+  margin: var(--space-4) 0 0;
+  color: var(--ink-3);
+  font-size: var(--step--2);
+}
+
+/* --- Señales ------------------------------------------------------------- */
+
+/*
+ * Síntomas que se reconocen de un vistazo: lista a dos columnas con filete
+ * superior, sin tarjetas. La flecha es la del diff, no un icono.
+ */
+.signal-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0 var(--space-7);
+  max-width: 1040px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.signal-list li {
+  position: relative;
+  padding: var(--space-4) 0 var(--space-4) var(--space-6);
+  border-top: 1px solid var(--border-strong);
+  color: var(--ink-2);
+}
+
+.signal-list li::before {
+  content: '→';
+  position: absolute;
+  left: 0;
+  top: var(--space-4);
+  color: var(--brand-text);
+  font-family: var(--mono);
+}
+
+.signal-list strong {
+  color: var(--ink);
+  font-weight: 600;
+}
+
 /* --- Bloque de modernización (fondo oscuro) ------------------------------ */
 
 /*
@@ -711,70 +894,18 @@ pre {
   color: var(--brand-on-dark);
 }
 
+/* Titular a la izquierda y texto con la acción a la derecha, alineados por
+   abajo: las tarjetas de los retos arrancan justo después. */
 .legacy-grid {
   display: grid;
   grid-template-columns: 0.95fr 1.05fr;
-  gap: 60px;
-  align-items: center;
+  gap: var(--space-5) 60px;
+  align-items: end;
 }
 
 .legacy-grid > div > p {
   color: var(--on-dark-muted);
-  margin: var(--space-5) 0 var(--space-5);
-}
-
-/* Itinerario de trabajo. La secuencia la marca el raíl que une las cuatro
-   fases, no una cifra: el orden ya lo dice el <ol>. */
-.topics {
-  display: grid;
-  gap: var(--space-3);
   margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.topics li {
-  position: relative;
-  display: grid;
-  grid-template-columns: auto 1fr;
-  gap: var(--space-4);
-  padding: var(--space-4) var(--space-5);
-  border: 1px solid var(--border-on-dark);
-  border-radius: var(--radius-md);
-  background: var(--surface-on-dark);
-}
-
-/* Nodo de la fase: ocupa la columna donde antes iba el número. */
-.topics li::before {
-  content: '';
-  width: 9px;
-  height: 9px;
-  margin-top: 0.45em;
-  border-radius: 50%;
-  background: var(--brand-on-dark);
-}
-
-/* Tramo que cruza el hueco hasta la fase siguiente. */
-.topics li:not(:last-child)::after {
-  content: '';
-  position: absolute;
-  left: calc(var(--space-5) + 4px);
-  top: calc(var(--space-4) + 0.45em + 9px);
-  bottom: calc(-1 * var(--space-3));
-  width: 1px;
-  background: var(--border-on-dark);
-}
-
-.topics h3 {
-  margin: 0 0 var(--space-2);
-  color: var(--on-dark);
-  font-size: var(--step-0);
-}
-
-.topics p {
-  margin: 0;
-  color: var(--on-dark-muted);
-  font-size: var(--step--1);
 }
 
 .legacy-actions {
@@ -1053,19 +1184,6 @@ pre {
   font-variant-numeric: tabular-nums;
 }
 
-.contact-copy > .contact-hint {
-  margin-top: var(--space-6);
-  padding: var(--space-4) var(--space-5);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-md);
-  background: var(--surface);
-  font-size: var(--step--1);
-}
-
-.contact-hint strong {
-  color: var(--ink);
-}
-
 .contact-form {
   display: grid;
   gap: var(--space-5);
@@ -1082,6 +1200,19 @@ pre {
   margin: 0;
   padding: 0;
   border: 0;
+}
+
+/* Nombre y email en una fila cuando hay sitio. */
+.field-row {
+  display: grid;
+  gap: var(--space-5);
+}
+
+@media (min-width: 560px) {
+  .field-row {
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
+  }
 }
 
 .contact-form fieldset:disabled {
@@ -1122,8 +1253,10 @@ pre {
 }
 
 .contact-form input,
+.contact-form select,
 .contact-form textarea {
   width: 100%;
+  min-height: 46px;
   border: 1px solid var(--border-strong);
   border-radius: var(--radius-sm);
   padding: var(--space-3) var(--space-4);
@@ -1137,13 +1270,13 @@ pre {
 
 /* El foco NO se anula: antes un `outline: none` aquí dejaba el formulario sin
    indicador visible para quien navega con teclado. */
-.contact-form :is(input, textarea):focus-visible {
+.contact-form :is(input, select, textarea):focus-visible {
   outline: 2px solid var(--brand);
   outline-offset: 1px;
   border-color: var(--brand);
 }
 
-.contact-form :is(input, textarea)[aria-invalid='true'] {
+.contact-form :is(input, select, textarea)[aria-invalid='true'] {
   border-color: var(--error);
   box-shadow: 0 0 0 3px color-mix(in srgb, var(--error) 16%, transparent);
 }
@@ -1349,6 +1482,31 @@ footer {
 .service-cta .cta-note {
   margin: var(--space-4) auto 0;
   color: var(--ink-3);
+  font-size: var(--step--1);
+}
+
+/* Qué pasa en la llamada, separado del botón por un filete corto. */
+.service-cta .cta-includes {
+  max-width: 52ch;
+  margin: var(--space-6) auto 0;
+  padding-top: var(--space-5);
+  border-top: 1px solid var(--border);
+  color: var(--ink-2);
+  font-size: var(--step--1);
+}
+
+.cta-includes a,
+.guide-offer a {
+  color: var(--brand-text);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* Salida discreta al diagnóstico bajo la intro de una guía. */
+.guide-offer {
+  margin: var(--space-5) 0 0;
+  color: var(--ink-2);
   font-size: var(--step--1);
 }
 
@@ -1757,9 +1915,9 @@ footer {
  * tres fondos claros además de los dos planos propios que ya existían (el hero
  * y el bloque oscuro de #retos):
  *
+ *   elevado  --surface     #diagnostico · #proceso
  *   base     --surface-2   #senales · #tecnologias · #contacto
  *   hundido  --surface-3   #servicios · #faq
- *   elevado  --surface     #proceso
  *
  * La regla es que dos secciones contiguas nunca comparten plano. Las tarjetas
  * siguen en --surface, así que en el plano hundido destacan más, no menos.
@@ -1767,44 +1925,6 @@ footer {
 .section--sunken {
   background: var(--surface-3);
   border-block: 1px solid var(--border);
-}
-
-/* --- Chips de servicio del hero ------------------------------------------ */
-
-/*
- * El catálogo resumido a cuatro enlaces, por encima de la línea de flotación:
- * es lo que convierte el hero en una oferta y no en una descripción de a qué
- * me dedico. Contorno y no relleno a propósito, para que ninguno compita con
- * el botón azul que tienen justo encima.
- */
-.hero-services {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-3);
-  margin-top: var(--space-6);
-}
-
-.hero-services a {
-  display: inline-flex;
-  align-items: center;
-  padding: 7px 15px;
-  border: 1px solid var(--border-strong);
-  border-radius: 999px;
-  color: var(--ink-2);
-  font-size: var(--step--2);
-  font-weight: 600;
-  line-height: 1.4;
-  transition:
-    border-color var(--dur-hover) var(--ease-out),
-    background-color var(--dur-hover) var(--ease-out),
-    color var(--dur-hover) var(--ease-out);
-}
-
-.hero-services a:hover,
-.hero-services a:focus-visible {
-  border-color: var(--brand);
-  background: var(--brand-soft);
-  color: var(--brand-text);
 }
 
 /* --- Señales de confianza del hero --------------------------------------- */
@@ -1819,7 +1939,7 @@ footer {
   flex-wrap: wrap;
   gap: var(--space-5) var(--space-7);
   margin: var(--space-7) 0 0;
-  padding-top: var(--space-5);
+  padding: var(--space-5) 0 0;
   border-top: 1px solid var(--border-strong);
   list-style: none;
 }
@@ -1981,7 +2101,8 @@ footer {
     .cards > .card,
     .challenge-card,
     .tech-block,
-    .topics li,
+    .signal-list li,
+    .diagnosis-risks li,
     .process li,
     .no-list li,
     .related-grid li {
@@ -2029,8 +2150,8 @@ footer {
 
   /*
    * El rótulo largo no se oculta, se reduce a texto accesible: el botón pasa a
-   * decir "Hablemos" a la vista y sigue anunciándose como "Cuéntame tu
-   * proyecto" para quien usa lector de pantalla.
+   * decir "Diagnóstico" a la vista y se anuncia como "Diagnóstico gratuito",
+   * que empieza por lo mismo (WCAG 2.5.3).
    */
   .header-cta-long {
     position: absolute;
@@ -2100,8 +2221,49 @@ footer {
   .cards.three,
   .cards.four,
   .challenge-grid,
-  .tech-blocks {
+  .tech-blocks,
+  .diagnosis-grid,
+  .signal-list {
     grid-template-columns: 1fr;
+  }
+
+  /* En la hoja estrecha, el rótulo pasa encima de su texto. */
+  .diagnosis-sheet dl > div {
+    grid-template-columns: 1fr;
+    gap: var(--space-1);
+  }
+
+  /*
+   * La home más corta en móvil: los bloques de tecnología se quedan en chips
+   * y enlaces, que es lo que se escanea. La prosa sigue en el HTML (mismo
+   * marcado en servidor y cliente) y se lee entera en escritorio y en las
+   * páginas de servicio, que cuentan lo mismo con más detalle.
+   */
+  .tech-block > p:not(.tech-links) {
+    display: none;
+  }
+
+  .tech-block {
+    gap: var(--space-3);
+  }
+
+  /* El alto mínimo iguala las tarjetas en fila; apiladas solo deja huecos. */
+  .service-card {
+    min-height: 0;
+  }
+
+  .challenge-card {
+    padding: var(--space-5);
+  }
+
+  /* En móvil cada riesgo se queda en firma y efecto, que ya se entienden
+     solos; la explicación completa está en las FAQ de más abajo. */
+  .diagnosis-risks li > p:not(.risk-head) {
+    display: none;
+  }
+
+  .diagnosis-risks .risk-head {
+    margin-bottom: 0;
   }
 
   .section,
@@ -2126,6 +2288,12 @@ footer {
 @media (max-width: 500px) {
   .container {
     width: min(100% - 32px, 1160px);
+  }
+
+  /* En un teléfono el diff del hero solo empuja hacia abajo lo que importa;
+     el bloque del diagnóstico ya enseña código y riesgos concretos. */
+  .code-card {
+    display: none;
   }
 
   .footer-grid {

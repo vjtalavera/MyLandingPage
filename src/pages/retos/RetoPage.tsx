@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import Breadcrumbs from '../../components/Breadcrumbs'
 import ContentSections from '../../components/ContentSections'
 import Faq from '../../components/Faq'
+import OfferCta from '../../components/OfferCta'
 import PageToc from '../../components/PageToc'
 import { Paragraphs } from '../../components/Prose'
 import RelatedLinks from '../../components/RelatedLinks'
@@ -34,7 +35,7 @@ export default function RetoPage({ entry }: { entry: CatalogEntry }) {
               <p className="service-intro">{entry.intro}</p>
 
               <Link className="button primary" to="/#contacto">
-                {entry.ctaText}
+                {OFFER.cta}
               </Link>
             </div>
 
@@ -99,24 +100,14 @@ export default function RetoPage({ entry }: { entry: CatalogEntry }) {
 
       <RelatedLinks entry={entry} title={entry.relatedTitle} />
 
-      <section className="section service-cta">
-        <div className="container">
-          <p className="eyebrow">¿Tienes este reto?</p>
-
-          <h2>{entry.ctaTitle ?? 'Analicemos tu aplicación'}</h2>
-
-          <p>
-            {entry.ctaBody ??
-              'Cuéntame brevemente el estado actual de tu aplicación y qué necesitas evolucionar. Miramos el contexto técnico y las posibles líneas de actuación.'}
-          </p>
-
-          <Link className="button primary" to="/#contacto">
-            {OFFER.cta}
-          </Link>
-
-          <p className="cta-note">{OFFER.note}</p>
-        </div>
-      </section>
+      <OfferCta
+        eyebrow="¿Tienes este reto?"
+        title={entry.ctaTitle ?? 'Analicemos tu aplicación'}
+        body={
+          entry.ctaBody ??
+          'Cuéntame brevemente el estado actual de tu aplicación y qué necesitas evolucionar. Miramos el contexto técnico y las posibles líneas de actuación.'
+        }
+      />
     </>
   )
 }

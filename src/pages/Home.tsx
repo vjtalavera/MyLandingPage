@@ -4,6 +4,34 @@ import Faq from '../components/Faq'
 import { retos, services } from '../data/catalog'
 import { OFFER } from '../data/offer'
 
+/*
+ * Riesgos de ejemplo del bloque del diagnóstico. Son generales del ecosistema,
+ * no de un cliente: cada uno sale de una respuesta que ya está publicada en
+ * las FAQ (`src/data/faq.ts`). Si cambia una, hay que revisar su par aquí.
+ */
+const sampleRisks = [
+  {
+    signature: 'javax.* → jakarta.*',
+    effect: 'marca el ritmo',
+    body: 'Mecánico en el código propio. Lo que decide si son semanas o meses son las librerías de terceros sin versión compatible.',
+  },
+  {
+    signature: 'Hibernate 5 → 6',
+    effect: 'cambia resultados',
+    body: 'El motor de HQL se reescribió: una consulta que compila puede devolver otra cosa. Se compara el SQL generado antes y después.',
+  },
+  {
+    signature: 'JBoss EAP antiguo',
+    effect: 'fija el techo',
+    body: 'Las versiones antiguas no soportan las LTS actuales de Java. El servidor decide hasta dónde se puede subir y en qué orden.',
+  },
+  {
+    signature: 'Pocas pruebas',
+    effect: 'va primero',
+    body: 'Sin una red que demuestre que el comportamiento se mantiene, construirla es la primera fase, no un extra.',
+  },
+]
+
 export default function Home() {
   return (
     <>
@@ -11,58 +39,49 @@ export default function Home() {
         <div className="container hero-grid">
           <div className="hero-content">
             {/*
-              El H1 promete un resultado; la categoría ("Consultoría y
-              desarrollo Java") se queda en el eyebrow y en el <title>, que es
-              donde la buscan Google y quien llega desde una búsqueda.
-              Los &nbsp; impiden que el balanceo parta "17 / o 21".
+              El eyebrow nombra las tres consultas que traen visitas
+              (modernización, Spring Boot, APIs REST) y el H1 promete el
+              resultado con la cuarta (Java 8 a 17/21). Los &nbsp; impiden que
+              el balanceo parta "17 / o 21".
             */}
             <p className="eyebrow is-lead">
-              Consultoría y desarrollo Java · Spring Boot
+              Modernización Java · Spring Boot · APIs REST
             </p>
 
             <h1>
-              Tu aplicación Java en&nbsp;17&nbsp;o&nbsp;21,
+              Moderniza tu aplicación de Java&nbsp;8 a 17&nbsp;o&nbsp;21,
               <span> sin parar producción</span>
             </h1>
 
             <p className="hero-text">
-              Migraciones de Java EE a Jakarta, de Spring Boot 2 a 3 y
-              evolutivos sobre backends que ya están dando servicio. Empezamos
-              con un diagnóstico gratuito de 30 minutos: al colgar sabrás si se
-              puede, por dónde empezar y qué riesgos veo.
+              Para empresas con un backend en Java 8, <code>javax</code> o
+              Spring antiguo que no puede dejar de dar servicio. Lo llevo a
+              Jakarta EE y Spring Boot 3 por fases que llegan a producción, y
+              también desarrollo servicios y APIs REST nuevos en Java.
             </p>
 
+            {/*
+              Un único siguiente paso. El enlace secundario no saca de la
+              página: baja a lo que incluye la oferta, que es la duda que
+              frena el clic en el botón de al lado.
+            */}
             <div className="hero-actions">
               <Link className="button primary" to="/#contacto">
                 {OFFER.cta}
               </Link>
 
-              <Link className="text-link" to="/#proceso">
-                Ver cómo trabajo →
+              <Link className="text-link" to="/#diagnostico">
+                Qué incluye el diagnóstico ↓
               </Link>
             </div>
 
-            {/*
-              El catálogo, sin scroll. Sale de `services` para no repetir aquí
-              lo que ya vive en el catálogo, y es un <nav> porque son cuatro
-              destinos reales: quien entra ve de una pasada qué se contrata,
-              sin tener que bajar. Sin azul sólido a propósito, que queda
-              reservado al CTA de al lado.
-            */}
-            <nav className="hero-services" aria-label="Servicios">
-              {services.map((entry) => (
-                <Link key={entry.slug} to={entry.path}>
-                  {entry.navLabel}
-                </Link>
-              ))}
-            </nav>
+            <p className="hero-note">{OFFER.note}</p>
 
             {/*
               Señales de confianza. Las tres son verificables contra el resto
               de la página (el alcance del análisis y las fases desplegables
-              salen de #proceso), que es justo lo que las separa de un "500
-              clientes satisfechos": aquí no hay nada que el visitante no pueda
-              contrastar leyendo.
+              salen de #diagnostico y #proceso), que es justo lo que las separa
+              de un "500 clientes satisfechos".
             */}
             <ul className="hero-proof">
               <li>
@@ -117,7 +136,7 @@ export default function Home() {
                 <span className="code-line code-add">
                   + import jakarta.persistence.Id;
                 </span>
-                <span className="code-line">{' '}</span>
+                <span className="code-line">{' '}</span>
                 <span className="code-line is-comment">{'  // pom.xml'}</span>
                 <span className="code-line code-del">
                   {'-   <maven.compiler.source>1.8</...>'}
@@ -125,7 +144,7 @@ export default function Home() {
                 <span className="code-line code-add">
                   {'+   <maven.compiler.release>21</...>'}
                 </span>
-                <span className="code-line">{' '}</span>
+                <span className="code-line">{' '}</span>
                 <span className="code-line is-comment">
                   {'  // hibernate-core 5.6 → 6.4'}
                 </span>
@@ -134,6 +153,275 @@ export default function Home() {
                 </span>
               </code>
             </pre>
+          </div>
+        </div>
+      </section>
+
+      {/*
+        Qué se lleva quien pide el diagnóstico. Va justo después del hero
+        porque es la pregunta que frena el clic: antes estaba repartida entre
+        el hero, el primer paso de #proceso y el contacto.
+
+        Todo lo que afirma sale de compromisos ya publicados: OFFER, el
+        primer paso del proceso y los tres pasos de "Qué pasa después".
+      */}
+      <section id="diagnostico" className="section diagnosis">
+        <div className="container">
+          <div className="section-heading">
+            <p className="eyebrow">El primer paso</p>
+
+            <h2>Qué incluye el diagnóstico gratuito</h2>
+
+            <p>
+              Una llamada de {OFFER.duration} para entender tu sistema antes de
+              hablar de plazos o de precio. Sin compromiso: si no puedo
+              ayudarte, te lo digo.
+            </p>
+          </div>
+
+          <div className="diagnosis-grid">
+            <div className="diagnosis-sheet">
+              <p className="diagnosis-sheet-head" aria-hidden="true">
+                <span>diagnóstico</span>
+                <span>{OFFER.duration} · sin coste</span>
+              </p>
+
+              <dl>
+                <div>
+                  <dt>Antes</dt>
+                  <dd>
+                    Te respondo en {OFFER.responseTime} con preguntas concretas
+                    o una propuesta de hora.
+                  </dd>
+                </div>
+
+                <div>
+                  <dt>En la llamada</dt>
+                  <dd>
+                    Versión de Java, framework, servidor de aplicaciones, cómo
+                    se construye y se despliega, y qué es lo que duele hoy.
+                  </dd>
+                </div>
+
+                <div>
+                  <dt>Al colgar</dt>
+                  <dd>
+                    Sabes si se puede hacer, por dónde empezaría y qué riesgos
+                    veo.
+                  </dd>
+                </div>
+
+                <div>
+                  <dt>Si seguimos</dt>
+                  <dd>
+                    Una propuesta de análisis con alcance y precio cerrados. El
+                    documento es tuyo aunque después no sigamos.
+                  </dd>
+                </div>
+
+                <div>
+                  <dt>Qué necesito</dt>
+                  <dd>
+                    Que me cuentes el stack y qué te está bloqueando, con tus
+                    palabras.
+                  </dd>
+                </div>
+              </dl>
+
+              <div className="diagnosis-sheet-action">
+                <Link className="button primary" to="/#contacto">
+                  {OFFER.cta}
+                </Link>
+              </div>
+            </div>
+
+            <div className="diagnosis-risks">
+              <h3>Riesgos que conviene ver antes de estimar</h3>
+
+              <ul>
+                {sampleRisks.map((risk) => (
+                  <li key={risk.signature}>
+                    <p className="risk-head">
+                      <code>{risk.signature}</code>
+                      <span>{risk.effect}</span>
+                    </p>
+
+                    <p>{risk.body}</p>
+                  </li>
+                ))}
+              </ul>
+
+              <p className="diagnosis-risks-note">
+                Ejemplos generales del ecosistema Java, no de un cliente.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="senales" className="section signals">
+        <div className="container">
+          <div className="section-heading">
+            <p className="eyebrow">Cuándo tiene sentido llamarme</p>
+
+            <h2>¿Tu aplicación Java necesita evolucionar?</h2>
+          </div>
+
+          {/* Lista y no tarjetas: son síntomas que se reconocen de un
+              vistazo, y en móvil ocupan la mitad. */}
+          <ul className="signal-list">
+            <li>
+              <strong>El proveedor original ya no está.</strong> La
+              documentación es el propio código y cada cambio da respeto
+              porque no se sabe qué más toca.
+            </li>
+
+            <li>
+              <strong>La versión de Java bloquea lo demás.</strong> Las
+              librerías que necesitáis ya no publican versiones para Java 8.
+            </li>
+
+            <li>
+              <strong>Cada despliegue es un evento.</strong> Fin de semana, plan
+              de vuelta atrás y media plantilla pendiente: es un problema de
+              arquitectura y de pruebas.
+            </li>
+
+            <li>
+              <strong>Hace falta algo nuevo que conviva con lo que hay.</strong>{' '}
+              Un servicio en Spring Boot o una API REST que no obligue a
+              migrar todo de golpe.
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <section id="proceso" className="about section">
+        <div className="container">
+          <div className="section-heading">
+            <p className="eyebrow">Cómo trabajo</p>
+
+            <h2>Entender el sistema, acotar el riesgo y entregar por fases</h2>
+          </div>
+
+          <div className="about-grid">
+            <ol className="process">
+              <li>
+                <h3>Llamada de diagnóstico, sin coste</h3>
+                <p>
+                  {OFFER.duration} para entender qué hay y decirte si puedo
+                  ayudarte. Si la respuesta es no, te lo diré.
+                </p>
+              </li>
+
+              <li>
+                <h3>Análisis técnico con alcance cerrado</h3>
+                <p>
+                  Inventario de dependencias, incompatibilidades detectadas,
+                  riesgos ordenados por impacto y un plan por fases con el
+                  esfuerzo estimado de cada una. Es un trabajo acotado y el
+                  documento es tuyo aunque después no sigamos juntos.
+                </p>
+              </li>
+
+              <li>
+                <h3>Ejecución por fases que se despliegan</h3>
+                <p>
+                  Incrementos que llegan a producción. Cada fase deja la
+                  aplicación funcionando y con sus pruebas, sin ramas de
+                  migración que luego nadie se atreve a fusionar.
+                </p>
+              </li>
+
+              <li>
+                <h3>Traspaso al equipo</h3>
+                <p>
+                  Documentación de qué se ha cambiado y por qué, decisiones
+                  registradas y una sesión con tu equipo. El objetivo es que
+                  podáis seguir sin mí.
+                </p>
+              </li>
+            </ol>
+
+            <div>
+              <h3>Qué no hago</h3>
+
+              <ul className="no-list">
+                <li>
+                  <strong>No propongo reescribir desde cero por defecto.</strong>{' '}
+                  Rehacer un sistema que hoy funciona es la opción más cara y la
+                  de mayor riesgo. A veces es la correcta, y entonces lo diré con
+                  los motivos delante, pero no es el punto de partida.
+                </li>
+
+                <li>
+                  <strong>No migro a ciegas.</strong> Si no hay pruebas
+                  suficientes para demostrar que el comportamiento se mantiene,
+                  construirlas es la primera fase, no un extra opcional.
+                </li>
+
+                <li>
+                  <strong>No pongo fecha antes del análisis.</strong> Una
+                  estimación dada en la primera llamada no es una estimación: es
+                  una cifra que nos va a incomodar a los dos dentro de tres
+                  meses.
+                </li>
+
+                <li>
+                  <strong>No hago administración de sistemas.</strong>{' '}
+                  Si tu proyecto lo necesita, te lo digo en la primera llamada.
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="retos" className="legacy-section section">
+        <div className="container">
+          {/* Las cuatro fases que había aquí repetían #proceso, que ahora
+              va justo encima: el bloque se queda con lo suyo, los retos. */}
+          <div className="legacy-grid">
+            <div>
+              <p className="eyebrow is-lead">Modernización</p>
+
+              <h2>Modernizar una aplicación Java que no puede pararse</h2>
+            </div>
+
+            <div>
+              <p>
+                Las aplicaciones empresariales no siempre pueden sustituirse
+                desde cero. Estos son los cuatro caminos de modernización más
+                habituales, cada uno con lo que implica y por dónde se empieza.
+              </p>
+
+              <div className="legacy-actions">
+                {/* Deliberadamente NO es `primary`: el azul sólido queda
+                    reservado al hero, al diagnóstico, al header y al envío
+                    del formulario. */}
+                <Link className="button on-dark" to="/#contacto">
+                  {OFFER.cta}
+                </Link>
+
+                <Link className="text-link" to="/servicios/modernizacion-java/">
+                  Ver el servicio de modernización →
+                </Link>
+              </div>
+            </div>
+          </div>
+
+          <div className="challenge-grid">
+            {retos.map((entry) => (
+              <Link className="challenge-card" to={entry.path} key={entry.slug}>
+                <span>{entry.eyebrow}</span>
+
+                <h3>{entry.navLabel}</h3>
+
+                <p>{entry.cardText}</p>
+
+                <strong>Ver reto →</strong>
+              </Link>
+            ))}
           </div>
         </div>
       </section>
@@ -165,150 +453,6 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="senales" className="problem section">
-        <div className="container">
-          <div className="section-heading">
-            <p className="eyebrow">Cuándo tiene sentido llamarme</p>
-
-            <h2>¿Tu aplicación Java necesita evolucionar?</h2>
-
-            <p>
-              No todos los sistemas empresariales necesitan empezar desde cero.
-              A veces necesitan una nueva funcionalidad, una modernización
-              progresiva o una estrategia para reducir su deuda técnica.
-            </p>
-          </div>
-
-          <div className="cards three">
-            <article className="card">
-              <h3>El proveedor original ya no está</h3>
-              <p>
-                Nadie del equipo que la construyó sigue en la empresa y la
-                documentación es el propio código. Cada cambio da respeto
-                porque no se sabe qué más toca.
-              </p>
-            </article>
-
-            <article className="card">
-              <h3>La versión de Java bloquea lo demás</h3>
-              <p>
-                Seguís en Java 8 y las librerías que necesitáis ya no publican
-                versiones compatibles. Cada dependencia nueva se convierte en
-                una negociación.
-              </p>
-            </article>
-
-            <article className="card">
-              <h3>Cada despliegue es un evento</h3>
-              <p>
-                Sale en fin de semana, con plan de vuelta atrás y media
-                plantilla pendiente. Eso no es un problema de despliegue: es de
-                arquitectura y de pruebas.
-              </p>
-            </article>
-          </div>
-        </div>
-      </section>
-
-      <section id="retos" className="legacy-section section">
-        <div className="container">
-          <div className="legacy-grid">
-            <div>
-              <p className="eyebrow is-lead">Modernización</p>
-
-              <h2>Modernizar una aplicación Java que no puede pararse</h2>
-
-              <p>
-                Las aplicaciones empresariales no siempre pueden sustituirse
-                desde cero. La evolución progresiva permite analizar el sistema
-                existente, identificar riesgos y definir una estrategia
-                adaptada al proyecto.
-              </p>
-
-              <div className="legacy-actions">
-                {/* Deliberadamente NO es `primary`: el azul sólido queda
-                    reservado al CTA del hero, al del header y al envío del
-                    formulario. Aquí basta con el contorno de marca sobre
-                    oscuro para que siga leyéndose como acción principal de la
-                    sección sin competir con ellos. */}
-                <Link className="button on-dark" to="/#contacto">
-                  Analizar mi caso
-                </Link>
-
-                <Link className="text-link" to="/servicios/modernizacion-java/">
-                  Ver el servicio de modernización →
-                </Link>
-              </div>
-            </div>
-
-            <ol className="topics">
-              <li>
-                <div>
-                  <h3>Inventario</h3>
-                  <p>
-                    Versiones, dependencias, servidor de aplicaciones y puntos
-                    de integración. Sin esto, cualquier estimación es una
-                    apuesta.
-                  </p>
-                </div>
-              </li>
-
-              <li>
-                <div>
-                  <h3>Matriz de impacto</h3>
-                  <p>
-                    Qué se rompe al subir de versión, qué es sustituible y qué
-                    hay que reescribir, ordenado por riesgo.
-                  </p>
-                </div>
-              </li>
-
-              <li>
-                <div>
-                  <h3>Plan por fases desplegables</h3>
-                  <p>
-                    Cada fase deja la aplicación funcionando y en producción.
-                    Sin ramas de migración abiertas durante seis meses.
-                  </p>
-                </div>
-              </li>
-
-              <li>
-                <div>
-                  <h3>Verificación</h3>
-                  <p>
-                    Antes de tocar nada, pruebas que demuestren que el
-                    comportamiento actual se mantiene.
-                  </p>
-                </div>
-              </li>
-            </ol>
-          </div>
-
-          <div className="challenge-grid">
-            {retos.map((entry) => (
-              <Link className="challenge-card" to={entry.path} key={entry.slug}>
-                <span>{entry.eyebrow}</span>
-
-                <h3>{entry.navLabel}</h3>
-
-                <p>{entry.cardText}</p>
-
-                <strong>Ver reto →</strong>
-              </Link>
-            ))}
-          </div>
-
-          <div className="challenge-cta">
-            <p>¿Tu caso se parece a alguno de estos?</p>
-
-            <Link className="button secondary" to="/#contacto">
-              Cuéntame el problema
-            </Link>
-          </div>
-        </div>
-      </section>
-
       <section id="tecnologias" className="section technologies">
         <div className="container">
           <div className="section-heading">
@@ -323,6 +467,9 @@ export default function Home() {
             </p>
           </div>
 
+          {/* En móvil cada bloque se queda en chips y enlaces: la prosa se
+              oculta por CSS (sigue en el HTML, así que no hay diferencia
+              entre servidor y cliente) y la página pierde varias pantallas. */}
           <div className="tech-blocks">
             <article className="tech-block">
               <h3>La plataforma: Java, Java EE y Jakarta EE</h3>
@@ -446,95 +593,6 @@ export default function Home() {
                 <Link to="/servicios/desarrollo-java/">Desarrollo Java</Link>
               </p>
             </article>
-          </div>
-        </div>
-      </section>
-
-      <section id="proceso" className="about section">
-        <div className="container">
-          <div className="section-heading">
-            <p className="eyebrow">Cómo trabajo</p>
-
-            <h2>Entender el sistema, acotar el riesgo y entregar por fases</h2>
-
-            <p>
-              El objetivo es sencillo: entender el sistema, identificar el
-              problema y construir una solución mantenible. Sin sorpresas a
-              mitad de camino.
-            </p>
-          </div>
-
-          <div className="about-grid">
-            <ol className="process">
-              <li>
-                <h3>Llamada de diagnóstico, sin coste</h3>
-                <p>
-                  Media hora para entender qué hay: versión de Java, framework,
-                  servidor, cómo se construye y se despliega, y qué es lo que
-                  duele hoy. Al colgar sabrás si puedo ayudarte, y si la
-                  respuesta es no, te lo diré.
-                </p>
-              </li>
-
-              <li>
-                <h3>Análisis técnico con alcance cerrado</h3>
-                <p>
-                  Inventario de dependencias, incompatibilidades detectadas,
-                  riesgos ordenados por impacto y un plan por fases con el
-                  esfuerzo estimado de cada una. Es un trabajo acotado y el
-                  documento es tuyo aunque después no sigamos juntos.
-                </p>
-              </li>
-
-              <li>
-                <h3>Ejecución por fases que se despliegan</h3>
-                <p>
-                  Incrementos que llegan a producción. Cada fase deja la
-                  aplicación funcionando y con sus pruebas, sin ramas de
-                  migración que luego nadie se atreve a fusionar.
-                </p>
-              </li>
-
-              <li>
-                <h3>Traspaso al equipo</h3>
-                <p>
-                  Documentación de qué se ha cambiado y por qué, decisiones
-                  registradas y una sesión con tu equipo. El objetivo es que
-                  podáis seguir sin mí.
-                </p>
-              </li>
-            </ol>
-
-            <div>
-              <h3>Qué no hago</h3>
-
-              <ul className="no-list">
-                <li>
-                  <strong>No propongo reescribir desde cero por defecto.</strong>{' '}
-                  Rehacer un sistema que hoy funciona es la opción más cara y la
-                  de mayor riesgo. A veces es la correcta, y entonces lo diré con
-                  los motivos delante, pero no es el punto de partida.
-                </li>
-
-                <li>
-                  <strong>No migro a ciegas.</strong> Si no hay pruebas
-                  suficientes para demostrar que el comportamiento se mantiene,
-                  construirlas es la primera fase, no un extra opcional.
-                </li>
-
-                <li>
-                  <strong>No pongo fecha antes del análisis.</strong> Una
-                  estimación dada en la primera llamada no es una estimación: es
-                  una cifra que nos va a incomodar a los dos dentro de tres
-                  meses.
-                </li>
-
-                <li>
-                  <strong>No hago administración de sistemas.</strong>{' '}
-                  Si tu proyecto lo necesita, te lo digo en la primera llamada.
-                </li>
-              </ul>
-            </div>
           </div>
         </div>
       </section>

@@ -4,14 +4,29 @@
  * Aquí solo están las transversales: las de cada página de servicio o de reto
  * viven en su fichero de `src/data/content/`, porque son propias de ese tema.
  *
- * Solo respuestas técnicas, comprobables. Las preguntas de negocio
- * (facturación, confidencialidad, disponibilidad) están más abajo sin activar:
- * afirman cosas sobre cómo trabajas y solo tú puedes confirmarlas.
+ * Respuestas técnicas comprobables y solo las de negocio que el sitio ya
+ * respalda. Las demás (facturación, confidencialidad, disponibilidad) están
+ * más abajo sin activar: afirman cosas sobre cómo trabajas y solo tú puedes
+ * confirmarlas.
  */
 
 import type { QuestionAndAnswer } from './contentTypes.ts'
+import { OFFER } from './offer.ts'
 
 export const HOME_FAQ: QuestionAndAnswer[] = [
+  // Objeciones de negocio que ya están respaldadas en el sitio: la llamada
+  // gratuita (OFFER), la propuesta con alcance y precio cerrados y el
+  // análisis que se queda el cliente (contacto y #proceso). Van primero
+  // porque son las que frenan el primer mensaje.
+  {
+    question: '¿Cuánto cuesta el diagnóstico?',
+    answer: `Nada. Es una llamada de ${OFFER.duration}, sin coste y sin compromiso. Si después tiene sentido seguir, te envío una propuesta de análisis con alcance y precio cerrados antes de empezar, para que decidas con la cifra delante.`,
+  },
+  {
+    question: '¿Y si después del análisis no seguimos?',
+    answer:
+      'El documento del análisis es tuyo: inventario de dependencias, incompatibilidades, riesgos ordenados por impacto y un plan por fases. Puedes ejecutarlo con tu equipo o con otro proveedor.',
+  },
   {
     question: '¿Se puede migrar de Java EE a Jakarta EE sin parar el desarrollo?',
     answer:

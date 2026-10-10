@@ -47,7 +47,6 @@ export interface CatalogEntry {
   /** Servicios prestados (servicio) o áreas a analizar (reto). */
   bullets: string[]
   technologies: string[]
-  ctaText: string
   seoTitle: string
   seoDescription: string
   related: CrossLink[]
@@ -117,7 +116,6 @@ const serviceEntries: CatalogEntry[] = [
       'SQL',
       'Git',
     ],
-    ctaText: 'Cuéntame tu proyecto',
     seoTitle: 'Desarrollo Java | JavaEvolve',
     seoDescription:
       'Desarrollo backend Java para aplicaciones empresariales, nuevas funcionalidades, mantenimiento y evolución de sistemas existentes.',
@@ -171,7 +169,6 @@ const serviceEntries: CatalogEntry[] = [
       'SQL',
       'Git',
     ],
-    ctaText: 'Consultar proyecto',
     seoTitle: 'Desarrollo Spring Boot | JavaEvolve',
     seoDescription:
       'Desarrollo backend con Spring Boot y Spring Framework para servicios, APIs REST y aplicaciones empresariales.',
@@ -224,7 +221,6 @@ const serviceEntries: CatalogEntry[] = [
       'Hibernate',
       'SQL',
     ],
-    ctaText: 'Hablar sobre una API',
     seoTitle: 'Desarrollo de APIs REST con Java | JavaEvolve',
     seoDescription:
       'Diseño y desarrollo de APIs REST con Java para integrar aplicaciones, servicios y sistemas empresariales.',
@@ -279,7 +275,6 @@ const serviceEntries: CatalogEntry[] = [
       'Hibernate',
       'REST',
     ],
-    ctaText: 'Analizar mi caso',
     seoTitle: 'Modernización de aplicaciones Java | JavaEvolve',
     seoDescription:
       'Servicio de modernización progresiva de aplicaciones Java: análisis, plan por fases y ejecución. Java EE a Jakarta EE, subida de versión y migración a Spring Boot.',
@@ -287,7 +282,7 @@ const serviceEntries: CatalogEntry[] = [
     technologiesTitle: 'Tecnologías sobre las que se trabaja',
     relatedTitle: 'Los retos concretos que hay detrás',
     ctaTitle: '¿Empezamos por el análisis?',
-    ctaBody: 'Media hora de llamada para ver qué hay: versión de Java, framework, servidor y qué os está bloqueando. Al colgar sabréis si puedo ayudaros, y si la respuesta es no, os lo diré.',
+    ctaBody: 'El primer paso es una conversación, no un presupuesto. Al colgar sabréis si se puede hacer, por dónde empezaría y qué riesgos veo.',
     published: '2026-09-28',
     updated: '2026-09-29',
     related: [
@@ -339,7 +334,6 @@ const retoEntries: CatalogEntry[] = [
       'JBoss',
       'Maven',
     ],
-    ctaText: 'Analizar mi caso',
     seoTitle: 'Migración Java EE a Jakarta EE | JavaEvolve',
     seoDescription:
       'Migración de aplicaciones Java EE a Jakarta EE, análisis de dependencias, compatibilidad, servidores y evolución de aplicaciones empresariales.',
@@ -395,7 +389,6 @@ const retoEntries: CatalogEntry[] = [
       'WildFly',
       'Maven',
     ],
-    ctaText: 'Analizar mi caso',
     seoTitle: 'Modernizar una aplicación Java legacy: qué implica | JavaEvolve',
     seoDescription:
       'Qué se analiza antes de modernizar una aplicación Java legacy: inventario de dependencias, incompatibilidades, riesgos y por dónde empezar.',
@@ -452,7 +445,6 @@ const retoEntries: CatalogEntry[] = [
       'Maven',
       'Git',
     ],
-    ctaText: 'Analizar mi caso',
     seoTitle: 'Migración a Spring Boot | JavaEvolve',
     seoDescription:
       'Migración y evolución de aplicaciones Java hacia Spring Boot, desarrollo backend, APIs REST y modernización progresiva.',
@@ -506,7 +498,6 @@ const retoEntries: CatalogEntry[] = [
       'Jakarta EE',
       'WildFly',
     ],
-    ctaText: 'Analizar mi caso',
     seoTitle: 'Actualización de versiones Java | JavaEvolve',
     seoDescription:
       'Actualización de versiones Java para aplicaciones empresariales, análisis de compatibilidad, dependencias, frameworks y servidores.',

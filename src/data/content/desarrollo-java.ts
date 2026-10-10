@@ -1,4 +1,5 @@
 import type { EntryContent } from '../contentTypes.ts'
+import { OFFER } from '../offer.ts'
 
 export const desarrolloJava: EntryContent = {
   faqTitle: 'Dudas frecuentes sobre el desarrollo backend',
@@ -47,7 +48,7 @@ export const desarrolloJava: EntryContent = {
       items: [
         {
           title: 'Entender antes de proponer',
-          body: 'Versión de Java, framework, servidor, cómo se construye, cómo se despliega y qué duele hoy. Media hora de conversación ahorra semanas de suposiciones, y a veces lo que sale es que no hace falta lo que se venía a pedir.',
+          body: `Versión de Java, framework, servidor, cómo se construye, cómo se despliega y qué duele hoy. Una llamada de ${OFFER.duration} ahorra semanas de suposiciones, y a veces lo que sale es que no hace falta lo que se venía a pedir.`,
         },
         {
           title: 'Acotar el primer entregable',

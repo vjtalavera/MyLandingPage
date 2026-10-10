@@ -47,7 +47,10 @@
   /* Texto */
   --ink: #172033;
   --ink-2: #5d6a7f;
-  --ink-3: #77839a;
+  /* --ink-3 es el texto más bajo (pistas de campo, privacidad, notas). Antes
+     era #77839a, que daba 3,8:1 sobre blanco y no llegaba a AA en 12px; este
+     da 5,1:1 sobre --surface y 4,6:1 sobre --surface-3. */
+  --ink-3: #636f84;
   --on-dark: #ffffff;
   --on-dark-muted: #aeb9ca;
 
@@ -162,6 +165,9 @@
   font-family: var(--sans);
   color: var(--ink);
   background: var(--surface-2);
+  /* Controles nativos (el desplegable del <select>, las barras de scroll) en
+     el tema del sistema: sin esto el menú del select sale blanco en oscuro. */
+  color-scheme: light dark;
   font-synthesis: none;
   /* cv05/cv08 desambiguan l, I y 1: lo primero que nota un lector técnico. */
   font-feature-settings: 'cv05' 1, 'cv08' 1, 'ss03' 1;

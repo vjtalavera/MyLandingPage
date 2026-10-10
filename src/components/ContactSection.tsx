@@ -12,6 +12,17 @@ import { OFFER } from '../data/offer'
  * de aquí o se renombra, el teléfono deja de llegar.
  */
 
+/** Opciones de "Qué necesitas". Son los servicios y retos del catálogo, en
+ *  palabras de quien escribe; "Otro" cubre el resto. */
+const SUBJECTS = [
+  'Migración de Java 8 a Java 17 / 21',
+  'Migración de Java EE a Jakarta EE',
+  'Migración o actualización de Spring Boot',
+  'Desarrollo nuevo en Java o Spring Boot',
+  'API REST nueva o evolución de una existente',
+  'Otro',
+]
+
 type Errors = Partial<Record<'name' | 'email' | 'phone' | 'subject' | 'message', string>>
 
 function validate(data: FormData): Errors {
@@ -35,7 +46,7 @@ function validate(data: FormData): Errors {
   }
 
   if (subject.length < 3) {
-    errors.subject = 'Indica brevemente el asunto.'
+    errors.subject = 'Elige qué necesitas.'
   }
 
   if (message.length < 20) {
@@ -106,7 +117,9 @@ export default function ContactSection() {
 
       if (response.ok && data.success) {
         setOk(true)
-        setResult(`Mensaje enviado. Te respondo en ${OFFER.responseTime}.`)
+        setResult(
+          `Mensaje enviado. Te respondo en ${OFFER.responseTime} a la dirección que has indicado.`,
+        )
         form.reset()
       } else {
         setOk(false)
@@ -126,11 +139,11 @@ export default function ContactSection() {
         <div className="contact-copy">
           <p className="eyebrow">Contacto</p>
 
-          <h2>Cuéntame qué necesitas construir o modernizar.</h2>
+          <h2>Pide tu diagnóstico gratuito</h2>
 
           <p>
-            Explícame brevemente el caso y te digo si puedo ayudarte y cómo.
-            El primer paso es un diagnóstico de 30 minutos, sin coste.
+            Cuéntame el caso en unas líneas. La llamada dura {OFFER.duration},
+            no tiene coste y no te compromete a nada.
           </p>
 
           {/*
@@ -146,20 +159,14 @@ export default function ContactSection() {
               una propuesta de hora.
             </li>
             <li>
-              Hablamos media hora: versión de Java, framework, servidor y qué
-              duele hoy. Si no puedo ayudarte, te lo digo.
+              Hablamos {OFFER.duration}: versión de Java, framework, servidor y
+              qué duele hoy. Si no puedo ayudarte, te lo digo.
             </li>
             <li>
               Si tiene sentido seguir, te envío una propuesta de análisis con
               alcance y precio cerrados. Sin compromiso de continuidad.
             </li>
           </ol>
-
-          <p className="contact-hint">
-            <strong>Para que la respuesta sea útil, cuéntame:</strong> versión
-            de Java y de Spring o Java EE, servidor de aplicaciones, cuántos
-            módulos o servicios hay y qué te está bloqueando.
-          </p>
         </div>
 
         <form className="contact-form" onSubmit={handleSubmit} noValidate>
@@ -175,59 +182,134 @@ export default function ContactSection() {
           <fieldset disabled={sending}>
             <legend className="sr-only">Datos de contacto</legend>
 
+            {/* Nombre y email comparten fila en escritorio: el formulario
+                pierde alto sin perder campos. */}
+            <div className="field-row">
+              <div className="field">
+                <label htmlFor="contacto-nombre">
+                  Nombre <abbr title="obligatorio">*</abbr>
+                </label>
+
+                <input
+                  id="contacto-nombre"
+                  name="name"
+                  type="text"
+                  autoComplete="name"
+                  required
+                  aria-invalid={errors.name ? true : undefined}
+                  aria-describedby={errors.name ? 'contacto-nombre-error' : undefined}
+                />
+
+                {errors.name && (
+                  <p className="field-error" id="contacto-nombre-error">
+                    {errors.name}
+                  </p>
+                )}
+              </div>
+
+              <div className="field">
+                <label htmlFor="contacto-email">
+                  Email <abbr title="obligatorio">*</abbr>
+                </label>
+
+                <input
+                  id="contacto-email"
+                  name="email"
+                  type="email"
+                  autoComplete="email"
+                  inputMode="email"
+                  required
+                  aria-invalid={errors.email ? true : undefined}
+                  aria-describedby={
+                    errors.email
+                      ? 'contacto-email-ayuda contacto-email-error'
+                      : 'contacto-email-ayuda'
+                  }
+                />
+
+                <p className="field-hint" id="contacto-email-ayuda">
+                  Te respondo a esta dirección.
+                </p>
+
+                {errors.email && (
+                  <p className="field-error" id="contacto-email-error">
+                    {errors.email}
+                  </p>
+                )}
+              </div>
+            </div>
+
             <div className="field">
-              <label htmlFor="contacto-nombre">
-                Nombre <abbr title="obligatorio">*</abbr>
+              <label htmlFor="contacto-asunto">
+                Qué necesitas <abbr title="obligatorio">*</abbr>
               </label>
 
-              <input
-                id="contacto-nombre"
-                name="name"
-                type="text"
-                autoComplete="name"
+              {/*
+                Sigue siendo el campo `subject` y llega igual al worker, que
+                lo pone en el asunto del correo: así el buzón recibe los
+                mensajes ya clasificados. La opción vacía NO va `disabled` a
+                propósito: con ella deshabilitada, `form.reset()` dejaría
+                seleccionada la primera opción real en vez de volver al
+                estado inicial.
+              */}
+              <select
+                id="contacto-asunto"
+                name="subject"
                 required
-                aria-invalid={errors.name ? true : undefined}
-                aria-describedby={errors.name ? 'contacto-nombre-error' : undefined}
-              />
+                defaultValue=""
+                aria-invalid={errors.subject ? true : undefined}
+                aria-describedby={errors.subject ? 'contacto-asunto-error' : undefined}
+              >
+                <option value="">Elige una opción</option>
+                {SUBJECTS.map((subject) => (
+                  <option key={subject} value={subject}>
+                    {subject}
+                  </option>
+                ))}
+              </select>
 
-              {errors.name && (
-                <p className="field-error" id="contacto-nombre-error">
-                  {errors.name}
+              {errors.subject && (
+                <p className="field-error" id="contacto-asunto-error">
+                  {errors.subject}
                 </p>
               )}
             </div>
 
             <div className="field">
-              <label htmlFor="contacto-email">
-                Email <abbr title="obligatorio">*</abbr>
+              <label htmlFor="contacto-mensaje">
+                Mensaje <abbr title="obligatorio">*</abbr>
               </label>
 
-              <input
-                id="contacto-email"
-                name="email"
-                type="email"
-                autoComplete="email"
-                inputMode="email"
+              <textarea
+                id="contacto-mensaje"
+                name="message"
+                rows={6}
+                maxLength={4000}
+                placeholder="Ej.: Java 8 y Spring 4 sobre JBoss EAP 6, ocho módulos Maven. Queremos llegar a Java 21 sin parar el servicio."
                 required
-                aria-invalid={errors.email ? true : undefined}
+                aria-invalid={errors.message ? true : undefined}
                 aria-describedby={
-                  errors.email
-                    ? 'contacto-email-ayuda contacto-email-error'
-                    : 'contacto-email-ayuda'
+                  errors.message
+                    ? 'contacto-mensaje-ayuda contacto-mensaje-error'
+                    : 'contacto-mensaje-ayuda'
                 }
               />
 
-              <p className="field-hint" id="contacto-email-ayuda">
-                Te respondo a esta dirección.
+              <p className="field-hint" id="contacto-mensaje-ayuda">
+                Para que la respuesta sea útil: versión de Java y de Spring o
+                Java EE, servidor de aplicaciones, cuántos módulos o servicios
+                hay y qué te está bloqueando.
               </p>
 
-              {errors.email && (
-                <p className="field-error" id="contacto-email-error">
-                  {errors.email}
+              {errors.message && (
+                <p className="field-error" id="contacto-mensaje-error">
+                  {errors.message}
                 </p>
               )}
             </div>
 
+            {/* El teléfono, opcional, va al final: quien no quiere darlo no
+                tiene que saltárselo a mitad del formulario. */}
             <div className="field">
               <label htmlFor="contacto-telefono">
                 Teléfono <span className="field-optional">(opcional)</span>
@@ -258,54 +340,10 @@ export default function ContactSection() {
                 </p>
               )}
             </div>
-
-            <div className="field">
-              <label htmlFor="contacto-asunto">
-                Asunto <abbr title="obligatorio">*</abbr>
-              </label>
-
-              <input
-                id="contacto-asunto"
-                name="subject"
-                type="text"
-                required
-                aria-invalid={errors.subject ? true : undefined}
-                aria-describedby={errors.subject ? 'contacto-asunto-error' : undefined}
-              />
-
-              {errors.subject && (
-                <p className="field-error" id="contacto-asunto-error">
-                  {errors.subject}
-                </p>
-              )}
-            </div>
-
-            <div className="field">
-              <label htmlFor="contacto-mensaje">
-                Mensaje <abbr title="obligatorio">*</abbr>
-              </label>
-
-              <textarea
-                id="contacto-mensaje"
-                name="message"
-                rows={6}
-                maxLength={4000}
-                placeholder="Versión de Java, framework, qué te está bloqueando..."
-                required
-                aria-invalid={errors.message ? true : undefined}
-                aria-describedby={errors.message ? 'contacto-mensaje-error' : undefined}
-              />
-
-              {errors.message && (
-                <p className="field-error" id="contacto-mensaje-error">
-                  {errors.message}
-                </p>
-              )}
-            </div>
           </fieldset>
 
           <button className="button primary" type="submit" disabled={sending}>
-            {sending ? 'Enviando...' : 'Enviar consulta'}
+            {sending ? 'Enviando…' : OFFER.cta}
           </button>
 
           {result && (

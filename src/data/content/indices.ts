@@ -1,4 +1,5 @@
 import type { EntryContent } from '../contentTypes.ts'
+import { OFFER } from '../offer.ts'
 
 /**
  * Cuerpo largo de las dos páginas índice.
@@ -84,7 +85,7 @@ export const indexContent: Record<string, EntryContent> = {
             body: 'Versión de Java, framework, servidor y qué es lo que bloquea hoy. Con eso basta para saber si tiene sentido seguir.',
           },
           {
-            title: 'Media hora de llamada',
+            title: `Llamada de ${OFFER.duration}, sin coste`,
             body: 'Para entender el sistema y el problema real, que no siempre es el que se viene a contar. Al colgar sabréis si puedo ayudaros, y si la respuesta es no, se dice.',
           },
           {

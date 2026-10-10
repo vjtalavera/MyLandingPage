@@ -8,7 +8,9 @@ const navLinks = [
   { to: '/servicios/', label: 'Servicios' },
   { to: '/retos/', label: 'Retos' },
   { to: '/guias/', label: 'Guías' },
-  { to: '/#tecnologias', label: 'Tecnologías' },
+  // "Cómo trabajo" y no "Tecnologías": quien duda si fiarse busca el método,
+  // y el stack ya se ve en cada servicio y en la home.
+  { to: '/#proceso', label: 'Cómo trabajo' },
   { to: '/#contacto', label: 'Contacto' },
 ]
 
@@ -140,13 +142,14 @@ export default function SiteHeader() {
           CTA persistente. El header ya es sticky, así que esto cubre lo que en
           otras landings resuelve una barra flotante inferior, sin robar alto de
           pantalla en móvil ni duplicar la misma acción dos veces a la vista.
-          En móvil se acorta el rótulo: el largo sigue ahí para el lector de
-          pantalla.
+          En móvil se acorta el rótulo. El corto es el principio del largo
+          (WCAG 2.5.3): lo que se ve está dentro de lo que se anuncia, y quien
+          dicta "Diagnóstico" con control por voz acierta.
         */}
         <Link className="button primary header-cta" to="/#contacto">
           <span className="header-cta-long">{OFFER.ctaShort}</span>
           <span className="header-cta-short" aria-hidden="true">
-            Hablemos
+            {OFFER.ctaMobile}
           </span>
         </Link>
 

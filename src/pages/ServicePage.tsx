@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import Breadcrumbs from '../components/Breadcrumbs'
 import ContentSections from '../components/ContentSections'
 import Faq from '../components/Faq'
+import OfferCta from '../components/OfferCta'
 import PageToc from '../components/PageToc'
 import { Paragraphs } from '../components/Prose'
 import RelatedLinks from '../components/RelatedLinks'
@@ -35,7 +36,7 @@ export default function ServicePage({ entry }: { entry: CatalogEntry }) {
               <p className="service-intro">{entry.intro}</p>
 
               <Link className="button primary" to="/#contacto">
-                {entry.ctaText}
+                {OFFER.cta}
               </Link>
             </div>
 
@@ -92,24 +93,14 @@ export default function ServicePage({ entry }: { entry: CatalogEntry }) {
 
       <RelatedLinks entry={entry} title={entry.relatedTitle} />
 
-      <section className="service-cta section">
-        <div className="container">
-          <p className="eyebrow">JavaEvolve</p>
-
-          <h2>{entry.ctaTitle ?? '¿Quieres analizar tu caso?'}</h2>
-
-          <p>
-            {entry.ctaBody ??
-              'Cada aplicación tiene un contexto diferente. Explícame brevemente qué necesitas y te digo si puedo ayudarte y cómo.'}
-          </p>
-
-          <Link className="button primary" to="/#contacto">
-            {OFFER.cta}
-          </Link>
-
-          <p className="cta-note">{OFFER.note}</p>
-        </div>
-      </section>
+      <OfferCta
+        eyebrow="JavaEvolve"
+        title={entry.ctaTitle ?? '¿Quieres analizar tu caso?'}
+        body={
+          entry.ctaBody ??
+          'Cada aplicación tiene un contexto diferente. Explícame brevemente qué necesitas y te digo si puedo ayudarte y cómo.'
+        }
+      />
     </>
   )
 }

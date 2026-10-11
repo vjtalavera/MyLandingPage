@@ -15,6 +15,7 @@ export default function SiteFooter() {
           <div className="footer-brand">
             <strong>JavaEvolve</strong>
             <span>Consultoría Java · Spring Boot · Migraciones</span>
+            <span>Gran Canaria · En remoto para toda España</span>
           </div>
 
           <nav aria-labelledby="footer-servicios">

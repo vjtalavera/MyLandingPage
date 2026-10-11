@@ -37,6 +37,17 @@ const SAME_AS: string[] = [
   // 'https://www.linkedin.com/company/javaevolve/',
 ]
 
+/**
+ * Zona de servicio: toda España, con Canarias y Gran Canaria explícitas
+ * porque el trabajo se hace desde allí. Solo la isla, nunca una dirección:
+ * el titular no aparece.
+ */
+const AREA_SERVED: Record<string, unknown>[] = [
+  { '@type': 'Country', name: 'España' },
+  { '@type': 'AdministrativeArea', name: 'Canarias' },
+  { '@type': 'Place', name: 'Gran Canaria' },
+]
+
 export interface RouteMeta {
   title: string
   description: string
@@ -68,7 +79,7 @@ function serviceSchema(entry: CatalogEntry): Record<string, unknown> {
     isPartOf: { '@id': WEBSITE_ID },
     url: `${SITE_URL}${entry.path}`,
     mainEntityOfPage: `${SITE_URL}${entry.path}`,
-    areaServed: 'ES',
+    areaServed: AREA_SERVED,
   }
 }
 
@@ -144,7 +155,7 @@ const organizationSchema: Record<string, unknown> = {
   description:
     'Desarrollo backend Java, Spring Boot, APIs REST y modernización de aplicaciones empresariales.',
   email: 'contacto@javaevolve.com',
-  areaServed: 'ES',
+  areaServed: AREA_SERVED,
   availableLanguage: 'es',
   knowsLanguage: 'es',
   logo: {
@@ -181,7 +192,7 @@ const staticRoutes: Record<string, RouteMeta> = {
     description:
       'Servicios de consultoría y desarrollo Java: backend con Spring Boot, APIs REST, migraciones y evolutivos sobre aplicaciones empresariales en producción.',
     path: '/',
-    updated: '2026-10-10',
+    updated: '2026-10-11',
     jsonLd: [organizationSchema, webSiteSchema],
   },
   '/servicios/': {
@@ -189,7 +200,7 @@ const staticRoutes: Record<string, RouteMeta> = {
     description:
       'Servicios de desarrollo backend Java: Spring Boot, APIs REST, evolución de aplicaciones existentes y modernización de sistemas legacy.',
     path: '/servicios/',
-    updated: '2026-10-10',
+    updated: '2026-10-11',
     jsonLd: [
       itemListSchema(services, 'Servicios de desarrollo Java', '/servicios/'),
     ],

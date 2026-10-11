@@ -139,7 +139,7 @@ export const indexContent: Record<string, EntryContent> = {
       {
         question: '¿Se trabaja en remoto?',
         answer:
-          'Sí, y contra vuestro repositorio, con las mismas reglas de revisión que el resto del equipo. Cada entrega pasa por vuestra aprobación y llega a producción por el camino de siempre.',
+          'Sí, desde Gran Canaria y para equipos de toda España, contra vuestro repositorio y con las mismas reglas de revisión que el resto del equipo. Cada entrega pasa por vuestra aprobación y llega a producción por el camino de siempre.',
       },
       {
         question: '¿Qué pasa si el encargo no encaja?',

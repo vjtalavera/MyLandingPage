@@ -58,6 +58,8 @@ export default function Home() {
               Spring antiguo que no puede dejar de dar servicio. Lo llevo a
               Jakarta EE y Spring Boot 3 por fases que llegan a producción, y
               también desarrollo servicios y APIs REST nuevos en Java.
+              Trabajo desde Gran Canaria, en remoto para equipos de toda
+              España.
             </p>
 
             {/*

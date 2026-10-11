@@ -27,6 +27,13 @@ export const HOME_FAQ: QuestionAndAnswer[] = [
     answer:
       'El documento del análisis es tuyo: inventario de dependencias, incompatibilidades, riesgos ordenados por impacto y un plan por fases. Puedes ejecutarlo con tu equipo o con otro proveedor.',
   },
+  // Señal local (Gran Canaria / Canarias) sin prometer presencialidad: el
+  // titular solo ha confirmado que trabaja en remoto desde la isla.
+  {
+    question: '¿Trabajas con empresas de Canarias?',
+    answer:
+      'Sí. Trabajo desde Gran Canaria, en remoto, para empresas de Canarias y del resto de España. Con equipos de la península solo hay que tener en cuenta la hora de diferencia al cuadrar llamadas y ventanas de despliegue.',
+  },
   {
     question: '¿Se puede migrar de Java EE a Jakarta EE sin parar el desarrollo?',
     answer:

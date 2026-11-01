@@ -60,7 +60,12 @@ export default function Faq({
           {items.map((item) => (
             // El `name` agrupa el acordeón: con el id de la sección, dos FAQ
             // distintas no se cierran entre sí.
-            <details className="faq-item" name={id} key={item.question}>
+            <details
+              className="faq-item"
+              name={id}
+              id={item.id}
+              key={item.question}
+            >
               <summary>{item.question}</summary>
 
               <p>{item.answer}</p>

@@ -66,7 +66,8 @@ li {
    y encabezados: sobre [id] alcanzaba también a los campos del formulario. */
 section[id],
 h2[id],
-h3[id] {
+h3[id],
+.faq-item[id] {
   scroll-margin-top: calc(var(--header-height) + var(--space-4));
 }
 
@@ -812,7 +813,28 @@ pre {
   font-weight: 600;
 }
 
-.risk-head span {
+/* La firma enlaza a su respuesta en las FAQ: subrayado discreto en reposo,
+   color de marca al pasar, como el resto de enlaces de texto. */
+.risk-link {
+  color: var(--ink-2);
+  text-decoration: underline;
+  text-decoration-color: var(--border-strong);
+  text-underline-offset: 4px;
+  transition: color var(--dur-hover) var(--ease-out);
+
+  /* Zona de toque de al menos 24 px de alto (WCAG 2.5.8) sin mover el
+     maquetado: el padding agranda el área y el margen negativo lo compensa. */
+  display: inline-block;
+  padding-block: 4px;
+  margin-block: -4px;
+}
+
+.risk-link:hover,
+.risk-link:hover code {
+  color: var(--brand-text);
+}
+
+.risk-head .risk-effect {
   color: var(--brand-text);
   font-family: var(--mono);
   font-size: var(--step--2);
@@ -2231,6 +2253,13 @@ footer {
   .diagnosis-sheet dl > div {
     grid-template-columns: 1fr;
     gap: var(--space-1);
+    padding-block: var(--space-3);
+  }
+
+  /* Mismo cuerpo que los riesgos de al lado: la hoja cabe en menos alto y el
+     CTA del pie llega antes. */
+  .diagnosis-sheet dd {
+    font-size: var(--step--1);
   }
 
   /*
@@ -2256,8 +2285,8 @@ footer {
     padding: var(--space-5);
   }
 
-  /* En móvil cada riesgo se queda en firma y efecto, que ya se entienden
-     solos; la explicación completa está en las FAQ de más abajo. */
+  /* En móvil cada riesgo se queda en firma y efecto; la firma enlaza a su
+     respuesta en las FAQ, que es donde está la explicación completa. */
   .diagnosis-risks li > p:not(.risk-head) {
     display: none;
   }

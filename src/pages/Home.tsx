@@ -8,27 +8,34 @@ import { OFFER } from '../data/offer'
  * Riesgos de ejemplo del bloque del diagnóstico. Son generales del ecosistema,
  * no de un cliente: cada uno sale de una respuesta que ya está publicada en
  * las FAQ (`src/data/faq.ts`). Si cambia una, hay que revisar su par aquí.
+ *
+ * `faq` es el `id` de esa pregunta: la firma enlaza a ella, que en el móvil
+ * es donde está la explicación (allí el `body` se oculta).
  */
 const sampleRisks = [
   {
     signature: 'javax.* → jakarta.*',
     effect: 'marca el ritmo',
     body: 'Mecánico en el código propio. Lo que decide si son semanas o meses son las librerías de terceros sin versión compatible.',
+    faq: 'faq-jakarta',
   },
   {
     signature: 'Hibernate 5 → 6',
     effect: 'cambia resultados',
     body: 'El motor de HQL se reescribió: una consulta que compila puede devolver otra cosa. Se compara el SQL generado antes y después.',
+    faq: 'faq-hibernate',
   },
   {
     signature: 'JBoss EAP antiguo',
     effect: 'fija el techo',
     body: 'Las versiones antiguas no soportan las LTS actuales de Java. El servidor decide hasta dónde se puede subir y en qué orden.',
+    faq: 'faq-servidor',
   },
   {
     signature: 'Pocas pruebas',
     effect: 'va primero',
     body: 'Sin una red que demuestre que el comportamiento se mantiene, construirla es la primera fase, no un extra.',
+    faq: 'faq-pruebas',
   },
 ]
 
@@ -176,8 +183,8 @@ export default function Home() {
 
             <p>
               Una llamada de {OFFER.duration} para entender tu sistema antes de
-              hablar de plazos o de precio. Sin compromiso: si no puedo
-              ayudarte, te lo digo.
+              hablar de plazo o precio. Sin compromiso: si no puedo ayudarte,
+              te lo digo.
             </p>
           </div>
 
@@ -188,20 +195,24 @@ export default function Home() {
                 <span>{OFFER.duration} · sin coste</span>
               </p>
 
+              {/*
+                Filas en el orden en que pasan las cosas, empezando por lo
+                único que tiene que hacer el visitante: escribir.
+              */}
               <dl>
                 <div>
-                  <dt>Antes</dt>
+                  <dt>Qué me cuentas</dt>
                   <dd>
-                    Te respondo en {OFFER.responseTime} con preguntas concretas
-                    o una propuesta de hora.
+                    Tu stack y qué te está bloqueando, con tus palabras. Te
+                    respondo en {OFFER.responseTime} con preguntas o una cita.
                   </dd>
                 </div>
 
                 <div>
                   <dt>En la llamada</dt>
                   <dd>
-                    Versión de Java, framework, servidor de aplicaciones, cómo
-                    se construye y se despliega, y qué es lo que duele hoy.
+                    Versión de Java, framework, servidor, build y despliegue, y
+                    qué es lo que duele hoy.
                   </dd>
                 </div>
 
@@ -216,16 +227,8 @@ export default function Home() {
                 <div>
                   <dt>Si seguimos</dt>
                   <dd>
-                    Una propuesta de análisis con alcance y precio cerrados. El
+                    Propuesta de análisis con alcance y precio cerrados. El
                     documento es tuyo aunque después no sigamos.
-                  </dd>
-                </div>
-
-                <div>
-                  <dt>Qué necesito</dt>
-                  <dd>
-                    Que me cuentes el stack y qué te está bloqueando, con tus
-                    palabras.
                   </dd>
                 </div>
               </dl>
@@ -244,8 +247,17 @@ export default function Home() {
                 {sampleRisks.map((risk) => (
                   <li key={risk.signature}>
                     <p className="risk-head">
-                      <code>{risk.signature}</code>
-                      <span>{risk.effect}</span>
+                      {/* El nombre accesible empieza por el texto visible
+                          (WCAG 2.5.3); el resto solo lo oye el lector. */}
+                      <Link className="risk-link" to={`/#${risk.faq}`}>
+                        <code>{risk.signature}</code>
+                        <span aria-hidden="true"> ↓</span>
+                        <span className="sr-only">
+                          , respuesta en las preguntas frecuentes
+                        </span>
+                      </Link>
+
+                      <span className="risk-effect">{risk.effect}</span>
                     </p>
 
                     <p>{risk.body}</p>

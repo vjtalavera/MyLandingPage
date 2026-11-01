@@ -22,6 +22,8 @@ export type InlineSegment =
 export interface QuestionAndAnswer {
   question: string
   answer: string
+  /** Ancla de la pregunta, solo si algo enlaza a ella (`/#faq-…`). */
+  id?: string
 }
 
 /** Fila de una matriz de compatibilidad. `header` es la celda de cabecera. */

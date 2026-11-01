@@ -192,7 +192,7 @@ const staticRoutes: Record<string, RouteMeta> = {
     description:
       'Servicios de consultoría y desarrollo Java: backend con Spring Boot, APIs REST, migraciones y evolutivos sobre aplicaciones empresariales en producción.',
     path: '/',
-    updated: '2026-10-11',
+    updated: '2026-11-01',
     jsonLd: [organizationSchema, webSiteSchema],
   },
   '/servicios/': {

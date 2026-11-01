@@ -12,7 +12,9 @@ import { useLocation } from 'react-router-dom'
  * previa al recargar o al volver atrás.
  */
 export default function ScrollManager() {
-  const { pathname, hash } = useLocation()
+  // `key` cambia en cada navegación, aunque se pulse dos veces el mismo
+  // enlace: así la segunda vez también lleva al ancla.
+  const { pathname, hash, key } = useLocation()
   const firstRender = useRef(true)
 
   useEffect(() => {
@@ -33,14 +35,21 @@ export default function ScrollManager() {
     // Se espera al siguiente frame para que la sección destino ya esté montada
     // tras el cambio de ruta.
     const frame = requestAnimationFrame(() => {
-      document.getElementById(id)?.scrollIntoView({
+      const target = document.getElementById(id)
+
+      // Una pregunta de la FAQ (/#faq-…) se abre al llegar a ella.
+      if (target instanceof HTMLDetailsElement) {
+        target.open = true
+      }
+
+      target?.scrollIntoView({
         behavior: 'smooth',
         block: 'start',
       })
     })
 
     return () => cancelAnimationFrame(frame)
-  }, [pathname, hash])
+  }, [pathname, hash, key])
 
   return null
 }

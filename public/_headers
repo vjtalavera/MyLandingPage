@@ -9,7 +9,12 @@
 # misma cabecera gana la última: por eso el catch-all va primero y los casos
 # concretos lo pisan.
 
+# HSTS: el navegador que ya ha visitado el sitio va directo a https, sin pasar
+# por la redirección http→https. Sin includeSubDomains ni preload a propósito:
+# no se controla desde aquí qué subdominios existen, y preload es difícil de
+# deshacer.
 /*
+  Strict-Transport-Security: max-age=31536000
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
   X-Frame-Options: DENY

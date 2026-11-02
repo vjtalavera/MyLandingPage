@@ -61,7 +61,7 @@ export const guides: GuideEntry[] = [
     seoDescription:
       'Errores habituales al pasar de Java 8 a Java 17: NoClassDefFoundError de JAXB, InaccessibleObjectException, UnsupportedClassVersionError y cómo se resuelve cada uno.',
     published: '2026-09-29',
-    updated: '2026-09-29',
+    updated: '2026-10-10',
     ctaTitle: '¿Os aparecen estos errores al subir de Java 8?',
     ctaBody:
       'Cada uno tiene arreglo, pero el orden importa: algunos esconden a otros. Cuéntame la versión de partida, el servidor y los primeros errores que veis, y en la llamada te digo por dónde empezaría.',
@@ -81,7 +81,7 @@ export const guides: GuideEntry[] = [
     seoDescription:
       'Comandos para inventariar un proyecto Java antes de migrar: mvn dependency:tree, versions-maven-plugin y jdeps, y cómo interpretar lo que devuelven.',
     published: '2026-09-29',
-    updated: '2026-09-29',
+    updated: '2026-10-10',
     ctaTitle: '¿Tienes el inventario y no sabes cómo leerlo?',
     ctaBody:
       'La salida de estos comandos dice qué hay; lo difícil es decidir qué bloquea y qué puede esperar. Envíame lo que te ha salido o cuéntame el proyecto, y lo repasamos en la llamada.',
@@ -101,7 +101,7 @@ export const guides: GuideEntry[] = [
     seoDescription:
       'Qué cubre la receta de OpenRewrite para pasar de javax a jakarta, qué queda fuera y cómo se comprueba que la migración está completa.',
     published: '2026-09-29',
-    updated: '2026-09-29',
+    updated: '2026-10-10',
     ctaTitle: '¿La receta ha compilado, pero algo sigue sin funcionar?',
     ctaBody:
       'Lo que OpenRewrite deja sin tocar suele estar en descriptores XML, dependencias de terceros y cadenas con nombres de paquete. Cuéntame qué falla después del renombrado y te digo dónde miraría primero.',
